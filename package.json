@@ -1,0 +1,33 @@
+{
+  "name": "microverse-604-todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --watch --open",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uryelah/Microverse-604-todo-list.git"
+  },
+  "author": [
+    "uryelah",
+    "thsvr"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uryelah/Microverse-604-todo-list/issues"
+  },
+  "homepage": "https://github.com/uryelah/Microverse-604-todo-list#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
