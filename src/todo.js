@@ -1,4 +1,4 @@
-import { compareAsc, format } from 'date-fns';
+import { format } from 'date-fns';
 
 const Todos = () => {
 	let count = 0;
@@ -26,19 +26,21 @@ const TodoFactory = (factoryObject) => {
 		let {createdAt = Date.now(), title, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
 		priority = archieve.getPriority(priority);
 		const getId = () => id;
-		const getTime = () => format(time)
+		const getTime = () => format(time, 'hh:mm:ss');
+		const getDate = () => format(date, 'yyyy/MM/dd');
+		const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
 
     let id = archieve.getId();
 		
 		const getTodoInfo = ()=> {
 			return {
 				id: getId(),
-				createdAt,
+				createdAt: getCreatedAt(),
 				title,
 				description,
 				priority,
-				date,
-				time,
+				date: getDate(),
+				time: getTime(),
 				tags,
 				project
 			}
@@ -56,14 +58,13 @@ const TodoFactory = (factoryObject) => {
 		};
 }
 
-let myFac = TodoFactory({title: 'test', priority: 2, time: new Date(2020, 2, 23)})
-console.log(myFac.getId())
-console.log(myFac.getTodoInfo());
+let myFac = TodoFactory({title: 'test', priority: 2, time: new Date(2020, 2, 23), date: new Date(2020, 2, 23)});
 console.log(myFac.getTime())
+console.log(myFac.getTodoInfo())
 
 let myFac2 = TodoFactory({title: 'test', priority: 2})
 console.log(myFac2.getId())
-console.log(myFac2.getTodoInfo());
+//console.log(myFac2.getTodoInfo());
 
 /* todo factory:
 
