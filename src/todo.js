@@ -19,8 +19,6 @@ const Todos = () => {
 }
 
 const TodoArchieve = Todos();
-const TodoArchieve2 = Todos();
-
 
 const TodoFactory = (factoryObject) => {
 		let {createdAt = Date.now(), title, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
@@ -68,16 +66,16 @@ console.log(myFac2.getId())
 
 /* todo factory:
 
-date, date
-time, time
 check due time (function),
 expired? boolean
 check expired (function),
 update if it was expired (function),
 completed?, boolean
 mark as completed (function),
-in task - boolean
-tags, array
+in task - boolean,
+taskDuration - Time in seconds,
+taskCronometer (function),
+tags, array,
 
  */
 
