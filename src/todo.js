@@ -3,6 +3,28 @@ import { format } from 'date-fns';
 const Todos = () => {
 	let count = 0;
 	let priority = ['low', 'normal', 'high'];
+	const todoList = {};
+
+	const addTodo = (project) => {
+    todoList[project.getId()] = project;
+    return todoList[project.getId()];
+	}
+	
+	const getTodos = () => {
+		return todoList;
+  }
+  
+  const getTodosByIds = (arr) => {
+    let todoArray = [];
+    arr.forEach(id => {
+      todoArray.push(todoList[id]);
+    });
+    return todoArray;
+  }
+	
+	const getTodoAt = (index) => {
+		return todoList[index];
+	}
 
 	const getId = () => {
 		return count++
@@ -14,7 +36,11 @@ const Todos = () => {
 
 	return {
 		getId,
-		getPriority
+    getPriority,
+    addTodo,
+    getTodos,
+    getTodoAt,
+    getTodosByIds
 	}
 }
 
@@ -55,21 +81,21 @@ const TodoFactory = (factoryObject) => {
 			tags.push(tag);
 		}
 
-		const startTask = () => {
+		const startTask = (subscriber, interval = 1000) => {
 			if (completed || expired) return;
 
 			inProgress = true;
-			let count = 1;
-			/*
+			let count = 0;
+
 			const chronometer = setInterval(() => {
-				console.log(`${count} seconds`);
 				count++
-			}, 1000)
-			*/
+				subscriber.receive((100 * count * interval)/duration);
+			}, interval);
+	
 			setTimeout(() => {
 				toggleComplete();
-				//clearInterval(chronometer);
-			}, duration)
+				clearInterval(chronometer);
+			}, duration + interval)
 		}
 
 		const isDue = () => {
@@ -89,7 +115,6 @@ const TodoFactory = (factoryObject) => {
 
 			completed = !completed
 		}
-		console.log(factoryObject)
     return {
 			getId,
 			getTodoInfo,

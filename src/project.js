@@ -29,9 +29,6 @@ const Projects = () => {
 }
 
 const ProjectArchive = Projects();
-/* NEEDED DATA FOR TODO CREATION
-	createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve
-*/
 
 const ProjectFactory = (factoryObject) => {
   let {title, description, todos = [], creator, archieve = ProjectArchive} = factoryObject;
@@ -46,10 +43,16 @@ const ProjectFactory = (factoryObject) => {
   const addTodo = (object) => {
     object.project = id;
     const newTodo = TodoFactory(object);
-    console.log('test')
-    todos.push(newTodo);
+    todos.push(newTodo.getId());
+    TodoArchieve.addTodo(newTodo);
+    return newTodo;
   }
-  
+
+  const getTodos = () => TodoArchieve.getTodosByIds(todos);
+
+  const getTodoAt = (index) => {
+    return TodoArchieve.getTodoAt(index);
+  }  
 
   const getProjectInfo = () => {
     return {
@@ -57,7 +60,7 @@ const ProjectFactory = (factoryObject) => {
       title, 
       description,
       todos,
-      creator
+      creator,
     }
   }
 
@@ -66,25 +69,26 @@ const ProjectFactory = (factoryObject) => {
     getTodosForToday,
     getProjectInfo,
     addTodo,
+    getTodos,
+    getTodoAt
   }
 }
 
-const myProject = ProjectFactory({title: 'first project'});
-ProjectArchive.addProject(myProject);
-console.log(myProject.getProjectInfo());
 
-const myProject2 = ProjectFactory({title: 'second project'});
-ProjectArchive.addProject(myProject2);
-console.log(myProject2.getProjectInfo())
+  const myProject = ProjectFactory({title: 'first project'});
+  ProjectArchive.addProject(myProject);
+  
+  const myProject2 = ProjectFactory({title: 'second project'});
+  ProjectArchive.addProject(myProject2);
+  
+  
+  let myFac = myProject.addTodo({title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000});
+  let myFac2 = myProject.addTodo({title: 'test2', priority: 1, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000});
 
-console.log(ProjectArchive.getProjects());
 
-
-let myFac = myProject.addTodo({title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 10000});
-console.log(TodoFactory)
-console.log(myFac.getTime())
-console.log(myFac.getTodoInfo())
-console.log(myFac.startTask())
-
+const completitionLoader = {
+  receive: (percentage) => {
+  }
+}
 
 export {ProjectArchive, ProjectFactory};
