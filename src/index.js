@@ -1,4 +1,5 @@
 import {TodoFactory, TodoArchieve} from './todo';
+import {ProjectFactory, ProjectArchieve} from './project';
 /* todo factory:
 
 id, number
@@ -19,12 +20,4 @@ tags, array
 
  */ 
 
- /* project factory:
 
- id, number
- creator, string
- tile, string
- description, text
- todos, object to store the list of todos
-  
- */

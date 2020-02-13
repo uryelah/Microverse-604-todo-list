@@ -21,11 +21,12 @@ const Todos = () => {
 const TodoArchieve = Todos();
 
 const TodoFactory = (factoryObject) => {
-		let {createdAt = Date.now(), title, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
+		let {createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
 		priority = archieve.getPriority(priority);
 		let id = archieve.getId();
 		let expired = false;
 		let completed = false;
+		let inProgress = false;
 
 		const getId = () => id;
 		const getTime = () => format(time, 'hh:mm:ss');
@@ -45,17 +46,36 @@ const TodoFactory = (factoryObject) => {
 				tags,
 				project,
 				expired,
-				completed
+				completed,
+				duration
 			}
 		}
 
 		const addTag = (tag) => {
-			tags.push(tag)
+			tags.push(tag);
+		}
+
+		const startTask = () => {
+			if (completed || expired) return;
+
+			inProgress = true;
+			let count = 1;
+			/*
+			const chronometer = setInterval(() => {
+				console.log(`${count} seconds`);
+				count++
+			}, 1000)
+			*/
+			setTimeout(() => {
+				toggleComplete();
+				//clearInterval(chronometer);
+			}, duration)
 		}
 
 		const isDue = () => {
-			console.log()
-			if(time.getDate() < new Date().getDate()) {
+			if (completed || expired) return;
+
+			if(time.getTime() < new Date().getTime()) {
 				expired = true;
 			} 			
 		}
@@ -65,6 +85,8 @@ const TodoFactory = (factoryObject) => {
 		}
 
 		const toggleComplete = () => {
+			if (expired) return;
+
 			completed = !completed
 		}
 
@@ -74,27 +96,15 @@ const TodoFactory = (factoryObject) => {
 			addTag,
 			getTime, 
 			getExpired,
-			toggleComplete
+			toggleComplete,
+			startTask
 		};
 }
  
 
-let myFac = TodoFactory({title: 'test', priority: 2, time: new Date(2020, 2, 28), date: new Date(2020, 2, 23)});
+let myFac = TodoFactory({title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 10000});
 console.log(myFac.getTime())
 console.log(myFac.getTodoInfo())
-
-let myFac2 = TodoFactory({title: 'test', priority: 2})
-console.log(myFac2.getId())
-//console.log(myFac2.getTodoInfo());
-
-/* todo factory:
-
-check due time (function), IMPROVE IT
-
-in task - boolean,
-taskDuration - Time in seconds,
-taskCronometer (function),
-
- */
+console.log(myFac.startTask())
 
 export {TodoFactory, TodoArchieve};
