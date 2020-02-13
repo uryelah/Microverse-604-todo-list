@@ -29,6 +29,73 @@
     </aside>
 
     <main class="right">
+        <!-- MODAL -->
+        <section id="modal" class="modal-container">
+            <!-- Todo details -->
+
+            <!-- Project details -->
+
+            <!-- Todo form -->
+            <h2>New Todo</h2>
+            <form id="todo-form" class="modal-form" onsubmit="return false">
+                <label for="todo-title">
+                    Title:
+                </label>
+                <input type="text" name="title" id="todo-title">
+
+                <label for="todo-title">
+                    Title:
+                </label>
+                <select name="priority" id="todo-priority">
+                    <option value="0">Low</option>
+                    <option value="1">Normal</option>
+                    <option value="2">High</option>
+                </select>
+
+                <label for="todo-date">
+                    Due at:
+                </label>
+                <input type="date" name="date" id="todo-date">
+
+                <label for="todo-time">
+                    Time:
+                </label>
+                <input type="time" name="time" id="todo-time">
+
+                <label for="todo-tag">
+                    Tags:
+                </label>
+                <input type="text" name="tag" id="todo-tag">
+                <small>Separate each tag with a comma.</small>
+
+                <label for="todo-description">
+                    Description:
+                </label>
+                <input type="text" name="description" id="todo-description">
+                
+                <input type="hidden" name="project" id="todo-project" value="0">
+
+                <button type="button">Add todo</button>
+            </form>
+
+            <!-- Project form -->
+            <h2>New Project</h2>
+            <form id="project-form" class="modal-form" onsubmit="return false">
+                <label for="project-title">
+                    Project title:
+                </label>
+                <input type="text" name="title" id="project-title">
+
+                <label for="project-description">
+                    Project description:
+                </label>
+                <input type="text" name="description" id="project-description">
+                
+                <input type="hidden" name="creator" id="project-creator" value="user">
+
+                <button type="button">Add Project</button>
+            </form>
+        </section>
         <nav>
             <ul>
                 <li class="left-nav">See tasks</li>
@@ -72,8 +139,19 @@
 
             </div>
         </section>
-        <div id="progress"></div>
+        <article id="progress">
+            <div id="progress-tab">
+                <p>On going todos <spam>V</spam></p>
+            </div>
+            <div id="0-progress-todo" class="ongoing">
+                <time class="progress-time time-start" datetime="2020-02-13 20:00">12:00AM</time>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill"></div>
+                    <div class="progress-point"></div>
+                </div>
+                <time class="progress-time time-end" datetime="2020-02-13 20:00">12:30AM</time>
+            </div>
+        </article>
     </main>
-    
 </body>
 </html>
