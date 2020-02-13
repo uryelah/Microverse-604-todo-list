@@ -89,7 +89,7 @@ const TodoFactory = (factoryObject) => {
 
 			completed = !completed
 		}
-
+		console.log(factoryObject)
     return {
 			getId,
 			getTodoInfo,
@@ -100,11 +100,5 @@ const TodoFactory = (factoryObject) => {
 			startTask
 		};
 }
- 
-
-let myFac = TodoFactory({title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 10000});
-console.log(myFac.getTime())
-console.log(myFac.getTodoInfo())
-console.log(myFac.startTask())
 
 export {TodoFactory, TodoArchieve};
