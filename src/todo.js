@@ -73,7 +73,8 @@ const TodoFactory = (factoryObject) => {
 				project,
 				expired,
 				completed,
-				duration
+				duration,
+				inProgress
 			}
 		}
 

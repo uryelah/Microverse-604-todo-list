@@ -23,7 +23,9 @@
         <section >
             <header>Title of Project</header>
             <div id="next-task">
-                <article id="0-todo-next" class="todo brief-todo"></article>
+                <article id="0-todo-next" class="todo brief-todo">
+                    Task 1 , 1pm
+                </article>
             </div>
         </section>
     </aside>
@@ -32,8 +34,43 @@
         <!-- MODAL -->
         <section id="modal" class="modal-container">
             <!-- Todo details -->
+            <article id="0-todo-open" class="modal-details todo-details">
+                <h2 class="todo-title">Todo Title</h2>
+                <button id="toggle-completed" class="todo-incomplete" type="button">Mark as completed</button>
+                <p class="todo-description">Description</p>
+                <p class="todo-created-at">Created at:<span class="created-at">Thursday, 11 | 11:30am</span></p>
+                <div class="todo-priority">
+                    <p>Priority: <span class=" priority priority-high">High</span></p>
+                </div>
+                <div class="todo-date-time">
+                    <p class="day-time">Thursday, 18 | 9:30pm</p>
+                    <p class="remaning-time">Next Week</p>
+                </div>
+                <div class="todo-status">
+                    <p>Status: <span class="status status-completed">Completed</span></p>
+                </div>
+                <div class="todo-duration">
+                    <p>Duration: <span class="duration">2h</span></p>
+                </div>
+                <button type="button">Start task</button>
+                <div class="todo-tags">
+                    <p>Tags:</p>
+                    <p class="todo-tag">#tag1</p>
+                    <p class="todo-tag">#tag2</p>
+                </div>                
+            </article>
 
             <!-- Project details -->
+            <article id="0-project-open" class="modal-details project-details">
+                <h2 class="project-title">Project Title</h2>
+                <p class="project-description">Description</p>
+                <button type="button">Delete</button>
+                <div class="project-todo-today">
+                    <p>Task for today:</p>
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                </div>                
+            </article>
 
             <!-- Todo form -->
             <h2>New Todo</h2>
