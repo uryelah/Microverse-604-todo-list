@@ -4,35 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./main.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/normalize.css">
     <title>Todo list</title>
 </head>
 <body>
-    <aside class="left">
-        <header id="logo">Logo</header>
-        <section id="projects">
-            <header>
-                <h3>Add Project</h3>
-                <button id="add-project" type="button"></button>
-            </header>
-            <div id="all-projects">
-                <article id="0-pro" class="project">Project 0 to test</article>
-                <article id="1-pro" class="project">Project 1 to test</article>
-            </div>
-            <button id="view-projects" class="show-more" type="button">View all Projects</button>
-        </section>
-        <section >
-            <header>Title of Project</header>
-            <div id="next-task">
-                <article id="0-todo-next" class="todo brief-todo">
-                    Task 1 , 1pm
-                </article>
-            </div>
-        </section>
-    </aside>
-
     <main class="right">
         <!-- MODAL -->
-        <section id="modal" class="modal-container">
+        <section id="modal" class="modal-container modal-closed">
             <!-- Todo details -->
             <article id="0-todo-open" class="modal-details todo-details">
                 <h2 class="todo-title">Todo Title</h2>
@@ -133,8 +112,9 @@
                 <button type="button">Add Project</button>
             </form>
         </section>
-        <nav>
-            <ul>
+
+        <nav class="app-nav">
+            <ul class="nav-ul">
                 <li class="left-nav">See tasks</li>
                 <li id="see-all" class="left-nav todo-filter" >All</li>
                 <li id="see-expired"class="left-nav todo-filter" >Expired</li>
@@ -142,41 +122,44 @@
                 <li id="user" class="right-nav">Let's do it, user!</li>
             </ul>
         </nav>
-        <section id="0-pro-open" class="open-list">
-            <header class="list-header">
-                <h1>Tasks for today or Project tasks</h1>
-                <div class="group-right">
-                    <button id="edit-project">Edit</button>
-                    <button id="create-project">Create</button>
-                </div>
+
+        <section class="main-content">
+            <div id="0-pro-open" class="main-list">
+                <header class="list-header header">
+                    <h1>Tasks for today or Project tasks</h1>
+                    <div class="group-right">
+                        <button id="edit-project">Edit</button>
+                        <button id="create-project">Create</button>
+                    </div>
+                </header>
                 <button id="view-todos" class="show-more"> <span>V</span></button>
-            </header>
-            <div id="container-todos">
-                <article id="0-todo" class="todo">
-                    <input type="checkbox" class="todo-complete">
-                    <div class="todo-date">
-                        <time datetime="2020-02-14 20:00">8:00pm</time>
-                        <time datetime="2020-02-14 20:00">Friday, 14</time>
-                    </div>
-                    <h4 class="todo-title">Title of Task</h4>
-                    <div class="todo-priority">High</div>
-                    <button type="button" class="todo-delete">X</button>                 
-                </article>
-
-                <article id="1-todo" class="todo">
-                    <input type="checkbox" class="todo-complete">
-                    <div class="todo-date">
-                        <time datetime="2020-02-14 20:00">8:00pm</time>
-                        <time datetime="2020-02-14 20:00">Friday, 14</time>
-                    </div>
-                    <h4 class="todo-title">Title of Task</h4>
-                    <div class="todo-priority">High</div>
-                    <button type="button" class="todo-delete">X</button>                 
-                </article>
-
+                <div id="container-todos" class="todos-container">
+                    <article id="0-todo" class="todo">
+                        <input type="checkbox" class="todo-complete">
+                        <div class="todo-date">
+                            <time datetime="2020-02-14 20:00">8:00pm</time>
+                            <time datetime="2020-02-14 20:00">Friday, 14</time>
+                        </div>
+                        <h4 class="todo-title">Title of Task</h4>
+                        <div class="todo-priority">High</div>
+                        <button type="button" class="todo-delete">X</button>                 
+                    </article>
+    
+                    <article id="1-todo" class="todo">
+                        <input type="checkbox" class="todo-complete">
+                        <div class="todo-date">
+                            <time datetime="2020-02-14 20:00">8:00pm</time>
+                            <time datetime="2020-02-14 20:00">Friday, 14</time>
+                        </div>
+                        <h4 class="todo-title">Title of Task</h4>
+                        <div class="todo-priority">High</div>
+                        <button type="button" class="todo-delete">X</button>                 
+                    </article>
+    
+                </div>
             </div>
         </section>
-        <article id="progress">
+        <article id="progress" class="progress-bar">
             <div id="progress-tab">
                 <p>On going todos <spam>V</spam></p>
             </div>
@@ -190,5 +173,29 @@
             </div>
         </article>
     </main>
+    <aside class="left">
+        <header id="logo" class='logo'>Logo</header>
+        <section id="projects" class="projects-left">
+            <header class="header projects-header">
+                <h3>Add Project</h3>
+                <button id="add-project" type="button">+</button>
+            </header>
+            <button id="view-projects" class="show-more" type="button">View all Projects</button>
+            <div id="all-projects" class="projects-container">
+                <article id="0-pro" class="project">Project 0 to test</article>
+                <article id="1-pro" class="project">Project 1 to test</article>
+            </div>
+        </section>
+        <section class="next-todo-container">
+            <header class="header">
+                <h3>Next Todo</h3>
+            </header>
+            <div id="next-task" class="next-todo">
+                <article id="0-todo-next" class="todo brief-todo">
+                    Task 1 , 1pm
+                </article>
+            </div>
+        </section>
+    </aside>
 </body>
 </html>

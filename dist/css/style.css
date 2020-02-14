@@ -1,0 +1,202 @@
+/* ------------------------------- */
+/*------=======|FONTS|=======------*/
+/* ------------------------------- */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400,700,900&display=swap');
+
+/* ------------------------------- */
+/*------=====|VARIABLES|=====------*/
+/* ------------------------------- */
+
+
+
+/* ------------------------------- */
+/*------======|GENERAL|======------*/
+/* ------------------------------- */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 100vh;
+}
+
+.header {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ------------------------------- */
+/*------=======|MODAL|=======------*/
+/* ------------------------------- */
+
+.modal-closed {
+  display: none;
+}
+
+/* ------------------------------- */
+/*------====|LEFT ASIDE|=====------*/
+/* ------------------------------- */
+
+.left {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-rows: 80px 1fr 200px;
+  height: 100vh;
+  background-color: crimson;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+}
+
+.projects-header {
+  justify-content: space-between;
+}
+
+.projects-left {
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+}
+
+.show-more {
+  order: 3;
+  width: 100%;
+}
+
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  align-items: center;
+}
+
+.next-todo-container {
+  display: grid;
+  grid-template-rows: 50px 150px;
+}
+
+.next-todo {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------- */
+/*------====|RIGHT MAIN|=====------*/
+/* ------------------------------- */
+
+.right {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+}
+
+/*------====|MAIN NAV|=====------*/
+.app-nav {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 80px;
+  background-color: cyan;
+}
+
+.nav-ul {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(4, max-content) 1fr max-content;
+}
+
+.nav-ul li {
+  list-style: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-ul li + li {
+  margin-left: 10px;
+}
+
+.right-nav {
+  grid-column: 6;
+}
+
+/*------====|MAIN CONTENT|=====------*/
+.main-content {
+  width: 100%;
+  height: calc(100vh - 80px);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: 50px calc(50px + 2%);
+  overflow-y: scroll;
+}
+
+.main-list {
+  width: 100%;
+  background-color: darkblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.list-header {
+  position: relative;
+}
+
+.group-right {
+  position: absolute;
+  right: 0;
+  top: 33%;
+  height: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todo {
+  background-color: darkseagreen;
+  display: grid;
+  width: 100%;
+  align-items: center;
+  grid-template-columns: repeat(3, max-content) 1fr repeat(2, max-content);
+}
+
+.todo-priority {
+  grid-column: 5;
+}
+
+.todo-delete {
+  grid-column: 6;
+}
+
+/*------====|ON GOING BAR|=====------*/
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
