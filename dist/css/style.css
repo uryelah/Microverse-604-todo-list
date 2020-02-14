@@ -49,6 +49,63 @@ body {
   justify-content: center;
 }
 
+.action-btn {
+  box-sizing: border-box;
+  padding: 10px 15px;
+  font-weight: 900;
+  border-radius: 20px;
+  height: min-content;
+  width: max-content;
+  min-width: 150px;
+  align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.child-card {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 3px 8px;
+  border: 1px solid var(--blue-horizon);
+  border-radius: 5px;
+  background-color: var(--blue-grey);
+  text-align: center;
+  color:#fff;
+  margin: 5px;
+}
+/*
+--fusion-red: #fc5c65;
+  --desire: #eb3b5a;
+  --orange-hibiscus: #fd9644;
+  --beniukon-bronze: #fa8231;
+  --flirtatious: #fed330;
+  --nyc-taxi: #f7b731;
+  --reptile-green: #26de81;
+  --algal-fuel: #20bf6b;
+  --maximum-blue-green: #2bcbba;
+  --turquoise-topaz: #0fb9b1;
+  --highblue: #45aaf2;
+  --boyzone: #2d98da;
+  --c64-ntsc: #4b7bec;
+  --royal-blue: #3867d6;
+  --lighter-purple: #a55eea;
+  --gloomy-purple: #8854d0;
+  --twinkle-blue: #d1d8e0;
+  --innuendo: #a5b1c2;
+  --blue-grey: #778ca3;
+  --blue-horizon: #4b6584;
+*/
+.card-red {
+  border-color: var(--desire);
+  background-color: var(--fusion-red);
+}
+
+.card-red {
+  border-color: var(--algal-fuel);
+  background-color: var(--reptile-green);
+}
+
 /* ------------------------------- */
 /*------=======|MODAL|=======------*/
 /* ------------------------------- */
@@ -164,7 +221,7 @@ body {
 
 .todo-details {
   display: grid;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 100px;
 }
 
 .todo-details .todo-title {
@@ -172,49 +229,49 @@ body {
   grid-row: 1;
 }
 
-.todo-status {
+.todo-details .todo-status {
   grid-column: 1;
   grid-row: 2;
 }
 
-.todo-priority {
+.todo-details .todo-priority {
   grid-column: 2;
   grid-row: 2;
 }
 
-.todo-description {
+.todo-details .todo-description {
   grid-column: 1;
   grid-row: 3/4;
 }
 
-#toggle-completed {
+.todo-details #toggle-completed {
   grid-column: 2;
   grid-row: 3;
 }
 
-.todo-date-time {
+.todo-details .todo-date-time {
   grid-column: 1;
   grid-row: 5;
 }
 
-.todo-duration {
+.todo-details .todo-duration {
   grid-column: 2;
   grid-row: 4;
 }
 
-.todo-start-btn {
+.todo-details .todo-start-btn {
   grid-column: 2;
   grid-row: 5;
 }
 
-.todo-created-at {
-  grid-column: 2;
-  grid-row: 7;
+.todo-details .todo-created-at {
+  grid-column: 1;
+  grid-row: 8;
 }
 
-.todo-tags {
-  grid-column: 1;
-  grid-row: 7;
+.todo-details .todo-tags {
+  grid-column: 2;
+  grid-row: 8;
 }
 
 
@@ -367,6 +424,7 @@ body {
   align-items: center;
   grid-template-columns: repeat(3, max-content) 1fr repeat(2, max-content);
 }
+
 
 .todo-priority {
   grid-column: 5;
