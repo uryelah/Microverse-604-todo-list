@@ -208,6 +208,7 @@ body {
 
 .ongoing {
   display:grid;
+  box-sizing: border-box;
   grid-template-columns: 50px 1fr 50px;
   width: 100%;
   background-color: #cccccc99;
