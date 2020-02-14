@@ -128,10 +128,6 @@ body {
 }
 
 .modal-details .project-delete {
-  position: absolute;
-  bottom: 0;
-  display: block;
-  left: 0;
   width: 100%;
 }
 
@@ -162,6 +158,63 @@ body {
 
 .modal-details .brief-todo {
   margin: 5px 0;
+}
+
+/*------====|TO DO DETAILS|====----*/
+
+.todo-details {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+}
+
+.todo-details .todo-title {
+  grid-column: 1/-1;
+  grid-row: 1;
+}
+
+.todo-status {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.todo-priority {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.todo-description {
+  grid-column: 1;
+  grid-row: 3/4;
+}
+
+#toggle-completed {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.todo-date-time {
+  grid-column: 1;
+  grid-row: 5;
+}
+
+.todo-duration {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+.todo-start-btn {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+.todo-created-at {
+  grid-column: 2;
+  grid-row: 7;
+}
+
+.todo-tags {
+  grid-column: 1;
+  grid-row: 7;
 }
 
 
