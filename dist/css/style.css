@@ -74,6 +74,12 @@ body {
   color:#fff;
   margin: 5px;
 }
+
+.main-shadow {
+  box-shadow: 1px 1px 10px 0 var(--blue-horizon), 1px 1px 10px 0 var(--lighter-purple), inset 1px 1px 10px 0 var(--desire)   ;
+};
+
+
 /*
 --fusion-red: #fc5c65;
   --desire: #eb3b5a;
