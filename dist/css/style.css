@@ -8,7 +8,28 @@
 /*------=====|VARIABLES|=====------*/
 /* ------------------------------- */
 
-
+:root {
+  --fusion-red: #fc5c65;
+  --desire: #eb3b5a;
+  --orange-hibiscus: #fd9644;
+  --beniukon-bronze: #fa8231;
+  --flirtatious: #fed330;
+  --nyc-taxi: #f7b731;
+  --reptile-green: #26de81;
+  --algal-fuel: #20bf6b;
+  --maximum-blue-green: #2bcbba;
+  --turquoise-topaz: #0fb9b1;
+  --highblue: #45aaf2;
+  --boyzone: #2d98da;
+  --c64-ntsc: #4b7bec;
+  --royal-blue: #3867d6;
+  --lighter-purple: #a55eea;
+  --gloomy-purple: #8854d0;
+  --twinkle-blue: #d1d8e0;
+  --innuendo: #a5b1c2;
+  --blue-grey: #778ca3;
+  --blue-horizon: #4b6584;
+}
 
 /* ------------------------------- */
 /*------======|GENERAL|======------*/
@@ -32,9 +53,117 @@ body {
 /*------=======|MODAL|=======------*/
 /* ------------------------------- */
 
+#modal-hide {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50px;
+  bottom: 50px;
+  left: calc(50px + 15%);
+  right: calc(50px + 15%);
+  min-width: 300px;
+  box-sizing: border-box;
+  background-color: var(--twinkle-blue);
+  padding: 30px 25px;
+  display: grid;
+  grid-template-columns: 25% 1fr 25%;
+  grid-auto-rows: min-content;
+  z-index: 500;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
 .modal-closed {
   display: none;
 }
+
+.modal-container h2 {
+  grid-column: 1/-1;
+  text-align: center;
+}
+
+/*------====|MODAL FORM|=====------*/
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
+  grid-column: 1/-1;
+}
+
+.modal-form > * {
+  margin: 15px auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.modal-form input, .modal-form select {
+  width: 50%;
+}
+
+/*------====|MODAL DETAILS|=====------*/
+.modal-details {
+  grid-column: 1/-1;
+  padding: 25px calc(20px + 5%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-creator {
+  font-weight: 700;
+}
+
+.modal-details .project-delete {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  left: 0;
+  width: 100%;
+}
+
+.project-todo-today {
+  padding-top: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 250px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  justify-content: flex-start;
+  border: 1px solid green;
+}
+
+.mini-todos {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-weight: 700;
+  background-color: yellowgreen;
+}
+
+.modal-details .brief-todo {
+  margin: 5px 0;
+}
+
 
 /* ------------------------------- */
 /*------====|LEFT ASIDE|=====------*/

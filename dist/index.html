@@ -11,8 +11,9 @@
 <body>
     <main class="right">
         <!-- MODAL -->
-        <section id="modal" class="modal-container modal-closed">
-            <!-- Todo details -->
+        <section id="modal" class="modal-container mmodal-closed">
+            <div id='modal-hide'><span>X</span></div>
+            <!-- Todo details 
             <article id="0-todo-open" class="modal-details todo-details">
                 <h2 class="todo-title">Todo Title</h2>
                 <button id="toggle-completed" class="todo-incomplete" type="button">Mark as completed</button>
@@ -38,79 +39,104 @@
                     <p class="todo-tag">#tag2</p>
                 </div>                
             </article>
-
-            <!-- Project details -->
+        
+             Project details -->
             <article id="0-project-open" class="modal-details project-details">
                 <h2 class="project-title">Project Title</h2>
-                <p class="project-description">Description</p>
-                <button type="button">Delete</button>
+                <p class="project-creator">Created by: User</p>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo, cupiditate esse error molestias dolorum minus laborum culpa perferendis asperiores odit aspernatur, totam sit deleniti maxime pariatur tenetur sint, quia blanditiis!</p>
                 <div class="project-todo-today">
-                    <p>Task for today:</p>
+                    <p class="mini-todos">Task for today:</p>
                     <p class="todo brief-todo">task1, 2am</p>
                     <p class="todo brief-todo">task2, 11am</p>
-                </div>                
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                    <p class="todo brief-todo">task1, 2am</p>
+                    <p class="todo brief-todo">task2, 11am</p>
+                </div>   
+                <button class="project-delete" type="button">Delete</button>             
             </article>
 
-            <!-- Todo form -->
+            <!-- Todo Form
             <h2>New Todo</h2>
             <form id="todo-form" class="modal-form" onsubmit="return false">
-                <label for="todo-title">
+                <div>
+                    <label for="todo-title">
                     Title:
-                </label>
-                <input type="text" name="title" id="todo-title">
+                    </label>
+                    <input type="text" name="title" id="todo-title">
+                </div>
 
-                <label for="todo-title">
+                <div>
+                    <label for="todo-title">
                     Title:
-                </label>
-                <select name="priority" id="todo-priority">
-                    <option value="0">Low</option>
-                    <option value="1">Normal</option>
-                    <option value="2">High</option>
-                </select>
+                    </label>
+                    <select name="priority" id="todo-priority">
+                        <option value="0">Low</option>
+                        <option value="1">Normal</option>
+                        <option value="2">High</option>
+                    </select>
+                </div>
 
-                <label for="todo-date">
+                <div>
+                    <label for="todo-date">
                     Due at:
-                </label>
-                <input type="date" name="date" id="todo-date">
+                    </label>
+                    <input type="date" name="date" id="todo-date">
+                </div>
 
-                <label for="todo-time">
+                <div>
+                    <label for="todo-time">
                     Time:
-                </label>
-                <input type="time" name="time" id="todo-time">
+                    </label>
+                    <input type="time" name="time" id="todo-time">
+                </div>
 
-                <label for="todo-tag">
+                <div>
+                    <label for="todo-tag">
                     Tags:
-                </label>
-                <input type="text" name="tag" id="todo-tag">
-                <small>Separate each tag with a comma.</small>
-
-                <label for="todo-description">
+                    </label>
+                    <input type="text" name="tag" id="todo-tag">
+                    <small>Separate each tag with a comma.</small>
+                </div>
+                <div>
+                    <label for="todo-description">
                     Description:
-                </label>
-                <input type="text" name="description" id="todo-description">
-                
+                    </label>
+                    <input type="text" name="description" id="todo-description">
+                </div>
                 <input type="hidden" name="project" id="todo-project" value="0">
 
                 <button type="button">Add todo</button>
             </form>
 
-            <!-- Project form -->
+            Project form
             <h2>New Project</h2>
             <form id="project-form" class="modal-form" onsubmit="return false">
-                <label for="project-title">
+                <div>
+                    <label for="project-title">
                     Project title:
-                </label>
-                <input type="text" name="title" id="project-title">
+                    </label>
+                    <input type="text" name="title" id="project-title">
+                </div>
 
-                <label for="project-description">
+                <div>
+                    <label for="project-description">
                     Project description:
-                </label>
-                <input type="text" name="description" id="project-description">
-                
+                    </label>
+                    <input type="text" name="description" id="project-description">
+                </div>
                 <input type="hidden" name="creator" id="project-creator" value="user">
 
                 <button type="button">Add Project</button>
-            </form>
+            </form>-->
         </section>
 
         <nav class="app-nav">
