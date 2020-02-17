@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,700,900&display=swap');
 
 /* ------------------------------- */
-/*------=====|VARIABLES|=====------*/
+/*------=====|COLOR PALET|=====------*/
 /* ------------------------------- */
 
 :root {
@@ -42,6 +42,10 @@ body {
   grid-template-columns: 300px 1fr;
   height: 100vh;
   background-color: var(--twinkle-blue);
+}
+
+button {
+  cursor: pointer;
 }
 
 .header {
@@ -491,6 +495,7 @@ body {
   border-radius: 50%;
   background-color: #fff;
   margin-left: -12px;
+  cursor: pointer;
 }
 
 .progress-tab {
@@ -498,6 +503,7 @@ body {
   padding: 10px 20px;
   background-color: var(--blue-horizon);
   width: max-content;
+  cursor: pointer;
 }
 
 .progress-tab p {
