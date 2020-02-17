@@ -2,7 +2,7 @@
 /*------=======|FONTS|=======------*/
 /* ------------------------------- */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,400,700,900&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700,900&display=swap");
 
 /* ------------------------------- */
 /*------=====|COLOR PALET|=====------*/
@@ -37,7 +37,7 @@
 /* ------------------------------- */
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   display: grid;
   grid-template-columns: 300px 1fr;
   height: 100vh;
@@ -77,13 +77,14 @@ button {
   border-radius: 5px;
   background-color: var(--blue-grey);
   text-align: center;
-  color:#fff;
+  color: #fff;
   margin: 5px;
 }
 
 .main-shadow {
-  box-shadow: 1px 1px 10px 0 var(--blue-horizon), 1px 1px 10px 0 var(--lighter-purple), inset 1px 1px 10px 0 var(--desire)   ;
-};
+  box-shadow: 1px 1px 10px 0 var(--blue-horizon),
+    1px 1px 10px 0 var(--lighter-purple), inset 1px 1px 10px 0 var(--desire);
+}
 
 /* ------------------------------- */
 /*------=======|MODAL|=======------*/
@@ -146,7 +147,8 @@ button {
   align-items: center;
 }
 
-.modal-form input, .modal-form select {
+.modal-form input,
+.modal-form select {
   width: 50%;
 }
 
@@ -253,7 +255,6 @@ button {
   grid-row: 8;
 }
 
-
 /* ------------------------------- */
 /*------====|LEFT ASIDE|=====------*/
 /* ------------------------------- */
@@ -273,7 +274,7 @@ button {
   justify-items: center;
   align-items: center;
   align-content: center;
-  background-color: var(--c64-ntsc);;
+  background-color: var(--c64-ntsc);
 }
 
 .projects-header {
@@ -287,6 +288,8 @@ button {
   justify-content: flex-start;
   align-content: center;
   align-items: center;
+  overflow: scroll;
+  height: 100%;
 }
 
 .show-more {
@@ -306,30 +309,37 @@ button {
 }
 
 .project {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
   width: 100%;
   height: 50px;
   margin: 5px 0;
+  cursor: pointer;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #4b6584d5;
 }
 
-.project:nth-child(1n+0) {
+.project:nth-child(1n + 0) {
   background-color: var(--fusion-red);
 }
-.project:nth-child(2n+0) {
+.project:nth-child(2n + 0) {
   background-color: var(--orange-hibiscus);
 }
-.project:nth-child(3n+0) {
+.project:nth-child(3n + 0) {
   background-color: var(--flirtatious);
 }
-.project:nth-child(4n+0) {
+.project:nth-child(4n + 0) {
   background-color: var(--reptile-green);
 }
-.project:nth-child(5n+0) {
+.project:nth-child(5n + 0) {
   background-color: var(--turquoise-topaz);
 }
-.project:nth-child(6n+0) {
+.project:nth-child(6n + 0) {
   background-color: var(--highblue);
 }
-.project:nth-child(7n+0) {
+.project:nth-child(7n + 0) {
   background-color: var(--lighter-purple);
 }
 
@@ -431,16 +441,48 @@ button {
   display: grid;
   width: 100%;
   align-items: center;
-  grid-template-columns: repeat(3, max-content) 1fr repeat(2, max-content);
+  grid-template-columns: repeat(3, max-content) 1fr repeat(3, max-content);
+  margin: 5px 0;
 }
 
+.todo-complete,
+.todo-title,
+.todo-date,
+.todo-priority,
+.todo-edit,
+.todo-delete {
+  margin: 20px 5px;
+}
 
 .todo-priority {
   grid-column: 5;
+  color: #ffffff;
+  font-weight: 900;
+  width: 80px;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: ;
 }
 
-.todo-delete {
+.todo-high {
+  background-color: var(--desire);
+}
+
+.todo-normal {
+  background-color: var(--beniukon-bronze);
+}
+
+.todo-low {
+  background-color: var(--reptile-green);
+}
+
+.todo-edit {
   grid-column: 6;
+}
+.todo-delete {
+  grid-column: 7;
 }
 
 /*------====|ON GOING BAR|=====------*/
@@ -456,7 +498,7 @@ button {
 }
 
 .ongoing {
-  display:grid;
+  display: grid;
   box-sizing: border-box;
   grid-template-columns: 50px 1fr 50px;
   width: 100%;
@@ -486,7 +528,7 @@ button {
 .progress-bar-fill {
   height: 100%;
   width: 10%;
-  background-color:var(--desire);
+  background-color: var(--desire);
 }
 
 .progress-point {
@@ -526,7 +568,6 @@ button {
   border-color: var(--highblue);
   background-color: var(--boyzone);
 }
-
 
 .card-yellow {
   border-color: var(--flirtatious);
