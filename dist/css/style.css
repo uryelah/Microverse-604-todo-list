@@ -2,7 +2,7 @@
 /*------=======|FONTS|=======------*/
 /* ------------------------------- */
 
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:200,400,700,900&display=swap");
 
 /* ------------------------------- */
 /*------=====|COLOR PALET|=====------*/
@@ -42,6 +42,7 @@ body {
   grid-template-columns: 300px 1fr;
   height: 100vh;
   background-color: var(--twinkle-blue);
+  box-sizing: border-box;
 }
 
 button {
@@ -53,6 +54,8 @@ button {
   display: flex;
   width: 100%;
   justify-content: center;
+  color: #fff;
+  text-shadow: 2px 2px 0 var(--blue-horizon);
 }
 
 .action-btn {
@@ -266,6 +269,7 @@ button {
   grid-template-rows: 80px 1fr 200px;
   height: 100vh;
   background-color: var(--innuendo);
+  box-sizing: border-box;
 }
 
 .logo {
@@ -275,10 +279,54 @@ button {
   align-items: center;
   align-content: center;
   background-color: var(--c64-ntsc);
+  font-size: 2rem;
+  font-weight: 200;
+  text-shadow: 2px 1px 0 var(--blue-horizon);
+  border-right: 2px solid var(--royal-blue);
+}
+
+.logo i {
+  margin: 5px;
+  color: var(--flirtatious);
+}
+
+.logo span {
+  text-decoration: underline 2px var(--flirtatious);
+  color: #fff;
 }
 
 .projects-header {
-  justify-content: space-between;
+  justify-content: center;
+  text-decoration: underline 2px #fff;
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-size: 1.4rem;
+  text-align: center;
+  position: relative;
+}
+
+.add-btn {
+  position: absolute;
+  right: 0;
+  display: flex;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  font-size: 2.5rem;
+  background-color: transparent;
+  margin-right: 2px;
+  color: var(--flirtatious);
+  height: 37px;
+  width: 33px;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: var(--blue-grey-50);
+}
+
+.add-btn i {
+  display: inline-block;
+  text-shadow: 0 0 0 #fff;
+  margin-top: -2px;
 }
 
 .projects-left {
@@ -290,6 +338,7 @@ button {
   align-items: center;
   overflow: scroll;
   height: 100%;
+  scrollbar-width: none;
 }
 
 .show-more {
@@ -306,6 +355,8 @@ button {
   scrollbar-width: none;
   align-items: center;
   background-color: var(--twinkle-blue);
+  scrollbar-width: none;
+  cursor: all-scroll;
 }
 
 .project {
@@ -319,6 +370,7 @@ button {
   cursor: pointer;
   color: #ffffff;
   text-shadow: 2px 2px 0 #4b6584d5;
+  flex-shrink: 0;
 }
 
 .project:nth-child(1n + 0) {
@@ -363,6 +415,10 @@ button {
   grid-column: 2;
   grid-row: 1;
   position: relative;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 /*------====|MAIN NAV|=====------*/
@@ -376,25 +432,47 @@ button {
 
 .nav-ul {
   margin: 0;
-  padding: 0;
   height: 100%;
   display: grid;
   align-items: center;
   grid-template-columns: repeat(4, max-content) 1fr max-content;
+  box-sizing: border-box;
+  padding: 0 20px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .nav-ul li {
   list-style: none;
   white-space: nowrap;
-  cursor: pointer;
 }
 
 .nav-ul li + li {
   margin-left: 10px;
+  padding-left: 10px;
+  border-left: 2px solid var(--twinkle-blue);
+}
+
+.left-nav {
+  cursor: pointer;
+}
+
+.left-nav, .right-nav {
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #fff;
 }
 
 .right-nav {
   grid-column: 6;
+  border-left: none !important;
+  color: var(--twinkle-blue);
+}
+
+.right-nav span {
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /*------====|MAIN CONTENT|=====------*/
@@ -406,9 +484,11 @@ button {
   justify-content: center;
   padding: 50px calc(50px + 2%);
   overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .main-list {
+  min-width: 450px;
   width: 100%;
   background-color: var(--gloomy-purple);
   display: flex;
@@ -418,6 +498,16 @@ button {
 
 .list-header {
   position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 80px;
+  z-index: 100;
+}
+
+.list-header h1 {
+  color: #fff;
+  text-shadow: 2px 2px 0 var(--blue-horizon);
+  text-decoration: underline 3px #fff;
 }
 
 .group-right {
@@ -425,9 +515,21 @@ button {
   right: 0;
   top: 33%;
   height: 33%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.edit-btn {
+  color: var(--algal-fuel);
+}
+
+.group-right .edit-btn {
+  margin: 0 5px;
+  position: relative;
+}
+
+.edit-btn i {
+  margin-top: -5px;
 }
 
 .todos-container {
@@ -443,6 +545,8 @@ button {
   align-items: center;
   grid-template-columns: repeat(3, max-content) 1fr repeat(3, max-content);
   margin: 5px 0;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .todo-complete,
@@ -452,6 +556,16 @@ button {
 .todo-edit,
 .todo-delete {
   margin: 20px 5px;
+}
+
+.todo-complete {
+  display: inline-block;
+  box-sizing: border-box;
+  border: 3px solid var(--nyc-taxi);
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  margin: 20px 25px;
 }
 
 .todo-priority {
@@ -481,8 +595,21 @@ button {
 .todo-edit {
   grid-column: 6;
 }
+
 .todo-delete {
   grid-column: 7;
+}
+
+.todo .add-btn {
+  transform: scale(0.8);
+}
+
+.todo .delete-btn {
+  position: relative;
+  color: var(--desire);
+}
+.todo .edit-btn {
+  position: relative;
 }
 
 /*------====|ON GOING BAR|=====------*/

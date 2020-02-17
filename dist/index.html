@@ -6,6 +6,7 @@
     <script src="./main.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/normalize.css">
+    <script src="https://kit.fontawesome.com/bc4d064067.js" crossorigin="anonymous"></script>
     <title>Todo list</title>
 </head>
 <body>
@@ -148,7 +149,7 @@
                 <li id="see-all" class="left-nav todo-filter" >All</li>
                 <li id="see-expired"class="left-nav todo-filter" >Expired</li>
                 <li id="see-completed" class="left-nav todo-filter">Completed</li>
-                <li id="user" class="right-nav">Let's do it, user!</li>
+                <li id="user" class="right-nav">Let's do it, <span>User</span>!</li>
             </ul>
         </nav>
 
@@ -157,8 +158,8 @@
                 <header class="list-header header">
                     <h1>Tasks for today or Project tasks</h1>
                     <div class="group-right">
-                        <button id="edit-project">Edit</button>
-                        <button id="create-project">Create</button>
+                        <button id="edit-project" class="add-btn edit-btn"><i class="far fa-edit"></i></button>
+                        <button id="create-project" class="add-btn"><i class="far fa-plus-square"></i></button>
                     </div>
                 </header>
                 <button id="view-todos" class="show-more"> <span>V</span></button>
@@ -171,8 +172,9 @@
                         </div>
                         <h4 class="todo-title">Title of Task</h4>
                         <div class="todo-priority todo-normal">Normal</div>
-                        <button type="button" class="todo-edit">Edit</button>
-                        <button type="button" class="todo-delete">X</button>                 
+                        <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+                        <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+                        </button>                 
                     </article>
     
                     <article id="1-todo" class="todo">
@@ -183,8 +185,9 @@
                         </div>
                         <h4 class="todo-title">Title of Task</h4>
                         <div class="todo-priority todo-high">High</div>
-                        <button type="button" class="todo-edit">Edit</button>
-                        <button type="button" class="todo-delete">X</button>                 
+                        <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+                        <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+                        </button>                 
                     </article>
 
                     <article id="1-todo" class="todo">
@@ -195,8 +198,9 @@
                         </div>
                         <h4 class="todo-title">Title of Task</h4>
                         <div class="todo-priority todo-low">Low</div>
-                        <button type="button" class="todo-edit">Edit</button>
-                        <button type="button" class="todo-delete">X</button>                 
+                        <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+                        <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+                        </button>                 
                     </article>
     
                 </div>
@@ -217,11 +221,11 @@
         </article>
     </main>
     <aside class="left">
-        <header id="logo" class='logo'>Logo</header>
+        <header id="logo" class='logo'><i class="fas fa-check-double"></i><span>Any List</span></header>
         <section id="projects" class="projects-left">
             <header class="header projects-header">
                 <h3>Add Project</h3>
-                <button id="add-project" type="button">+</button>
+                <button id="add-project" class="add-btn" type="button"><i class="far fa-plus-square"></i></button>
             </header>
             <button id="view-projects" class="show-more" type="button">View all Projects</button>
             <div id="all-projects" class="projects-container">
