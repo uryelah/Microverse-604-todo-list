@@ -28,6 +28,7 @@
   --twinkle-blue: #d1d8e0;
   --innuendo: #a5b1c2;
   --blue-grey: #778ca3;
+  --blue-grey-50: #778ca388;
   --blue-horizon: #4b6584;
 }
 
@@ -40,6 +41,7 @@ body {
   display: grid;
   grid-template-columns: 300px 1fr;
   height: 100vh;
+  background-color: var(--twinkle-blue);
 }
 
 .header {
@@ -78,39 +80,6 @@ body {
 .main-shadow {
   box-shadow: 1px 1px 10px 0 var(--blue-horizon), 1px 1px 10px 0 var(--lighter-purple), inset 1px 1px 10px 0 var(--desire)   ;
 };
-
-
-/*
---fusion-red: #fc5c65;
-  --desire: #eb3b5a;
-  --orange-hibiscus: #fd9644;
-  --beniukon-bronze: #fa8231;
-  --flirtatious: #fed330;
-  --nyc-taxi: #f7b731;
-  --reptile-green: #26de81;
-  --algal-fuel: #20bf6b;
-  --maximum-blue-green: #2bcbba;
-  --turquoise-topaz: #0fb9b1;
-  --highblue: #45aaf2;
-  --boyzone: #2d98da;
-  --c64-ntsc: #4b7bec;
-  --royal-blue: #3867d6;
-  --lighter-purple: #a55eea;
-  --gloomy-purple: #8854d0;
-  --twinkle-blue: #d1d8e0;
-  --innuendo: #a5b1c2;
-  --blue-grey: #778ca3;
-  --blue-horizon: #4b6584;
-*/
-.card-red {
-  border-color: var(--desire);
-  background-color: var(--fusion-red);
-}
-
-.card-red {
-  border-color: var(--algal-fuel);
-  background-color: var(--reptile-green);
-}
 
 /* ------------------------------- */
 /*------=======|MODAL|=======------*/
@@ -291,7 +260,7 @@ body {
   display: grid;
   grid-template-rows: 80px 1fr 200px;
   height: 100vh;
-  background-color: crimson;
+  background-color: var(--innuendo);
 }
 
 .logo {
@@ -300,6 +269,7 @@ body {
   justify-items: center;
   align-items: center;
   align-content: center;
+  background-color: var(--c64-ntsc);;
 }
 
 .projects-header {
@@ -328,6 +298,35 @@ body {
   overflow-y: scroll;
   scrollbar-width: none;
   align-items: center;
+  background-color: var(--twinkle-blue);
+}
+
+.project {
+  width: 100%;
+  height: 50px;
+  margin: 5px 0;
+}
+
+.project:nth-child(1n+0) {
+  background-color: var(--fusion-red);
+}
+.project:nth-child(2n+0) {
+  background-color: var(--orange-hibiscus);
+}
+.project:nth-child(3n+0) {
+  background-color: var(--flirtatious);
+}
+.project:nth-child(4n+0) {
+  background-color: var(--reptile-green);
+}
+.project:nth-child(5n+0) {
+  background-color: var(--turquoise-topaz);
+}
+.project:nth-child(6n+0) {
+  background-color: var(--highblue);
+}
+.project:nth-child(7n+0) {
+  background-color: var(--lighter-purple);
 }
 
 .next-todo-container {
@@ -358,7 +357,7 @@ body {
   top: 0;
   left: 0;
   height: 80px;
-  background-color: cyan;
+  background-color: var(--c64-ntsc);
 }
 
 .nav-ul {
@@ -397,7 +396,7 @@ body {
 
 .main-list {
   width: 100%;
-  background-color: darkblue;
+  background-color: var(--gloomy-purple);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -424,7 +423,7 @@ body {
 }
 
 .todo {
-  background-color: darkseagreen;
+  background-color: var(--lighter-purple);
   display: grid;
   width: 100%;
   align-items: center;
@@ -457,7 +456,7 @@ body {
   box-sizing: border-box;
   grid-template-columns: 50px 1fr 50px;
   width: 100%;
-  background-color: #cccccc99;
+  background-color: var(--turquoise-topaz);
   padding: 15px;
 }
 
@@ -476,14 +475,14 @@ body {
   border-radius: 10px;
   height: 25px;
   width: 100%;
-  background-color: #aaa;
+  background-color: var(--blue-grey);
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
   width: 10%;
-  background-color:#aa0000;
+  background-color:var(--desire);
 }
 
 .progress-point {
@@ -497,10 +496,58 @@ body {
 .progress-tab {
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: salmon;
+  background-color: var(--blue-horizon);
   width: max-content;
 }
 
 .progress-tab p {
   margin: 0;
+}
+
+/*------=====|TAG COLORS|=====------*/
+
+.card-red {
+  border-color: var(--desire);
+  background-color: var(--fusion-red);
+}
+
+.card-green {
+  border-color: var(--reptile-green);
+  background-color: var(--algal-fuel);
+}
+
+.card-blue {
+  border-color: var(--highblue);
+  background-color: var(--boyzone);
+}
+
+
+.card-yellow {
+  border-color: var(--flirtatious);
+  background-color: var(--nyc-taxi);
+}
+
+.card-green {
+  border-color: var(--reptile-green);
+  background-color: var(--algal-fuel);
+}
+
+.card-purple {
+  border-color: var(--lighter-purple);
+  background-color: var(--gloomy-purple);
+}
+
+.card-orange {
+  border-color: var(--orange-hibiscus);
+  background-color: var(--beniukon-bronze);
+}
+
+.card-teal {
+  border-color: var(--maximum-blue-green);
+  background-color: var(--turquoise-topaz);
+}
+
+.card-dark-blue {
+  border-color: var(--royal-blue);
+  background-color: var(--c64-ntsc);
 }
