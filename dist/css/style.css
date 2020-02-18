@@ -25,6 +25,7 @@
   --royal-blue: #3867d6;
   --lighter-purple: #a55eea;
   --gloomy-purple: #8854d0;
+  --sparkle-blue: #e5ebf1;
   --twinkle-blue: #d1d8e0;
   --innuendo: #a5b1c2;
   --blue-grey: #778ca3;
@@ -86,7 +87,7 @@ button {
 
 .main-shadow {
   box-shadow: 1px 1px 10px 0 var(--blue-horizon),
-    1px 1px 10px 0 var(--lighter-purple), inset 1px 1px 10px 0 var(--desire);
+    1px 1px 20px 0 var(--blue-grey-50);
 }
 
 /* ------------------------------- */
@@ -115,12 +116,15 @@ button {
   box-sizing: border-box;
   background-color: var(--twinkle-blue);
   padding: 30px 25px;
-  display: grid;
-  grid-template-columns: 25% 1fr 25%;
   grid-auto-rows: min-content;
   z-index: 500;
   overflow-y: scroll;
   scrollbar-width: none;
+}
+
+.modal-content {
+  display: grid;
+  grid-template-columns: 25% 1fr 25%;
 }
 
 .modal-closed {
@@ -268,7 +272,7 @@ button {
   display: grid;
   grid-template-rows: 80px 1fr 200px;
   height: 100vh;
-  background-color: var(--innuendo);
+  background-color: var(--sparkle-blue);
   box-sizing: border-box;
 }
 
@@ -278,11 +282,10 @@ button {
   justify-items: center;
   align-items: center;
   align-content: center;
-  background-color: var(--c64-ntsc);
+  background-color: var(--sparkle-blue);
   font-size: 2rem;
   font-weight: 200;
-  text-shadow: 2px 1px 0 var(--blue-horizon);
-  border-right: 2px solid var(--royal-blue);
+  text-shadow: 2px 1px 0 var(--blue-grey);
 }
 
 .logo i {
@@ -303,6 +306,8 @@ button {
   font-size: 1.4rem;
   text-align: center;
   position: relative;
+  background-color: var(--c64-ntsc);
+  box-shadow: 0 10px 10px 0 var(--blue-grey-50);
 }
 
 .add-btn {
@@ -339,13 +344,17 @@ button {
   overflow: scroll;
   height: 100%;
   scrollbar-width: none;
+  overflow-x: hidden;
+  border-right: 2px solid var(--sparkle-blue);
 }
 
 .projects-left .show-more {
-  border-top: 3px solid var(--twinkle-blue);
-  border-bottom: 3px solid var(--blue-grey);
+  border-top: 3px solid #fff;
+  border-bottom: 3px solid var(--twinkle-blue);
   padding: 10px;
   box-sizing: content-box;
+  color: var(--blue-grey);
+  margin-top: 0;
 }
 
 .show-more {
@@ -358,7 +367,7 @@ button {
   box-shadow: none;
   box-sizing: border-box;
   height: 30px;
-  color: #ffffff;
+  color: var(--sparkle-blue);
   margin: 25px
 }
 
@@ -389,8 +398,15 @@ button {
   margin: 5px 0;
   cursor: pointer;
   color: #ffffff;
-  text-shadow: 2px 2px 0 #4b6584d5;
   flex-shrink: 0;
+  filter: opacity(0.8);
+}
+
+.project-active {
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #4b6584d5;
+  filter: saturate(1) opacity(1);
+  order: -1;
 }
 
 .project:nth-child(1n + 0) {
@@ -418,7 +434,7 @@ button {
 .next-todo-container {
   display: grid;
   grid-template-rows: 50px 150px;
-  background-color: var(--blue-grey);
+  background-color: var(--sparkle-blue);
 }
 
 .next-todo {
@@ -428,17 +444,15 @@ button {
   align-items: center;
   padding: 20px;
   height: 100%;
+  background-color: var(--twinkle-blue);
+  box-shadow: inset 0 0 0 10px var(--sparkle-blue);
 }
 
 .next-todo .brief-todo {
   display: flex;
   justify-content: space-between;
   padding: 20px;
-}
-
-.next-todo-container .header {
-  background-color: var(--c64-ntsc);
-
+  color: #fff;
 }
 
 /* ------------------------------- */
@@ -461,7 +475,7 @@ button {
   top: 0;
   left: 0;
   height: 80px;
-  background-color: var(--c64-ntsc);
+  background-color: var(--sparkle-blue);
 }
 
 .nav-ul {
@@ -494,17 +508,17 @@ button {
 .left-nav, .right-nav {
   font-weight: 400;
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--blue-horizon);
 }
 
 .right-nav {
   grid-column: 6;
   border-left: none !important;
-  color: var(--twinkle-blue);
+  color: var(--blue-grey);
 }
 
 .right-nav span {
-  color: #fff;
+  color: var(--blue-horizon);
   font-weight: 700;
   cursor: pointer;
 }
@@ -519,6 +533,8 @@ button {
   padding: 50px calc(50px + 2%);
   overflow-y: scroll;
   scrollbar-width: none;
+  background: linear-gradient(to bottom, var(--twinkle-blue) 70%, var(--innuendo) 120%);
+  justify-content: flex-start;
 }
 
 .main-list {
@@ -528,6 +544,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: max-content;
 }
 
 .list-header {
@@ -581,6 +598,8 @@ button {
   margin: 5px 0;
   overflow-x: hidden;
   white-space: nowrap;
+  cursor: pointer;
+  color: #fff;
 }
 
 .todo-complete,
@@ -661,10 +680,12 @@ button {
 .ongoing {
   display: grid;
   box-sizing: border-box;
-  grid-template-columns: 50px 1fr 50px;
+  grid-template-columns: 100px 1fr 80px;
   width: 100%;
-  background-color: var(--turquoise-topaz);
+  background-color: var(--sparkle-blue);
   padding: 15px;
+  border-top: 1px solid var(--innuendo);
+  color: var(--blue-horizon);
 }
 
 .time-start {
@@ -675,6 +696,11 @@ button {
   grid-column: 3;
 }
 
+.time-start, .time-end {
+  margin: 0 15px;
+  width: 80px;
+}
+
 .progress {
   display: flex;
   box-sizing: border-box;
@@ -682,21 +708,24 @@ button {
   border-radius: 10px;
   height: 25px;
   width: 100%;
-  background-color: var(--blue-grey);
+  background-color: var(--twinkle-blue);
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
   width: 10%;
-  background-color: var(--desire);
+  background-image: linear-gradient(to left, var(--fusion-red), var(--orange-hibiscus), var(--flirtatious), var(--reptile-green), var(--turquoise-topaz), var(--highblue), var(--lighter-purple)) !important;
+  background-size: 100% 25px;
+  background-repeat: repeat-x;
 }
 
 .progress-point {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--sparkle-blue);
+  border: 1px solid #fff;
   margin-left: -12px;
   cursor: pointer;
 }
@@ -704,9 +733,11 @@ button {
 .progress-tab {
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: var(--blue-horizon);
+  background-color: var(--c64-ntsc);
   width: max-content;
   cursor: pointer;
+  border-top-right-radius: 20px;
+  color: #fff;
 }
 
 .progress-tab p {

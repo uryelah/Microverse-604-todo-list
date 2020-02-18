@@ -12,10 +12,11 @@
 <body>
     <main class="right">
         <!-- MODAL -->
-        <!--
-        <section id="modal" class="modal-container mmodal-closed main-shadow">
+        <section id="modal" class="modal-container modal-closed main-shadow">
             <div id='modal-hide'><span>X</span></div>
-             
+
+            <div id="modal-content"></div>
+             <!--
             <article id="0-todo-open" class="modal-details todo-details">
                 <h2 class="todo-title">Todo Title</h2>
                 <button id="toggle-completed" class="todo-incomplete action-btn" type="button">Complete todo</button>
@@ -43,7 +44,7 @@
                     <p class="todo-tag child-card card-red">#tag2</p>
                 </div>                
             </article>
-        
+        -->
              <!--Project details -->
             <!-- <article id="0-project-open" class="modal-details project-details">
                 <h2 class="project-title">Project Title</h2>
@@ -140,9 +141,9 @@
                 <input type="hidden" name="creator" id="project-creator" value="user">
 
                 <button type="button">Add Project</button>
-            </form>
+            </form>-->
         </section>
-    -->
+
         <nav class="app-nav">
             <ul class="nav-ul">
                 <li class="left-nav">See tasks</li>
@@ -208,7 +209,7 @@
         </section>
         <article id="progress" class="progress-bar">
             <div id="progress-tab" class="progress-tab">
-                <p>On going todos <spam>V</spam></p>
+                <p>⏲️ On going todo<i class="fas fa-caret-down"></i></p>
             </div>
             <div id="0-progress-todo" class="ongoing">
                 <time class="progress-time time-start" datetime="2020-02-13 20:00">12:00AM</time>
@@ -221,10 +222,10 @@
         </article>
     </main>
     <aside class="left">
-        <header id="logo" class='logo'><i class="fas fa-check-double"></i><span>Any List</span></header>
+        <header id="logo" class='logo'>🦄 <span>Uni List</span></header>
         <section id="projects" class="projects-left">
             <header class="header projects-header">
-                <h3>Add Project</h3>
+                <h3>All Projects</h3>
                 <button id="add-project" class="add-btn" type="button"><i class="far fa-plus-square"></i></button>
             </header>
             <button id="view-projects" class="show-more" type="button">View all Projects <i class="fas fa-caret-down"></i></button>
@@ -240,7 +241,7 @@
         </section>
         <section class="next-todo-container">
             <header class="header">
-                <h3>Next Todo</h3>
+                <h3>Next Todo 🌈</h3>
             </header>
             <div id="next-task" class="next-todo">
                 <article id="0-todo-next" class="todo brief-todo">

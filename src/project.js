@@ -1,13 +1,13 @@
-import {TodoFactory, TodoArchieve} from './todo';
+import { TodoFactory, TodoArchieve } from './todo';
 
 const Projects = () => {
   let count = 0;
   const projectList = [];
 
   const getId = () => {
-		return count++
+    return count++
   }
-  
+
   const addProject = (project) => {
     projectList.push(project);
   }
@@ -31,14 +31,14 @@ const Projects = () => {
 const ProjectArchive = Projects();
 
 const ProjectFactory = (factoryObject) => {
-  let {title, description, todos = [], creator, archieve = ProjectArchive} = factoryObject;
+  let { title, description, todos = [], creator, archieve = ProjectArchive } = factoryObject;
 
   let id = archieve.getId();
 
   const getId = () => id;
   const getTodosForToday = () => {
-		
-  } 
+
+  }
 
   const addTodo = (object) => {
     object.project = id;
@@ -52,12 +52,12 @@ const ProjectFactory = (factoryObject) => {
 
   const getTodoAt = (index) => {
     return TodoArchieve.getTodoAt(index);
-  }  
+  }
 
   const getProjectInfo = () => {
     return {
       id,
-      title, 
+      title,
       description,
       todos,
       creator,
@@ -75,15 +75,15 @@ const ProjectFactory = (factoryObject) => {
 }
 
 
-  const myProject = ProjectFactory({title: 'first project'});
-  ProjectArchive.addProject(myProject);
-  
-  const myProject2 = ProjectFactory({title: 'second project'});
-  ProjectArchive.addProject(myProject2);
-  
-  
-  let myFac = myProject.addTodo({title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000});
-  let myFac2 = myProject.addTodo({title: 'test2', priority: 1, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000});
+const myProject = ProjectFactory({ title: 'first project' });
+ProjectArchive.addProject(myProject);
+
+const myProject2 = ProjectFactory({ title: 'second project' });
+ProjectArchive.addProject(myProject2);
+
+
+//let myFac = myProject.addTodo({ title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
+//let myFac2 = myProject.addTodo({ title: 'test2', priority: 1, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
 
 
 const completitionLoader = {
@@ -91,4 +91,4 @@ const completitionLoader = {
   }
 }
 
-export {ProjectArchive, ProjectFactory};
+export { ProjectArchive, ProjectFactory };
