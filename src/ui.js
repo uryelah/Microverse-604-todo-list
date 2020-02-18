@@ -31,7 +31,7 @@ const todoForm = `<h2>New Todo</h2>
 
     <div>
         <label for="todo-title">
-        Title:
+        Priority:
         </label>
         <select name="priority" id="todo-priority" required>
             <option value="0">Low</option>
@@ -52,6 +52,14 @@ const todoForm = `<h2>New Todo</h2>
         Time:
         </label>
         <input type="time" name="time" id="todo-time">
+    </div>
+
+    <div>
+        <label for="todo-duration">
+        Duration:
+        </label>
+        <input type="number" min='0' step=5 name="duration" id="todo-duration">
+        <small>Time in minutes</small>
     </div>
 
     <div>
@@ -221,8 +229,16 @@ const ui = () => {
     const newTodoForm = document.getElementById('todo-form');
           newTodoForm.addEventListener('submit', (e)=> {
             modal.classList.add('modal-closed'); 
-            let newTodo = ProjectArchive.getProjectAt(0).addTodo({ title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
-            console.log(newTodo);
+
+            let formValues = {};
+
+            [...e.target].forEach((element, i, arr) => {
+              if (i == arr.length - 1) return;
+              formValues[`${element.name}`] = element.value;
+            });
+            let newTodo = ProjectArchive.getProjectAt(0).addTodo(formValues);
+            
+            console.log(newTodo.getTodoInfo());
             e.preventDefault();    
           });
 

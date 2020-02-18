@@ -49,13 +49,26 @@ const TodoArchieve = Todos();
 const TodoFactory = (factoryObject) => {
 		let {createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
 		priority = archieve.getPriority(priority);
+		date = new Date(date);
+		if(time === ''){
+			time = date;
+			 time.setHours(23);
+			 time.setMinutes(59);
+			 time.setSeconds(59);
+		} else {
+			const formTime = time.split(':')
+			time = date;
+			time.setHours(parseInt(formTime[0]));
+			time.setMinutes(parseInt(formTime[1]));
+
+		};
 		let id = archieve.getId();
 		let expired = false;
 		let completed = false;
 		let inProgress = false;
 
 		const getId = () => id;
-		const getTime = () => format(time, 'hh:mm:ss');
+		const getTime = () => format(time, 'hh:mm:ssa');
 		const getDate = () => format(date, 'yyyy/MM/dd');
 		const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
 
