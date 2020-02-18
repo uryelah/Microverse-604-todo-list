@@ -137,6 +137,15 @@ const ui = () => {
   const projectTitle = document.getElementById('project-title');
   let containerTodos = document.getElementById('container-todos');
   const projectTodos = containerTodos.getElementsByClassName('todo');
+  const nextTodoArea = document.getElementById('next-task');
+  const nextTodo = nextTodoArea.querySelector('.todo');
+
+  const progress = document.getElementsByClassName('ongoing')[0];
+  const progressTab = document.getElementById('progress-tab');
+
+  progressTab.addEventListener('click', () => {
+    progress.classList.toggle('hidden');
+  });
 
   hideModal.addEventListener('click', () => {
     modal.classList.add('modal-closed');
@@ -161,7 +170,7 @@ const ui = () => {
     modalContent.setAttribute('data-type',projectData);
   });
 
-  [...projectTodos].forEach((todo) => {
+  [...projectTodos, nextTodo].forEach((todo) => {
     todo.addEventListener('click', () => {
       modalContent.innerHTML = todoDetails;
       modal.classList.remove('modal-closed');

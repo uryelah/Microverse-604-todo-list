@@ -64,6 +64,10 @@ button {
   transition: 0.3s ease-in;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .action-btn {
   box-sizing: border-box;
   padding: 10px 15px;
@@ -378,6 +382,8 @@ button {
 
 .main-list .show-more {
   margin-top: 10px;
+  border-top: 3px solid #ffffff55;
+  border-bottom: 3px solid #00000033;
 }
 
 .show-more i {
