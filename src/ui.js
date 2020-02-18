@@ -145,6 +145,41 @@ const ui = () => {
   const progress = document.getElementsByClassName('ongoing')[0];
   const progressTab = document.getElementById('progress-tab');
 
+
+  const projectClickEvent = () => {
+    [...document.getElementsByClassName('project')].forEach((project, i, arr) => {
+      project.addEventListener('click', () => {
+        arr.forEach(p => {
+          if (p === project) {
+            projectsContainer.scrollTo(0, 0);
+            project.classList.add('project-active');
+            openProject.id = `${project.id}-open`;
+            openProject.classList = `main-list main-${project.id}`;
+            openProject.querySelector('h1').innerText = project.innerText;
+            containerTodos = document.getElementById('container-todos');
+          } else {
+            p.classList.remove('project-active');
+          }
+        });
+      });
+    });
+  }
+
+  // Populate projects fomr Project Archive
+  const populateProjects = () => {
+    projectsContainer.innerHTML = '';
+
+    const currentProjects = ProjectArchive.getProjects();
+    
+    currentProjects.forEach(project => {
+      projectsContainer.innerHTML += `<article id="${project.getId()}-pro" class="project">${project.getTitle()}</article>`
+    });
+
+    projectClickEvent();
+  }
+
+  populateProjects();
+  
   progressTab.addEventListener('click', () => {
     progress.classList.toggle('hidden');
   });
@@ -172,6 +207,8 @@ const ui = () => {
 
       let newProject = ProjectFactory(formValues);
       ProjectArchive.addProject(newProject);
+
+      populateProjects();
 
       e.preventDefault();
     });
@@ -205,23 +242,6 @@ const ui = () => {
       modal.classList.remove('modal-closed');
       modalContent.setAttribute('data-type',todo.id);
     })
-  });
-
-  [...projects].forEach((project, i, arr) => {
-    project.addEventListener('click', () => {
-      arr.forEach(p => {
-        if (p === project) {
-          projectsContainer.scrollTo(0, 0);
-          project.classList.add('project-active');
-          openProject.id = `${project.id}-open`;
-          openProject.classList = `main-list main-${project.id}`;
-          openProject.querySelector('h1').innerText = project.innerText;
-          containerTodos = document.getElementById('container-todos');
-        } else {
-          p.classList.remove('project-active');
-        }
-      });
-    });
   });
 
   [...showMore].forEach( btn => {
