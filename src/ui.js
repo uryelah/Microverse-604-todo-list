@@ -28,6 +28,8 @@ const ui = () => {
   const projects = document.getElementsByClassName('project');
   const openProject = document.getElementsByClassName('main-list')[0];
 
+  const showMore = document.getElementsByClassName('show-more');
+
   hideModal.addEventListener('click', () => {
     modal.classList.add('modal-closed');
   });
@@ -42,11 +44,26 @@ const ui = () => {
       arr.forEach(p => {
         if (p === project) {
           projectsContainer.scrollTo(0, 0);
-          p.classList.add('project-active');
+          project.classList.add('project-active');
+          openProject.id = `${project.id}-open`;
+          openProject.classList = `main-list main-${project.id}`;
+          openProject.querySelector('h1').innerText = project.innerText;
         } else {
           p.classList.remove('project-active');
         }
       });
+    });
+  });
+
+  [...showMore].forEach( btn => {
+    btn.addEventListener('click', () => {
+      let sibling = btn.nextElementSibling;
+      sibling.classList.toggle('collapsed');
+      if (sibling.classList.contains('collapsed')) {
+        btn.querySelector('span').innerText = 'View all';
+      } else {
+        btn.querySelector('span').innerText = 'Hide';
+      }
     });
   });
 };

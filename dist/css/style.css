@@ -59,6 +59,11 @@ button {
   text-shadow: 2px 2px 0 var(--blue-horizon);
 }
 
+.collapsed {
+  height: 0 !important;
+  transition: 0.3s ease-in;
+}
+
 .action-btn {
   box-sizing: border-box;
   padding: 10px 15px;
@@ -307,7 +312,6 @@ button {
   text-align: center;
   position: relative;
   background-color: var(--c64-ntsc);
-  box-shadow: 0 10px 10px 0 var(--blue-grey-50);
 }
 
 .add-btn {
@@ -369,6 +373,10 @@ button {
   height: 30px;
   color: var(--sparkle-blue);
   margin: 25px
+}
+
+.main-list .show-more {
+  margin-top: 10px;
 }
 
 .show-more i {
@@ -545,6 +553,32 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   height: max-content;
+}
+
+.main-list .todo {
+  background-color: #ffffff55;
+}
+
+.main-0-pro {
+  background-color: var(--desire);
+}
+.main-1-pro {
+  background-color: var(--beniukon-bronze);
+}
+.main-2-pro {
+  background-color: var(--nyc-taxi);
+}
+.main-3-pro {
+  background-color: var(--algal-fuel);
+}
+.main-4-pro {
+  background-color: var(--turquoise-topaz);
+}
+.main-5-pro {
+  background-color: var(--boyzone);
+}
+.main-6-pro {
+  background-color: var(--gloomy-purple);
 }
 
 .list-header {
