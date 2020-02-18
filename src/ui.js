@@ -1,25 +1,27 @@
+import { ProjectArchive, ProjectFactory } from './project';
+
 const projectForm = `<h2>New Project</h2>
-<form id="project-form" class="modal-form" onsubmit="return false">
+<form id="project-form" class="modal-form">
     <div>
         <label for="project-title">
         Project title:
         </label>
-        <input type="text" name="title" id="project-title">
+        <input type="text" name="title" id="project-title" required>
     </div>
 
     <div>
         <label for="project-description">
         Project description:
         </label>
-        <input type="text" name="description" id="project-description">
+        <textarea name="description" id="project-description" required></textarea>
     </div>
     <input type="hidden" name="creator" id="project-creator" value="user">
 
-    <button type="button">Add Project</button>
+    <button type="submit">Add Project</button>
 </form>`
 
 const todoForm = `<h2>New Todo</h2>
-<form id="todo-form" class="modal-form" onsubmit="return false">
+<form id="todo-form" class="modal-form">
     <div>
         <label for="todo-title">
         Title:
@@ -154,12 +156,21 @@ const ui = () => {
   addProjectBtn.addEventListener('click', () => {
     modalContent.innerHTML = projectForm;
     modal.classList.remove('modal-closed');
+
+    let newProjectForm = document.getElementById('project-form');
+
+    newProjectForm.addEventListener('submit', e => {
+      let newProject = ProjectFactory({ title: 'Project 0', description: 'Testing creating with form' });
+      ProjectArchive.addProject(newProject);
+      modal.classList.add('modal-closed');
+
+      e.preventDefault();
+    });
   });
 
   addTodo.addEventListener('click', () => {
     modalContent.innerHTML = todoForm;
     modal.classList.remove('modal-closed');
-
   });
 
   projectTitle.addEventListener('click', () => {

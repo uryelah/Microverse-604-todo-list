@@ -34,6 +34,7 @@ const ProjectFactory = (factoryObject) => {
   let { title, description, todos = [], creator, archieve = ProjectArchive } = factoryObject;
 
   let id = archieve.getId();
+  console.log(`I was created ${id}`);
 
   const getId = () => id;
   const getTodosForToday = () => {
@@ -75,11 +76,11 @@ const ProjectFactory = (factoryObject) => {
 }
 
 
-const myProject = ProjectFactory({ title: 'first project' });
-ProjectArchive.addProject(myProject);
+//const myProject = ProjectFactory({ title: 'first project' });
+//ProjectArchive.addProject(myProject);
 
-const myProject2 = ProjectFactory({ title: 'second project' });
-ProjectArchive.addProject(myProject2);
+//const myProject2 = ProjectFactory({ title: 'second project' });
+//ProjectArchive.addProject(myProject2);
 
 
 //let myFac = myProject.addTodo({ title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
