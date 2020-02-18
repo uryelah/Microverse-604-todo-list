@@ -26,14 +26,14 @@ const todoForm = `<h2>New Todo</h2>
         <label for="todo-title">
         Title:
         </label>
-        <input type="text" name="title" id="todo-title">
+        <input type="text" name="title" id="todo-title" required>
     </div>
 
     <div>
         <label for="todo-title">
         Title:
         </label>
-        <select name="priority" id="todo-priority">
+        <select name="priority" id="todo-priority" required>
             <option value="0">Low</option>
             <option value="1">Normal</option>
             <option value="2">High</option>
@@ -44,7 +44,7 @@ const todoForm = `<h2>New Todo</h2>
         <label for="todo-date">
         Due at:
         </label>
-        <input type="date" name="date" id="todo-date">
+        <input type="date" name="date" id="todo-date" required>
     </div>
 
     <div>
@@ -65,11 +65,11 @@ const todoForm = `<h2>New Todo</h2>
         <label for="todo-description">
         Description:
         </label>
-        <input type="text" name="description" id="todo-description">
+        <textarea type="text" name="description" id="todo-description" required></textarea>
     </div>
     <input type="hidden" name="project" id="todo-project" value="0">
 
-    <button type="button">Add todo</button>
+    <button type="submit">Add todo</button>
 </form>`
 
 const projectDetails = `<article id="0-project-open" class="modal-details project-details">
@@ -171,6 +171,15 @@ const ui = () => {
   addTodo.addEventListener('click', () => {
     modalContent.innerHTML = todoForm;
     modal.classList.remove('modal-closed');
+
+    const newTodoForm = document.getElementById('todo-form');
+          newTodoForm.addEventListener('submit', (e)=> {
+            modal.classList.add('modal-closed'); 
+            let newTodo = ProjectArchive.getProjectAt(0).addTodo({ title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
+            console.log(newTodo);
+            e.preventDefault();    
+          });
+
   });
 
   projectTitle.addEventListener('click', () => {

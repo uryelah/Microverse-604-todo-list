@@ -76,8 +76,8 @@ const ProjectFactory = (factoryObject) => {
 }
 
 
-//const myProject = ProjectFactory({ title: 'first project' });
-//ProjectArchive.addProject(myProject);
+const myProject = ProjectFactory({ title: 'default project', description: 'this is the default description.' });
+ProjectArchive.addProject(myProject);
 
 //const myProject2 = ProjectFactory({ title: 'second project' });
 //ProjectArchive.addProject(myProject2);
