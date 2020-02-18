@@ -222,6 +222,48 @@ const ui = () => {
     });
   });
 
+  const addNewTodo = () => {
+    let todoData = ProjectArchive.getProjectAt(0).getTodos();
+            todoData = todoData[todoData.length -1];
+            todoData = todoData.getTodoInfo();
+    
+            
+            containerTodos.innerHTML += ` <article id="${todoData.id}-todo" class="todo">
+            <input type="checkbox" class="todo-complete">
+            <div class="todo-date">
+                <time datetime="2020-02-14 20:00">${todoData.time}</time>
+                <time datetime="2020-02-14 20:00">${todoData.date}</time>
+            </div>
+            <h4 class="todo-title">${todoData.title}</h4>
+            <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
+            <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+            <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+            </button>                 
+        </article>`;
+
+  };
+
+  const populateTodos = () => {
+    let todoData = ProjectArchive.getProjectAt(0).getTodos();
+    containerTodos.innerHTML = ``;
+    todoData.forEach(todo => {
+      let todoData = todo.getTodoInfo();
+      containerTodos.innerHTML = ` <article id="${todoData.id}-todo" class="todo">
+      <input type="checkbox" class="todo-complete">
+      <div class="todo-date">
+          <time datetime="2020-02-14 20:00">${todoData.time}</time>
+          <time datetime="2020-02-14 20:00">${todoData.date}</time>
+      </div>
+      <h4 class="todo-title">${todoData.title}</h4>
+      <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
+      <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+      <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+      </button>                 
+  </article>`
+    });
+  };
+  populateTodos();
+
   addTodo.addEventListener('click', () => {
     modalContent.innerHTML = todoForm;
     modal.classList.remove('modal-closed');
@@ -237,8 +279,8 @@ const ui = () => {
               formValues[`${element.name}`] = element.value;
             });
             let newTodo = ProjectArchive.getProjectAt(0).addTodo(formValues);
-            
-            console.log(newTodo.getTodoInfo());
+            addNewTodo();
+
             e.preventDefault();    
           });
 

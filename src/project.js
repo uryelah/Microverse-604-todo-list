@@ -85,7 +85,7 @@ ProjectArchive.addProject(myProject);
 //ProjectArchive.addProject(myProject2);
 
 
-//let myFac = myProject.addTodo({ title: 'test', priority: 2, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
+let myFac = myProject.addTodo({ title: 'Default todo', description: 'Default descrition', priority: 1, time:"10:46", date:"2020-02-27", duration: 20000 });
 //let myFac2 = myProject.addTodo({ title: 'test2', priority: 1, time: new Date(2020, 1, 14, 10, 30, 0), date: new Date(2020, 2, 23), duration: 20000 });
 
 
