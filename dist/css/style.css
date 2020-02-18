@@ -210,6 +210,7 @@ button {
   margin: 5px 0;
 }
 
+
 /*------====|TO DO DETAILS|====----*/
 
 .todo-details {
@@ -553,6 +554,10 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   height: max-content;
+}
+
+#project-title {
+  cursor: pointer;
 }
 
 .main-list .todo {
