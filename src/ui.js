@@ -160,9 +160,18 @@ const ui = () => {
     let newProjectForm = document.getElementById('project-form');
 
     newProjectForm.addEventListener('submit', e => {
-      let newProject = ProjectFactory({ title: 'Project 0', description: 'Testing creating with form' });
-      ProjectArchive.addProject(newProject);
       modal.classList.add('modal-closed');
+      
+      let formValues = {};
+
+      [...e.target].forEach((element, i, arr) => {
+        if (i == arr.length - 1) return;
+        
+        formValues[`${element.name}`] = element.value;
+      });
+
+      let newProject = ProjectFactory(formValues);
+      ProjectArchive.addProject(newProject);
 
       e.preventDefault();
     });
