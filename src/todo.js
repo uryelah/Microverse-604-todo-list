@@ -14,6 +14,12 @@ const Todos = () => {
     delete todoList[todoId];
   }
 
+  const deleteTodos = (todoArr) => {
+    todoArr.forEach(todo => {
+      delete todoList[todo];
+    })
+  }
+
   const getTodos = () => {
     return todoList;
   }
@@ -45,7 +51,8 @@ const Todos = () => {
     getTodos,
     getTodoAt,
     getTodosByIds,
-    deleteTodo
+    deleteTodo,
+    deleteTodos
   }
 }
 
@@ -53,7 +60,6 @@ const TodoArchieve = Todos();
 
 const TodoFactory = (factoryObject) => {
   let { createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
-  console.log('PROJECT AT CREATION: ', project)
   priority = archieve.getPriority(priority);
   date = new Date(date);
   if (time === '') {

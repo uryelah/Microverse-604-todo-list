@@ -82,7 +82,7 @@ const todoForm = (projectId) => {
   </form>`
 }; 
 
-const projectDetails = `<article id="0-project-open" class="modal-details project-details">
+const projectDetails = (projectId) => `<article id="0-project-open" class="modal-details project-details">
 <h2 class="project-title">Project Title</h2>
 <p class="project-creator">Created by: User</p>
 <p class="project-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo, cupiditate esse error molestias dolorum minus laborum culpa perferendis asperiores odit aspernatur, totam sit deleniti maxime pariatur tenetur sint, quia blanditiis!</p>
@@ -102,7 +102,7 @@ const projectDetails = `<article id="0-project-open" class="modal-details projec
     <p class="todo brief-todo">task1, 2am</p>
     <p class="todo brief-todo">task2, 11am</p>
 </div>   
-<button class="project-delete" type="button">Delete</button>             
+<button id="project-delete" type="button" data-project='${projectId}'>Delete</button>             
 </article>`
 
 const todoDetails = `<article id="0-todo-open" class="modal-details todo-details">
@@ -163,6 +163,17 @@ const ui = () => {
     const projectId = parseInt(todo.dataset.project);
     ProjectArchive.getProjectAt(projectId).deleteTodo(todoId);
     document.getElementById(`${todoId}-todo`).remove();
+  }
+
+  const deleteProject = (project) => {
+    const projectId = parseInt(project.dataset.project);
+    document.getElementById(`${projectId}-pro`).remove();
+    const todosArr = ProjectArchive.getProjectAt(projectId).deleteTodos();
+    ProjectArchive.deleteProject();
+    todosArr.forEach(todo => {
+      document.getElementById(`${todo}-todo`).remove();
+    })
+    modal.classList.add('modal-closed');
   }
 
   const turnNumber = (str) => {
@@ -354,9 +365,10 @@ const ui = () => {
   projectTitle.addEventListener('click', () => {
     let projectData = openProject.id;
     projectData.replace('-open', '');
-    modalContent.innerHTML = projectDetails;
+    modalContent.innerHTML = projectDetails(turnNumber(projectData));
     modal.classList.remove('modal-closed');
     modalContent.setAttribute('data-type', projectData);
+    document.getElementById('project-delete').addEventListener('click', e => deleteProject(e.target))
   });
 
   [...showMore].forEach(btn => {

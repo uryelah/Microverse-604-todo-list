@@ -12,6 +12,12 @@ const Projects = () => {
     projectList.push(project);
   }
 
+  const deleteProject = (projectId) => {
+   
+    projectList.splice(projectId, 1);
+
+  }
+
   const getProjects = () => {
     return projectList;
   }
@@ -25,6 +31,7 @@ const Projects = () => {
     addProject,
     getProjects,
     getProjectAt,
+    deleteProject
   }
 }
 
@@ -55,6 +62,11 @@ const ProjectFactory = (factoryObject) => {
     TodoArchieve.deleteTodo(todoId);
   }
 
+  const deleteTodos = () => {
+    TodoArchieve.deleteTodos(todos);
+    return todos;
+  }
+
   const getTodos = () => TodoArchieve.getTodosByIds(todos);
 
   const getTodoAt = (index) => {
@@ -79,7 +91,8 @@ const ProjectFactory = (factoryObject) => {
     addTodo,
     getTodos,
     getTodoAt,
-    deleteTodo
+    deleteTodo,
+    deleteTodos
   }
 }
 
