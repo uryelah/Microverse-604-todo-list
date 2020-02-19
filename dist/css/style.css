@@ -64,6 +64,19 @@ button {
   transition: 0.3s ease-in;
 }
 
+.editable-content {
+  padding: 5px 10px;
+  border: 1px solid var(--blue-grey);
+  border-radius: 15px;
+  background-color: #ffffff99;
+  cursor: text;
+}
+
+.editable-content:hover, .editable-content:active {
+  border: 1px solid var(--boyzone);
+  box-shadow: 0 0 3px 0 var(--highblue);
+}
+
 .hidden {
   display: none !important;
 }
@@ -560,6 +573,16 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   height: max-content;
+}
+
+.main-deleted {
+  background-color: var(--blue-grey) !important;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.main-deleted h1 {
+  text-decoration: line-through !important;
 }
 
 #project-title {

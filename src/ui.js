@@ -82,28 +82,20 @@ const todoForm = (projectId) => {
   </form>`
 }; 
 
-const projectDetails = (projectId) => `<article id="0-project-open" class="modal-details project-details">
-<h2 class="project-title">Project Title</h2>
-<p class="project-creator">Created by: User</p>
-<p class="project-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo, cupiditate esse error molestias dolorum minus laborum culpa perferendis asperiores odit aspernatur, totam sit deleniti maxime pariatur tenetur sint, quia blanditiis!</p>
-<div class="project-todo-today">
-    <p class="mini-todos">Task for today:</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-    <p class="todo brief-todo">task1, 2am</p>
-    <p class="todo brief-todo">task2, 11am</p>
-</div>   
-<button id="project-delete" type="button" data-project='${projectId}'>Delete</button>             
-</article>`
+const projectDetails = (project, edit = false) => {
+  const deleteBtn = `<button id="project-delete" type="button" data-project='${project.id}'>Delete</button>`;
+  const editBtn = `<button id="project-update" type="button" data-project='${project.id}'>Update Project</button>`;
+  const projectCreator = `<p class="project-creator">Created by: ${project.creator}</p>`;
+  const todos = `<div class="project-todo-today"><h3>Todos in this project: ${project.todos.length}</h3></div>`;
+
+  return `<article id="0-project-open" class="modal-details project-details">
+    <h2 ${ edit ? 'contenteditable="true" class="editable-content ' : 'class="' }project-title">${project.title}</h2>
+    ${ !edit ? projectCreator : '' }
+    <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class="' }project-description">${project.description}</p>
+    ${ !edit ? todos : '' }
+    ${ !edit ? deleteBtn : editBtn }             
+  </article>`
+}
 
 const todoDetails = `<article id="0-todo-open" class="modal-details todo-details">
 <h2 class="todo-title">Todo Title</h2>
@@ -155,6 +147,7 @@ const ui = () => {
   const progress = document.getElementsByClassName('ongoing')[0];
   const progressTab = document.getElementById('progress-tab');
   const viewTodosBtn = document.getElementById('view-todos');
+  const editProjectBtn = document.getElementById('edit-project');
   
   let delTodoBtns;
 
@@ -174,6 +167,8 @@ const ui = () => {
       document.getElementById(`${todo}-todo`).remove();
     })
     modal.classList.add('modal-closed');
+    projectTitle.innerText = 'Deleted';
+    openProject.classList.add('main-deleted');
   }
 
   const turnNumber = (str) => {
@@ -246,6 +241,39 @@ const ui = () => {
 
     projectClickEvent();
   }
+
+  const updateProject = (project) => {
+    const editablePro = document.getElementById(`${project.id}-pro`);
+    editablePro.innerText = project.title;
+
+    activeProject(editablePro);
+  }
+
+  editProjectBtn.addEventListener('click', e => {
+    const newProject = {
+      title: '',
+      description: ''
+    }
+
+    const projectId = turnNumber(openProject.id);
+    const projectData = ProjectArchive.getProjectAt(projectId).getProjectInfo();
+    modalContent.innerHTML = projectDetails(projectData, true);
+    modal.classList.remove('modal-closed');
+
+    document.getElementById('project-update').addEventListener('click', e => {
+      const projectId = parseInt(e.target.dataset.project);
+
+      const updatedProTitle = modal.querySelector('.project-title').innerText;
+      const updatedProDescription = modal.querySelector('.project-description').innerText;
+      
+      newProject.title = updatedProTitle;
+      newProject.description = updatedProDescription;
+
+      const updatedProject = ProjectArchive.getProjectAt(projectId).editProject(newProject);
+      updateProject(updatedProject);
+      modal.classList.add('modal-closed');
+    })
+  });
 
   populateProjects();
 
@@ -363,11 +391,11 @@ const ui = () => {
   });
 
   projectTitle.addEventListener('click', () => {
-    let projectData = openProject.id;
-    projectData.replace('-open', '');
-    modalContent.innerHTML = projectDetails(turnNumber(projectData));
+    const projectId = turnNumber(openProject.id);
+    const projectData = ProjectArchive.getProjectAt(projectId).getProjectInfo();
+    modalContent.innerHTML = projectDetails(projectData);
     modal.classList.remove('modal-closed');
-    modalContent.setAttribute('data-type', projectData);
+    modalContent.setAttribute('data-type', projectData.id);
     document.getElementById('project-delete').addEventListener('click', e => deleteProject(e.target))
   });
 

@@ -83,6 +83,13 @@ const ProjectFactory = (factoryObject) => {
     }
   }
 
+  const editProject = (updatedObj) => {
+    title = updatedObj.title !== '' ? updatedObj.title : title;
+    description = updatedObj.description !== '' ? updatedObj.description : description;
+
+    return getProjectInfo();
+  }
+
   return {
     getId,
     getTodosForToday,
@@ -92,7 +99,8 @@ const ProjectFactory = (factoryObject) => {
     getTodos,
     getTodoAt,
     deleteTodo,
-    deleteTodos
+    deleteTodos,
+    editProject
   }
 }
 
