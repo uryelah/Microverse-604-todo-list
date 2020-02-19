@@ -84,6 +84,8 @@ const TodoFactory = (factoryObject) => {
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
 
+  
+
   const getTodoInfo = () => {
     isDue()
     return {
@@ -136,11 +138,16 @@ const TodoFactory = (factoryObject) => {
     return expired;
   }
 
-  const toggleComplete = () => {
+  const toggleComplete = (check) => {
     if (expired) return;
-
-    completed = !completed
+    
+    if (check === true) {
+      completed = true;
+    } else {
+      completed = false;
+    };
   }
+
   return {
     getId,
     getTodoInfo,

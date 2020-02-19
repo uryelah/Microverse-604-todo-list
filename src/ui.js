@@ -1,4 +1,5 @@
 import { ProjectArchive, ProjectFactory } from './project';
+import { TodoArchieve } from './todo';
 
 const projectForm = `<h2>New Project</h2>
 <form id="project-form" class="modal-form">
@@ -158,6 +159,12 @@ const ui = () => {
     document.getElementById(`${todoId}-todo`).remove();
   }
 
+  const toggleCompleteTodo = (checkbox) => {
+    const todoId = parseInt(checkbox.dataset.todo);
+    TodoArchieve.getTodoAt(todoId).toggleComplete(checkbox.checked);
+    console.log(TodoArchieve.getTodoAt(todoId).getTodoInfo())
+  }
+
   const deleteProject = (project) => {
     const projectId = parseInt(project.dataset.project);
     document.getElementById(`${projectId}-pro`).remove();
@@ -181,7 +188,7 @@ const ui = () => {
     todoData.forEach(t => {
       let todo = t.getTodoInfo();
       containerTodos.innerHTML += `<article id="${todo.id}-todo" class="todo">
-      <input type="checkbox" class="todo-complete">
+      <input type="checkbox" class="todo-complete" data-todo="${todo.id}">
       <div class="todo-date">
           <time datetime="2020-02-14 20:00">${todo.time}</time>
           <time datetime="2020-02-14 20:00">${todo.date}</time>
@@ -196,7 +203,9 @@ const ui = () => {
     [...document.getElementsByClassName('todo-delete')].forEach(btn => {
       btn.addEventListener('click', e => deleteTodo(e.target) )
     });
-
+    [...document.getElementsByClassName('todo-complete')].forEach( checkbox => {
+      checkbox.addEventListener('change', (e) => toggleCompleteTodo(e.target))
+    })
   };
   populateTodos(0);
 
