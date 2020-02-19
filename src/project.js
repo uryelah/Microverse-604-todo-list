@@ -43,13 +43,16 @@ const ProjectFactory = (factoryObject) => {
   const getTitle = () => title;
 
   const addTodo = (object) => {
-    console.log(object.project)
     object.project = id;
     const newTodo = TodoFactory(object);
-    console.log(newTodo.getTodoInfo());
     todos.push(newTodo.getId());
     TodoArchieve.addTodo(newTodo);
     return newTodo;
+  }
+
+  const deleteTodo = (todoId) => {
+    todos.splice(todoId, 1);
+    TodoArchieve.deleteTodo(todoId);
   }
 
   const getTodos = () => TodoArchieve.getTodosByIds(todos);
@@ -75,7 +78,8 @@ const ProjectFactory = (factoryObject) => {
     getTitle,
     addTodo,
     getTodos,
-    getTodoAt
+    getTodoAt,
+    deleteTodo
   }
 }
 

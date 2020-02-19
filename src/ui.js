@@ -159,7 +159,10 @@ const ui = () => {
   let delTodoBtns;
 
   const deleteTodo = (todo) => {
-    todo.parentElement.parentElement.remove();
+    const todoId = parseInt(todo.dataset.todo);
+    const projectId = parseInt(todo.dataset.project);
+    ProjectArchive.getProjectAt(projectId).deleteTodo(todoId);
+    document.getElementById(`${todoId}-todo`).remove();
   }
 
   const turnNumber = (str) => {
@@ -180,7 +183,7 @@ const ui = () => {
       <h4 class="todo-title">${todo.title}</h4>
       <div class="todo-priority todo-${todo.priority}">${todo.priority}</div>
       <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
-      <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+      <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todo.id}" data-project="${todo.project}"><i class="fas fa-times" data-todo="${todo.id}" data-project="${todo.project}"></i>
       </button>                 
   </article>`
     });
