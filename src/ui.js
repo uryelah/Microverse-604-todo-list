@@ -159,8 +159,7 @@ const ui = () => {
   let delTodoBtns;
 
   const deleteTodo = (todo) => {
-    todo.remove();
-    console.log('delete todo');
+    todo.parentElement.parentElement.remove();
   }
 
   const turnNumber = (str) => {
@@ -186,7 +185,7 @@ const ui = () => {
   </article>`
     });
     [...document.getElementsByClassName('todo-delete')].forEach(btn => {
-      btn.addEventListener('mouseenter', e => deleteTodo(e.target) )
+      btn.addEventListener('click', e => deleteTodo(e.target) )
     });
 
   };
@@ -282,7 +281,9 @@ const ui = () => {
 
   const addEventToTodos = (todos) => {
     todos.forEach(todo => {
-      todo.addEventListener('click', () => {
+      todo.addEventListener('click', e => {
+        if (e.target.classList.contains('todo-delete') || e.target.classList.contains('fas')) return;
+
         modalContent.innerHTML = todoDetails;
         modal.classList.remove('modal-closed');
         modalContent.setAttribute('data-type', todo.id);
