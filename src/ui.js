@@ -155,6 +155,17 @@ const ui = () => {
   const progress = document.getElementsByClassName('ongoing')[0];
   const progressTab = document.getElementById('progress-tab');
   const viewTodosBtn = document.getElementById('view-todos');
+  
+  let delTodoBtns;
+
+  const deleteTodo = (todo) => {
+    todo.remove();
+    console.log('delete todo');
+  }
+
+  const turnNumber = (str) => {
+    return parseInt(str.match(/\d+/)[0]);
+  }
 
   const populateTodos = (projectId) => {
     let todoData = ProjectArchive.getProjectAt(projectId).getTodos();
@@ -174,6 +185,10 @@ const ui = () => {
       </button>                 
   </article>`
     });
+    [...document.getElementsByClassName('todo-delete')].forEach(btn => {
+      btn.addEventListener('mouseenter', e => deleteTodo(e.target) )
+    });
+
   };
   populateTodos(0);
 
@@ -184,8 +199,7 @@ const ui = () => {
     openProject.classList = `main-list main-${project.id}`;
     openProject.querySelector('h1').innerText = project.innerText;
     containerTodos = document.getElementById('container-todos');
-    let projectId = project.id
-    projectId = parseInt(projectId.match(/\d+/)[0]);
+    let projectId = turnNumber(project.id);    
     populateTodos(projectId);
   }
 
@@ -304,7 +318,7 @@ const ui = () => {
 
   addTodo.addEventListener('click', () => {
     openProject = document.getElementsByClassName('main-list')[0];
-    modalContent.innerHTML = todoForm(parseInt(openProject.id[0]));
+    modalContent.innerHTML = todoForm(turnNumber(openProject.id));
     modal.classList.remove('modal-closed');
 
     const newTodoForm = document.getElementById('todo-form');
@@ -321,10 +335,10 @@ const ui = () => {
           formValues[`${element.name}`] = element.value;
         }
       });
-      let newTodo = ProjectArchive.getProjectAt(parseInt(openProject.id[0])).addTodo(formValues);
+      let newTodo = ProjectArchive.getProjectAt(turnNumber(openProject.id)).addTodo(formValues);
 
-      let projectId = openProject.id;
-      projectId = parseInt(projectId.match(/\d+/)[0]);
+      let projectId = turnNumber(openProject.id);
+      
 
       addNewTodo(projectId, newTodo);
 
