@@ -43,8 +43,10 @@ const ProjectFactory = (factoryObject) => {
   const getTitle = () => title;
 
   const addTodo = (object) => {
+    console.log(object.project)
     object.project = id;
     const newTodo = TodoFactory(object);
+    console.log(newTodo.getTodoInfo());
     todos.push(newTodo.getId());
     TodoArchieve.addTodo(newTodo);
     return newTodo;

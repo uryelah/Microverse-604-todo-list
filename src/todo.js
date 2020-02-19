@@ -5,9 +5,10 @@ const Todos = () => {
 	let priority = ['low', 'normal', 'high'];
 	const todoList = {};
 
-	const addTodo = (project) => {
-    todoList[project.getId()] = project;
-    return todoList[project.getId()];
+	const addTodo = (todo) => {
+
+    todoList[todo.getId()] = todo;
+    return todoList[todo.getId()];
 	}
 	
 	const getTodos = () => {
@@ -48,6 +49,7 @@ const TodoArchieve = Todos();
 
 const TodoFactory = (factoryObject) => {
 		let {createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve} = factoryObject;
+		console.log('PROJECT AT CREATION: ', project)
 		priority = archieve.getPriority(priority);
 		date = new Date(date);
 		if(time === ''){

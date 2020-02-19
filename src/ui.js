@@ -20,65 +20,67 @@ const projectForm = `<h2>New Project</h2>
     <button type="submit">Add Project</button>
 </form>`
 
-const todoForm = `<h2>New Todo</h2>
-<form id="todo-form" class="modal-form">
-    <div>
-        <label for="todo-title">
-        Title:
-        </label>
-        <input type="text" name="title" id="todo-title" required>
-    </div>
-
-    <div>
-        <label for="todo-title">
-        Priority:
-        </label>
-        <select name="priority" id="todo-priority" required>
-            <option value="0">Low</option>
-            <option value="1">Normal</option>
-            <option value="2">High</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="todo-date">
-        Due at:
-        </label>
-        <input type="date" name="date" id="todo-date" required>
-    </div>
-
-    <div>
-        <label for="todo-time">
-        Time:
-        </label>
-        <input type="time" name="time" id="todo-time">
-    </div>
-
-    <div>
-        <label for="todo-duration">
-        Duration:
-        </label>
-        <input type="number" min='0' step=5 name="duration" id="todo-duration">
-        <small>Time in minutes</small>
-    </div>
-
-    <div>
-        <label for="todo-tag">
-        Tags:
-        </label>
-        <input type="text" name="tag" id="todo-tag">
-        <small>Separate each tag with a comma.</small>
-    </div>
-    <div>
-        <label for="todo-description">
-        Description:
-        </label>
-        <textarea type="text" name="description" id="todo-description" required></textarea>
-    </div>
-    <input type="hidden" name="project" id="todo-project" value="0">
-
-    <button type="submit">Add todo</button>
-</form>`
+const todoForm = (projectId) => {
+  return `<h2>New Todo</h2>
+  <form id="todo-form" class="modal-form">
+      <div>
+          <label for="todo-title">
+          Title:
+          </label>
+          <input type="text" name="title" id="todo-title" required>
+      </div>
+  
+      <div>
+          <label for="todo-title">
+          Priority:
+          </label>
+          <select name="priority" id="todo-priority" required>
+              <option value="0">Low</option>
+              <option value="1">Normal</option>
+              <option value="2">High</option>
+          </select>
+      </div>
+  
+      <div>
+          <label for="todo-date">
+          Due at:
+          </label>
+          <input type="date" name="date" id="todo-date" required>
+      </div>
+  
+      <div>
+          <label for="todo-time">
+          Time:
+          </label>
+          <input type="time" name="time" id="todo-time">
+      </div>
+  
+      <div>
+          <label for="todo-duration">
+          Duration:
+          </label>
+          <input type="number" min='0' step=5 name="duration" id="todo-duration" value=0>
+          <small>Time in minutes</small>
+      </div>
+  
+      <div>
+          <label for="todo-tag">
+          Tags:
+          </label>
+          <input type="text" name="tag" id="todo-tag">
+          <small>Separate each tag with a comma.</small>
+      </div>
+      <div>
+          <label for="todo-description">
+          Description:
+          </label>
+          <textarea type="text" name="description" id="todo-description" required></textarea>
+      </div>
+      <input type="hidden" name="project" id="todo-project" value="${projectId}">
+  
+      <button type="submit">Add todo</button>
+  </form>`
+}; 
 
 const projectDetails = `<article id="0-project-open" class="modal-details project-details">
 <h2 class="project-title">Project Title</h2>
@@ -139,7 +141,7 @@ const ui = () => {
 
   const projectsContainer = document.getElementById('all-projects');
   const projects = document.getElementsByClassName('project');
-  const openProject = document.getElementsByClassName('main-list')[0];
+  let openProject = document.getElementsByClassName('main-list')[0];
 
   const showMore = document.getElementsByClassName('show-more');
 
@@ -152,42 +154,74 @@ const ui = () => {
 
   const progress = document.getElementsByClassName('ongoing')[0];
   const progressTab = document.getElementById('progress-tab');
+  const viewTodosBtn = document.getElementById('view-todos');
 
+  const populateTodos = (projectId) => {
+    let todoData = ProjectArchive.getProjectAt(projectId).getTodos();
+    containerTodos.innerHTML = ``;
+    todoData.forEach(t => {
+      let todo = t.getTodoInfo();
+      containerTodos.innerHTML += `<article id="${todo.id}-todo" class="todo">
+      <input type="checkbox" class="todo-complete">
+      <div class="todo-date">
+          <time datetime="2020-02-14 20:00">${todo.time}</time>
+          <time datetime="2020-02-14 20:00">${todo.date}</time>
+      </div>
+      <h4 class="todo-title">${todo.title}</h4>
+      <div class="todo-priority todo-${todo.priority}">${todo.priority}</div>
+      <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+      <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+      </button>                 
+  </article>`
+    });
+  };
+  populateTodos(0);
+
+  const activeProject = (project) => {
+    projectsContainer.scrollTo(0, 0);
+    project.classList.add('project-active');
+    openProject.id = `${project.id}-open`;
+    openProject.classList = `main-list main-${project.id}`;
+    openProject.querySelector('h1').innerText = project.innerText;
+    containerTodos = document.getElementById('container-todos');
+    let projectId = project.id
+    projectId = parseInt(projectId.match(/\d+/)[0]);
+    populateTodos(projectId);
+  }
 
   const projectClickEvent = () => {
     [...document.getElementsByClassName('project')].forEach((project, i, arr) => {
       project.addEventListener('click', () => {
         arr.forEach(p => {
           if (p === project) {
-            projectsContainer.scrollTo(0, 0);
-            project.classList.add('project-active');
-            openProject.id = `${project.id}-open`;
-            openProject.classList = `main-list main-${project.id}`;
-            openProject.querySelector('h1').innerText = project.innerText;
-            containerTodos = document.getElementById('container-todos');
+            activeProject(project);
           } else {
             p.classList.remove('project-active');
           }
         });
       });
     });
-  }
+  };
 
   // Populate projects fomr Project Archive
   const populateProjects = () => {
     projectsContainer.innerHTML = '';
 
     const currentProjects = ProjectArchive.getProjects();
-    
-    currentProjects.forEach(project => {
-      projectsContainer.innerHTML += `<article id="${project.getId()}-pro" class="project">${project.getTitle()}</article>`
+
+    currentProjects.forEach((project, i) => {
+      projectsContainer.innerHTML += `<article id="${project.getId()}-pro" class="project ${i === 0 ? 'project-active' : ''}">${project.getTitle()}</article>`
+
+      if (i === 0) {
+        activeProject(projectsContainer.lastElementChild);        
+      }
     });
 
     projectClickEvent();
   }
 
   populateProjects();
-  
+
   progressTab.addEventListener('click', () => {
     progress.classList.toggle('hidden');
   });
@@ -204,12 +238,12 @@ const ui = () => {
 
     newProjectForm.addEventListener('submit', e => {
       modal.classList.add('modal-closed');
-      
+
       let formValues = {};
 
       [...e.target].forEach((element, i, arr) => {
         if (i == arr.length - 1) return;
-        
+
         formValues[`${element.name}`] = element.value;
       });
 
@@ -222,13 +256,35 @@ const ui = () => {
     });
   });
 
-  const addNewTodo = () => {
-    let todoData = ProjectArchive.getProjectAt(0).getTodos();
-            todoData = todoData[todoData.length -1];
-            todoData = todoData.getTodoInfo();
+  const openTodos = (btn) => {
+    let sibling = btn.nextElementSibling;
+    sibling.classList.toggle('collapsed');
+    if (sibling.classList.contains('collapsed')) {
+      btn.querySelector('span').innerText = 'View all';
+    } else {
+      btn.querySelector('span').innerText = 'Hide';
+    }
+  }
+
+  const addEventToTodos = (todos) => {
+    todos.forEach(todo => {
+      todo.addEventListener('click', () => {
+        modalContent.innerHTML = todoDetails;
+        modal.classList.remove('modal-closed');
+        modalContent.setAttribute('data-type', todo.id);
+      });
+    });
+  }
+
+  const addNewTodo = (projectId, newTodo) => {
+    let todoData;// = ProjectArchive.getProjectAt(projectId).getTodos();
+    //todoData = todoData[todoData.length - 1];
+    console.log(newTodo.getTodoInfo());
     
-            
-            containerTodos.innerHTML += ` <article id="${todoData.id}-todo" class="todo">
+    todoData = newTodo.getTodoInfo();
+
+
+    containerTodos.innerHTML += ` <article id="${todoData.id}-todo" class="todo">
             <input type="checkbox" class="todo-complete">
             <div class="todo-date">
                 <time datetime="2020-02-14 20:00">${todoData.time}</time>
@@ -241,48 +297,39 @@ const ui = () => {
             </button>                 
         </article>`;
 
+    const currentTodos = document.getElementsByClassName('todo');
+    addEventToTodos([...currentTodos]);
+    openTodos(viewTodosBtn);
   };
-
-  const populateTodos = () => {
-    let todoData = ProjectArchive.getProjectAt(0).getTodos();
-    containerTodos.innerHTML = ``;
-    todoData.forEach(todo => {
-      let todoData = todo.getTodoInfo();
-      containerTodos.innerHTML = ` <article id="${todoData.id}-todo" class="todo">
-      <input type="checkbox" class="todo-complete">
-      <div class="todo-date">
-          <time datetime="2020-02-14 20:00">${todoData.time}</time>
-          <time datetime="2020-02-14 20:00">${todoData.date}</time>
-      </div>
-      <h4 class="todo-title">${todoData.title}</h4>
-      <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
-      <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
-      <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
-      </button>                 
-  </article>`
-    });
-  };
-  populateTodos();
 
   addTodo.addEventListener('click', () => {
-    modalContent.innerHTML = todoForm;
+    openProject = document.getElementsByClassName('main-list')[0];
+    modalContent.innerHTML = todoForm(parseInt(openProject.id[0]));
     modal.classList.remove('modal-closed');
 
     const newTodoForm = document.getElementById('todo-form');
-          newTodoForm.addEventListener('submit', (e)=> {
-            modal.classList.add('modal-closed'); 
+    newTodoForm.addEventListener('submit', (e) => {
+      modal.classList.add('modal-closed');
 
-            let formValues = {};
+      let formValues = {};
 
-            [...e.target].forEach((element, i, arr) => {
-              if (i == arr.length - 1) return;
-              formValues[`${element.name}`] = element.value;
-            });
-            let newTodo = ProjectArchive.getProjectAt(0).addTodo(formValues);
-            addNewTodo();
+      [...e.target].forEach((element, i, arr) => {
+        if (i == arr.length - 1) return;
+        if (element.name === 'project') {
+          formValues[`${element.name}`] = parseInt(element.value);          
+        } else {
+          formValues[`${element.name}`] = element.value;
+        }
+      });
+      let newTodo = ProjectArchive.getProjectAt(parseInt(openProject.id[0])).addTodo(formValues);
 
-            e.preventDefault();    
-          });
+      let projectId = openProject.id;
+      projectId = parseInt(projectId.match(/\d+/)[0]);
+
+      addNewTodo(projectId, newTodo);
+
+      e.preventDefault();
+    });
 
   });
 
@@ -291,26 +338,12 @@ const ui = () => {
     projectData.replace('-open', '');
     modalContent.innerHTML = projectDetails;
     modal.classList.remove('modal-closed');
-    modalContent.setAttribute('data-type',projectData);
+    modalContent.setAttribute('data-type', projectData);
   });
 
-  [...projectTodos, nextTodo].forEach((todo) => {
-    todo.addEventListener('click', () => {
-      modalContent.innerHTML = todoDetails;
-      modal.classList.remove('modal-closed');
-      modalContent.setAttribute('data-type',todo.id);
-    })
-  });
-
-  [...showMore].forEach( btn => {
+  [...showMore].forEach(btn => {
     btn.addEventListener('click', () => {
-      let sibling = btn.nextElementSibling;
-      sibling.classList.toggle('collapsed');
-      if (sibling.classList.contains('collapsed')) {
-        btn.querySelector('span').innerText = 'View all';
-      } else {
-        btn.querySelector('span').innerText = 'Hide';
-      }
+      openTodos(btn);
     });
   });
 };
