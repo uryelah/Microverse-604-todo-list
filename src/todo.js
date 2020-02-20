@@ -108,6 +108,10 @@ const TodoFactory = (factoryObject) => {
   const editTodo = (updatedTodo) => {
     title = updatedTodo.title;
     description = updatedTodo.description;
+    priority = updatedTodo.priority;
+    duration = parseInt(updatedTodo.duration)* 60000;
+    date = new Date(updatedTodo.date);
+    tags = updatedTodo.tags.split(',');
 
     return getTodoInfo();
   }

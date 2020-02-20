@@ -136,7 +136,7 @@ ${ edit ? ' ' : startBtn }
     <p>Tags:</p>
     <p class="todo-tag child-card card-green"></p>
     <p class="todo-tag child-card card-red"></p>
-    <p ${ edit ? 'contenteditable="true"  class="editable-content" ' : ''} >${todo.tags.join(' ')}</p>
+    <p ${ edit ? 'contenteditable="true"  class="editable-content todo-new-tags" ' : ''} >${todo.tags.join(' ')}</p>
 </div> 
 ${ edit ? editBtn : ' '};
 </article>` 
@@ -313,9 +313,18 @@ const ui = () => {
 
       const newTitle = modal.getElementsByClassName('todo-title')[0].innerText;
       const newDescription = modal.getElementsByClassName('todo-description')[0].innerText;
+      const newPriority = modal.getElementsByClassName('priority')[0].innerText;
+      const newDuration = modal.getElementsByClassName('duration')[0].innerText;
+      const newDate = modal.getElementsByClassName('day-time')[0].innerText;
+      const newTags = modal.getElementsByClassName('todo-new-tags')[0].innerText;
 
       updatedTodoInfo.title = newTitle;
       updatedTodoInfo.description = newDescription;
+      updatedTodoInfo.priority = newPriority;
+      updatedTodoInfo.duration = newDuration;
+      updatedTodoInfo.date = newDate;
+      updatedTodoInfo.tags = newTags;
+
 
       console.log(todo.editTodo(updatedTodoInfo));
     })
