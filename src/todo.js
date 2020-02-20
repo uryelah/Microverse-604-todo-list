@@ -105,6 +105,11 @@ const TodoFactory = (factoryObject) => {
     }
   }
 
+  const editTodo = () => {
+    title = "testin change title";
+    return getTodoInfo();
+  }
+
   const addTag = (tag) => {
     tags.push(tag);
   }
@@ -155,7 +160,8 @@ const TodoFactory = (factoryObject) => {
     getTime,
     getExpired,
     toggleComplete,
-    startTask
+    startTask,
+    editTodo
   };
 }
 

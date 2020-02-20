@@ -192,11 +192,11 @@ const ui = () => {
   const editTodo = (todo) => {
     editTodoBtn = document.getElementById('edit-todo');
     const todoId = parseInt(todo.dataset.todo);
-    const editableTodo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
-    addEventToEdit();
+    const curTodo = TodoArchieve.getTodoAt(todoId);
+    const editableTodo = curTodo.getTodoInfo();
     modal.classList.remove('modal-closed');
     modalContent.innerHTML = todoDetails(editableTodo, true);
-
+    addEventToEdit(curTodo);
 
     console.log(';lol')
   }
@@ -309,9 +309,9 @@ const ui = () => {
     projectClickEvent();
   }
 
-  const addEventToEdit = () => {
-    todoProjectBtn.addEventListener('click', e => {
-      console.log('teste edit btn')
+  const addEventToEdit = (todo) => {
+    document.getElementById('todo-update').addEventListener('click', e => {
+    console.log(todo.editTodo())
     })
   }
 
