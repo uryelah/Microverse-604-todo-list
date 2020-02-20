@@ -511,7 +511,7 @@ button {
   height: 100%;
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(4, max-content) 1fr max-content;
+  grid-template-columns: repeat(6, max-content) 1fr max-content;
   box-sizing: border-box;
   padding: 0 20px;
   overflow: hidden;
@@ -533,6 +533,10 @@ button {
   cursor: pointer;
 }
 
+.left-nav:first-child {
+  cursor: text;
+}
+
 .left-nav, .right-nav {
   font-weight: 400;
   font-size: 1.2rem;
@@ -540,7 +544,7 @@ button {
 }
 
 .right-nav {
-  grid-column: 6;
+  grid-column: 8;
   border-left: none !important;
   color: var(--blue-grey);
 }

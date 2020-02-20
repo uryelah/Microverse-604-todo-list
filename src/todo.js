@@ -45,6 +45,36 @@ const Todos = () => {
     return result;
   }
 
+  const todosByPriority = () => {
+    const todos = getTodos();
+    const result = Object.values(todos);
+
+    result.sort((a, b) => {
+      const timeA = a.getPriority();
+      const timeB = b.getPriority();
+
+      if (timeA < timeB) {
+        return 1;
+      }
+      if (timeA > timeB) {
+        return -1;
+      }
+
+      return 0;
+    })
+
+    return result;
+  }
+
+  const completedTodos = () => {
+    const todos = getTodos();
+    let result = Object.values(todos);
+
+    result = result.filter(todo => todo.getCompleted());
+
+    return result;
+  }
+
   const getTodosByIds = (arr) => {
     let todoArray = [];
     arr.forEach(id => {
@@ -74,7 +104,9 @@ const Todos = () => {
     getTodosByIds,
     deleteTodo,
     deleteTodos,
-    todosByNewest
+    todosByNewest,
+    todosByPriority,
+    completedTodos
   }
 }
 
@@ -82,7 +114,6 @@ const TodoArchieve = Todos();
 
 const TodoFactory = (factoryObject) => {
   let { createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
-  priority = archieve.getPriority(priority);
   date = new Date(date);
 
   date.setDate(date.getDate() + 1);
@@ -105,6 +136,8 @@ const TodoFactory = (factoryObject) => {
   let inProgress = false;
 
   const getId = () => id;
+  const getCompleted = () => completed;
+  const getPriority = () => priority;
   const getRawTime = () => time;  
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
@@ -117,7 +150,7 @@ const TodoFactory = (factoryObject) => {
       createdAt: getCreatedAt(),
       title,
       description,
-      priority,
+      priority: archieve.getPriority(priority),
       date: getDate(),
       time: getTime(),
       tags,
@@ -125,7 +158,7 @@ const TodoFactory = (factoryObject) => {
       expired,
       completed,
       duration,
-      inProgress
+      inProgress,
     }
   }
 
@@ -192,7 +225,9 @@ const TodoFactory = (factoryObject) => {
     toggleComplete,
     startTask,
     editTodo,
-    getRawTime
+    getRawTime,
+    getPriority,
+    getCompleted
   };
 }
 

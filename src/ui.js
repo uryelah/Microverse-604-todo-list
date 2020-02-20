@@ -167,13 +167,23 @@ const ui = () => {
   const viewTodosBtn = document.getElementById('view-todos');
   const editProjectBtn = document.getElementById('edit-project');
   const AlltodosBtn = document.getElementById('see-all'); 
+  const AllPriorityBtn = document.getElementById('see-all-priority');
+  const AllCompletedBtn = document.getElementById('see-completed');
 
   let editTodoBtn;
   
   let delTodoBtns;
 
   AlltodosBtn.addEventListener('click', e => {
-    populateTodos();
+    populateTodos(false, 'DATE');
+  });
+
+  AllPriorityBtn.addEventListener('click', e => {
+    populateTodos(false, 'PRIORITY');
+  });
+
+  AllCompletedBtn.addEventListener('click', e => {
+    populateTodos(false, 'COMPLETED');
   });
 
   const deleteTodo = (todo) => {
@@ -250,20 +260,26 @@ const ui = () => {
     }
   }
 
-  const populateTodos = (projectId = false) => {
+  const populateTodos = (projectId, sortType) => {
     let todoData;
     
     if (projectId !== false) {
       todoData = ProjectArchive.getProjectAt(projectId).getTodos();
     } else {
-      todoData = TodoArchieve.todosByNewest();
+      if (sortType === 'DATE') {
+        todoData = TodoArchieve.todosByNewest();
+      } else if (sortType === 'PRIORITY') {
+        todoData = TodoArchieve.todosByPriority();
+      }  else if (sortType === 'COMPLETED') {
+        todoData = TodoArchieve.completedTodos();
+      }       
     }
 
     containerTodos.innerHTML = ``;
     todoData.forEach(t => {
       let todo = t.getTodoInfo();
-      containerTodos.innerHTML += `<article id="${todo.id}-todo" class="todo">
-      <input type="checkbox" class="todo-complete" data-todo="${todo.id}">
+      containerTodos.innerHTML += `<article id="${todo.id}-todo" class="todo ${ todo.completed ? 'checked' : ''}">
+      <input type="checkbox" ${ todo.completed ? 'checked="true"' : ''} class="todo-complete" data-todo="${todo.id}">
       <div class="todo-date">
           <time datetime="2020-02-14 20:00">${todo.time}</time>
           <time datetime="2020-02-14 20:00">${todo.date}</time>
