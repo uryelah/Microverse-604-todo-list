@@ -166,9 +166,15 @@ const ui = () => {
   const progressTab = document.getElementById('progress-tab');
   const viewTodosBtn = document.getElementById('view-todos');
   const editProjectBtn = document.getElementById('edit-project');
+  const AlltodosBtn = document.getElementById('see-all'); 
+
   let editTodoBtn;
   
   let delTodoBtns;
+
+  AlltodosBtn.addEventListener('click', e => {
+    populateTodos();
+  });
 
   const deleteTodo = (todo) => {
     const todoId = parseInt(todo.dataset.todo);
@@ -244,8 +250,15 @@ const ui = () => {
     }
   }
 
-  const populateTodos = (projectId) => {
-    let todoData = ProjectArchive.getProjectAt(projectId).getTodos();
+  const populateTodos = (projectId = false) => {
+    let todoData;
+    
+    if (projectId !== false) {
+      todoData = ProjectArchive.getProjectAt(projectId).getTodos();
+    } else {
+      todoData = TodoArchieve.todosByNewest();
+    }
+
     containerTodos.innerHTML = ``;
     todoData.forEach(t => {
       let todo = t.getTodoInfo();
@@ -274,6 +287,7 @@ const ui = () => {
       editBtn.addEventListener('click', e => editTodo(e.target))
     });
   };
+
   populateTodos(0);
 
   const activeProject = (project) => {
@@ -283,7 +297,7 @@ const ui = () => {
     openProject.classList = `main-list main-${project.id}`;
     openProject.querySelector('h1').innerText = project.innerText;
     containerTodos = document.getElementById('container-todos');
-    let projectId = turnNumber(project.id);    
+    let projectId = turnNumber(project.id);  
     populateTodos(projectId);
   }
 
@@ -460,7 +474,7 @@ const ui = () => {
             </div>
             <h4 class="todo-title">${todoData.title}</h4>
             <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
-            <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todo.id}"><i class="far fa-edit" data-todo="${todo.id}"></i></button>
+            <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todoData.id}"><i class="far fa-edit" data-todo="${todoData.id}"></i></button>
             <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todoData.id}" data-project="${todoData.project}"><i class="fas fa-times"  data-todo="${todoData.id}" data-project="${todoData.project}"></i>
             </button>                 
         </article>`;

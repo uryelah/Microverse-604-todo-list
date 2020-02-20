@@ -24,6 +24,27 @@ const Todos = () => {
     return todoList;
   }
 
+  const todosByNewest = () => {
+    const todos = getTodos();
+    const result = Object.values(todos);
+
+    result.sort((a, b) => {
+      const timeA = a.getRawTime();
+      const timeB = b.getRawTime();
+
+      if (timeA < timeB) {
+        return -1;
+      }
+      if (timeA > timeB) {
+        return 1;
+      }
+
+      return 0;
+    })
+
+    return result;
+  }
+
   const getTodosByIds = (arr) => {
     let todoArray = [];
     arr.forEach(id => {
@@ -52,7 +73,8 @@ const Todos = () => {
     getTodoAt,
     getTodosByIds,
     deleteTodo,
-    deleteTodos
+    deleteTodos,
+    todosByNewest
   }
 }
 
@@ -62,6 +84,9 @@ const TodoFactory = (factoryObject) => {
   let { createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
   priority = archieve.getPriority(priority);
   date = new Date(date);
+
+  date.setDate(date.getDate() + 1);
+
   if (time === '') {
     time = date;
     time.setHours(23);
@@ -72,19 +97,18 @@ const TodoFactory = (factoryObject) => {
     time = date;
     time.setHours(parseInt(formTime[0]));
     time.setMinutes(parseInt(formTime[1]));
-
   };
+
   let id = archieve.getId();
   let expired = false;
   let completed = false;
   let inProgress = false;
 
   const getId = () => id;
+  const getRawTime = () => time;  
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
-
-  
 
   const getTodoInfo = () => {
     isDue()
@@ -167,7 +191,8 @@ const TodoFactory = (factoryObject) => {
     getExpired,
     toggleComplete,
     startTask,
-    editTodo
+    editTodo,
+    getRawTime
   };
 }
 
