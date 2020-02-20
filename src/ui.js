@@ -169,6 +169,8 @@ const ui = () => {
   const AlltodosBtn = document.getElementById('see-all'); 
   const AllPriorityBtn = document.getElementById('see-all-priority');
   const AllCompletedBtn = document.getElementById('see-completed');
+  const AllIncompletedBtn = document.getElementById('see-incompleted');
+  const AllExpiredBtn = document.getElementById('see-expired');
 
   let editTodoBtn;
   
@@ -184,6 +186,14 @@ const ui = () => {
 
   AllCompletedBtn.addEventListener('click', e => {
     populateTodos(false, 'COMPLETED');
+  });
+
+  AllIncompletedBtn.addEventListener('click', e => {
+    populateTodos(false, 'INCOMPLETED')
+  });
+
+  AllExpiredBtn.addEventListener('click', e => {
+    populateTodos(false, 'EXPIRED')
   });
 
   const deleteTodo = (todo) => {
@@ -272,9 +282,13 @@ const ui = () => {
         todoData = TodoArchieve.todosByPriority();
       }  else if (sortType === 'COMPLETED') {
         todoData = TodoArchieve.completedTodos();
-      }       
+      }  else if (sortType === 'INCOMPLETED') {
+        todoData = TodoArchieve.incompletedTodos();
+      }  else if (sortType === 'EXPIRED') {
+        todoData = TodoArchieve.expiredTodos();
+      }
     }
-
+    
     containerTodos.innerHTML = ``;
     todoData.forEach(t => {
       let todo = t.getTodoInfo();
