@@ -233,6 +233,17 @@ const ui = () => {
     });
   }
 
+  const updateNextTodo = (todo) => {
+    let nextTodo = document.getElementById(`${todo.id}-todo-next`);
+
+    if (nextTodo) {
+      nextTodo.innerHTML = `
+      <strong>${todo.title}</strong>
+      <time>${todo.time}</time>
+      `
+    }
+  }
+
   const populateTodos = (projectId) => {
     let todoData = ProjectArchive.getProjectAt(projectId).getTodos();
     containerTodos.innerHTML = ``;
@@ -313,10 +324,28 @@ const ui = () => {
 
       const newTitle = modal.getElementsByClassName('todo-title')[0].innerText;
       const newDescription = modal.getElementsByClassName('todo-description')[0].innerText;
-      const newPriority = modal.getElementsByClassName('priority')[0].innerText;
-      const newDuration = modal.getElementsByClassName('duration')[0].innerText;
-      const newDate = modal.getElementsByClassName('day-time')[0].innerText;
+      let newPriority = modal.getElementsByClassName('priority')[0].innerText.toLowerCase();
+      let newDuration = parseInt(modal.getElementsByClassName('duration')[0].innerText);
+      let newDate = modal.getElementsByClassName('day-time')[0].innerText;
       const newTags = modal.getElementsByClassName('todo-new-tags')[0].innerText;
+
+      if (['low', 'normal', 'high'].includes(newPriority)) {
+        updatedTodoInfo.duration = ['low', 'normal', 'high'].indexOf(newPriority);
+      } else {
+        newPriority = false;
+      }
+
+      if (isNaN(newDuration)) {
+        newDuration = false;
+      }
+
+      newDate = newDate.match(/\b\d\d\d\d\/\d\d\/\d\d\b/)
+
+      if (newDate === null) {
+        newDate = false;
+      } else {
+        newDate = newDate[0];
+      }
 
       updatedTodoInfo.title = newTitle;
       updatedTodoInfo.description = newDescription;
@@ -325,12 +354,17 @@ const ui = () => {
       updatedTodoInfo.date = newDate;
       updatedTodoInfo.tags = newTags;
 
+      todo.editTodo(updatedTodoInfo);
 
-      console.log(todo.editTodo(updatedTodoInfo));
+      updatedTodoInfo = todo.getTodoInfo();
+
+      populateTodos(updatedTodoInfo.project);
+
+      updateNextTodo(updatedTodoInfo);
+
+      modal.classList.add('modal-closed');
     })
   }
-
-  
 
   const updateProject = (project) => {
     const editablePro = document.getElementById(`${project.id}-pro`);
