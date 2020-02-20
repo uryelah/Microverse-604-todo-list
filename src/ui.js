@@ -98,33 +98,50 @@ const projectDetails = (project, edit = false) => {
   </article>`
 }
 
-const todoDetails = `<article id="0-todo-open" class="modal-details todo-details">
-<h2 class="todo-title">Todo Title</h2>
-<button id="toggle-completed" class="todo-incomplete action-btn" type="button">Complete todo</button>
-<p class="todo-description">Description
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates id molestias fuga omnis! Fugit doloribus quod nemo ex provident maiores voluptates in, consequuntur dolorem, cupiditate ipsum, debitis iure dicta dolore!
-</p>
-<p class="todo-created-at">Created at:<span class="created-at">Thursday, 11 | 11:30am</span></p>
+const todoDetails = (todo, edit = false) => {
+  const completeBtn = `<button id="toggle-completed" class="todo-incomplete action-btn" type="button">Complete todo</button>`
+  const editBtn = `<button id="todo-update" type="button" data-todo='${todo.id}'>Update Todo</button>`;
+  const startBtn = `<button type="button" class="todo-start-btn action-btn">Start task</button>`
+  const createdAt = `<p class="todo-created-at">Created at:<span class="created-at">${todo.createdAt}</span></p>`
+  const completed = `<div class="todo-status">
+  <p>Completed: <span class="status status-completed">${todo.completed}</span></p>
+</div>`
+
+  return `<article id="0-todo-open" class="modal-details todo-details">
+
+<h2 ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} todo-title">${todo.title}</h2> 
+${ edit ? ' ' : completeBtn }
+
+<p ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} todo-description"> ${todo.description}</p>
+
+${ edit ? ' ' : createdAt }
+
 <div class="todo-priority">
-    <p>Priority: <span class=" priority priority-high">High</span></p>
+    <p>Priority: <span ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} priority priority-high">${todo.priority}</span></p>
 </div>
+
 <div class="todo-date-time">
-    <p class="remaning-time">Next Week</p>
-    <p class="day-time">Thursday, 18 | 9:30pm</p>
+    <p class="remaning-time"></p>
+    <p ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} day-time">${todo.date}</p>
 </div>
-<div class="todo-status">
-    <p>Status: <span class="status status-completed">Completed</span></p>
-</div>
+
+
+${ edit ? ' ' : completed }
+
 <div class="todo-duration">
-    <p>Duration: <span class="duration">2h</span></p>
+    <p>Duration: <span ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} duration">${parseInt(todo.duration/60000)}</span> minutes</p>
 </div>
-<button type="button" class="todo-start-btn action-btn">Start task</button>
+${ edit ? ' ' : startBtn }
 <div class="todo-tags">
     <p>Tags:</p>
-    <p class="todo-tag child-card card-green">#tag1</p>
-    <p class="todo-tag child-card card-red">#tag2</p>
-</div>                
-</article>`
+    <p class="todo-tag child-card card-green"></p>
+    <p class="todo-tag child-card card-red"></p>
+    <p ${ edit ? 'contenteditable="true"  class="editable-content" ' : ''} >${todo.tags.join(' ')}</p>
+</div> 
+${ edit ? editBtn : ' '};
+</article>` 
+
+};
 
 const ui = () => {
   const modal = document.getElementById("modal");
@@ -149,6 +166,7 @@ const ui = () => {
   const progressTab = document.getElementById('progress-tab');
   const viewTodosBtn = document.getElementById('view-todos');
   const editProjectBtn = document.getElementById('edit-project');
+  let editTodoBtn;
   
   let delTodoBtns;
 
@@ -172,6 +190,14 @@ const ui = () => {
   }
 
   const editTodo = (todo) => {
+    editTodoBtn = document.getElementById('edit-todo');
+    const todoId = parseInt(todo.dataset.todo);
+    const editableTodo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
+    addEventToEdit();
+    modal.classList.remove('modal-closed');
+    modalContent.innerHTML = todoDetails(editableTodo, true);
+
+
     console.log(';lol')
   }
 
@@ -199,7 +225,10 @@ const ui = () => {
         if (e.target.classList.contains('todo-edit') || e.target.classList.contains('far')) return;
         if (e.target.classList.contains('todo-complete')) return;
 
-        modalContent.innerHTML = todoDetails;
+        const todoId = turnNumber(todo.id);
+        const todoInfo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
+
+        modalContent.innerHTML = todoDetails(todoInfo);
         modal.classList.remove('modal-closed');
         modalContent.setAttribute('data-type', todo.id);
       });
@@ -219,7 +248,7 @@ const ui = () => {
       </div>
       <h4 class="todo-title">${todo.title}</h4>
       <div class="todo-priority todo-${todo.priority}">${todo.priority}</div>
-      <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+      <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todo.id}"><i class="far fa-edit" data-todo="${todo.id}"></i></button>
       <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todo.id}" data-project="${todo.project}"><i class="fas fa-times" data-todo="${todo.id}" data-project="${todo.project}"></i>
       </button>                 
   </article>`
@@ -279,6 +308,14 @@ const ui = () => {
 
     projectClickEvent();
   }
+
+  const addEventToEdit = () => {
+    todoProjectBtn.addEventListener('click', e => {
+      console.log('teste edit btn')
+    })
+  }
+
+  
 
   const updateProject = (project) => {
     const editablePro = document.getElementById(`${project.id}-pro`);
@@ -374,7 +411,7 @@ const ui = () => {
             </div>
             <h4 class="todo-title">${todoData.title}</h4>
             <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
-            <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
+            <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todo.id}"><i class="far fa-edit" data-todo="${todo.id}"></i></button>
             <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todoData.id}" data-project="${todoData.project}"><i class="fas fa-times"  data-todo="${todoData.id}" data-project="${todoData.project}"></i>
             </button>                 
         </article>`;
