@@ -105,8 +105,10 @@ const TodoFactory = (factoryObject) => {
     }
   }
 
-  const editTodo = () => {
-    title = "testin change title";
+  const editTodo = (updatedTodo) => {
+    title = updatedTodo.title;
+    description = updatedTodo.description;
+
     return getTodoInfo();
   }
 

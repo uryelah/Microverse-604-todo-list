@@ -197,8 +197,6 @@ const ui = () => {
     modal.classList.remove('modal-closed');
     modalContent.innerHTML = todoDetails(editableTodo, true);
     addEventToEdit(curTodo);
-
-    console.log(';lol')
   }
 
   const deleteProject = (project) => {
@@ -311,7 +309,15 @@ const ui = () => {
 
   const addEventToEdit = (todo) => {
     document.getElementById('todo-update').addEventListener('click', e => {
-    console.log(todo.editTodo())
+      let updatedTodoInfo = {};
+
+      const newTitle = modal.getElementsByClassName('todo-title')[0].innerText;
+      const newDescription = modal.getElementsByClassName('todo-description')[0].innerText;
+
+      updatedTodoInfo.title = newTitle;
+      updatedTodoInfo.description = newDescription;
+
+      console.log(todo.editTodo(updatedTodoInfo));
     })
   }
 
