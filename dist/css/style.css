@@ -593,6 +593,18 @@ button {
   background-color: #ffffff55;
 }
 
+.main-list .checked {
+  background-color: #00000055;
+  color: #ffffff55;
+  text-decoration: line-through #ffffff55;
+}
+
+.checked button, .checked .todo-priority {
+  filter: saturate(0.3);
+  opacity: 0.5;
+  text-decoration: line-through var(--innuendo);
+}
+
 .main-0-pro {
   background-color: var(--desire);
 }

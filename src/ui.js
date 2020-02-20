@@ -161,8 +161,18 @@ const ui = () => {
 
   const toggleCompleteTodo = (checkbox) => {
     const todoId = parseInt(checkbox.dataset.todo);
+    const todo = document.getElementById(`${todoId}-todo`);
     TodoArchieve.getTodoAt(todoId).toggleComplete(checkbox.checked);
-    console.log(TodoArchieve.getTodoAt(todoId).getTodoInfo())
+
+    if (checkbox.checked) {
+      todo.classList.add('checked');
+    } else {
+      todo.classList.remove('checked');
+    }
+  }
+
+  const editTodo = (todo) => {
+    console.log(';lol')
   }
 
   const deleteProject = (project) => {
@@ -180,6 +190,20 @@ const ui = () => {
 
   const turnNumber = (str) => {
     return parseInt(str.match(/\d+/)[0]);
+  }
+  
+  const addEventToTodos = (todos) => {
+    todos.forEach(todo => {
+      todo.addEventListener('click', e => {
+        if (e.target.classList.contains('todo-delete') || e.target.classList.contains('fas')) return;
+        if (e.target.classList.contains('todo-edit') || e.target.classList.contains('far')) return;
+        if (e.target.classList.contains('todo-complete')) return;
+
+        modalContent.innerHTML = todoDetails;
+        modal.classList.remove('modal-closed');
+        modalContent.setAttribute('data-type', todo.id);
+      });
+    });
   }
 
   const populateTodos = (projectId) => {
@@ -200,12 +224,17 @@ const ui = () => {
       </button>                 
   </article>`
     });
+    addEventToTodos([...document.getElementsByClassName('todo')]);
+
     [...document.getElementsByClassName('todo-delete')].forEach(btn => {
       btn.addEventListener('click', e => deleteTodo(e.target) )
     });
-    [...document.getElementsByClassName('todo-complete')].forEach( checkbox => {
-      checkbox.addEventListener('change', (e) => toggleCompleteTodo(e.target))
-    })
+    [...document.getElementsByClassName('todo-complete')].forEach(checkbox => {
+      checkbox.addEventListener('change', e => toggleCompleteTodo(e.target))
+    });
+    [...document.getElementsByClassName('todo-edit')].forEach(editBtn => {
+      editBtn.addEventListener('click', e => editTodo(e.target))
+    });
   };
   populateTodos(0);
 
@@ -330,18 +359,6 @@ const ui = () => {
     }
   }
 
-  const addEventToTodos = (todos) => {
-    todos.forEach(todo => {
-      todo.addEventListener('click', e => {
-        if (e.target.classList.contains('todo-delete') || e.target.classList.contains('fas')) return;
-
-        modalContent.innerHTML = todoDetails;
-        modal.classList.remove('modal-closed');
-        modalContent.setAttribute('data-type', todo.id);
-      });
-    });
-  }
-
   const addNewTodo = (projectId, newTodo) => {
     let todoData;// = ProjectArchive.getProjectAt(projectId).getTodos();
     //todoData = todoData[todoData.length - 1];
@@ -349,9 +366,8 @@ const ui = () => {
     
     todoData = newTodo.getTodoInfo();
 
-
     containerTodos.innerHTML += ` <article id="${todoData.id}-todo" class="todo">
-            <input type="checkbox" class="todo-complete">
+            <input type="checkbox" class="todo-complete"  data-todo="${todoData.id}">
             <div class="todo-date">
                 <time datetime="2020-02-14 20:00">${todoData.time}</time>
                 <time datetime="2020-02-14 20:00">${todoData.date}</time>
@@ -359,12 +375,21 @@ const ui = () => {
             <h4 class="todo-title">${todoData.title}</h4>
             <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
             <button type="button" class="todo-edit add-btn edit-btn"><i class="far fa-edit"></i></button>
-            <button type="button" class="todo-delete add-btn delete-btn"><i class="fas fa-times"></i>
+            <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todoData.id}" data-project="${todoData.project}"><i class="fas fa-times"  data-todo="${todoData.id}" data-project="${todoData.project}"></i>
             </button>                 
         </article>`;
 
     const currentTodos = document.getElementsByClassName('todo');
     addEventToTodos([...currentTodos]);
+    [...document.getElementsByClassName('todo-delete')].forEach(btn => {
+      btn.addEventListener('click', e => deleteTodo(e.target));
+    });
+    [...document.getElementsByClassName('todo-complete')].forEach(checkbox => {
+      checkbox.addEventListener('change', e => toggleCompleteTodo(e.target));
+    });
+    [...document.getElementsByClassName('todo-edit')].forEach(editBtn => {
+      editBtn.addEventListener('click', e => editTodo(e.target));
+    });
     openTodos(viewTodosBtn);
   };
 
