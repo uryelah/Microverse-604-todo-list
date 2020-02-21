@@ -37,11 +37,13 @@ This project consists in a application that users can create projects and set a 
 
     - create maximum 7 projects;
     - create todos inside projects;
-    - see completed, incompleted and expired tasks;
-    - mark tasks as completed;
-    - set a day and time to each task;
-    - see the next task;
-    - see tasks ordered by date or by priority.
+    - see completed, incompleted and expired todos;
+    - mark todos as completed;
+    - set a day and time to each todo;
+    - set low, normal and high priority to each todo;
+    - see the next todo;
+    - see todos ordered by date or by priority;
+    - edit and delete todos.
 
 <div align="center">
   <img src="public/img/todo.png" width="900">
