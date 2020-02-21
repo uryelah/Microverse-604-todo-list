@@ -1,5 +1,3 @@
-import {TodoFactory, TodoArchieve} from './todo';
-import {ProjectFactory, ProjectArchieve} from './project';
 import ui from './ui';
 
 window.onload = () => {

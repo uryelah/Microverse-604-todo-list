@@ -24,7 +24,7 @@ const Todos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter( todo => !todo.getExpired());
+    result = result.filter(todo => !todo.getExpired());
     return result;
   }
 
@@ -83,7 +83,7 @@ const Todos = () => {
     const todos = getTodos();
     let result = Object.values(todos);
 
-    result = result.filter( todo => !todo.getCompleted());
+    result = result.filter(todo => !todo.getCompleted());
 
     return result;
   }
@@ -92,7 +92,7 @@ const Todos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter( todo => todo.getExpired());
+    result = result.filter(todo => todo.getExpired());
     return result;
 
   }
@@ -134,8 +134,6 @@ const Todos = () => {
   }
 }
 
-const TodoArchieve = Todos();
-
 const TodoFactory = (factoryObject) => {
   let { createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
   date = new Date(date);
@@ -162,11 +160,11 @@ const TodoFactory = (factoryObject) => {
   const getId = () => id;
   const getCompleted = () => completed;
   const getPriority = () => priority;
-  const getRawTime = () => time;  
+  const getRawTime = () => time;
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
-  const getExpired = () =>  {
+  const getExpired = () => {
     return expired;
   }
 
@@ -234,7 +232,7 @@ const TodoFactory = (factoryObject) => {
 
   const toggleComplete = (check) => {
     if (expired) return;
-    
+
     if (check === true) {
       completed = true;
     } else {
@@ -256,5 +254,7 @@ const TodoFactory = (factoryObject) => {
     getExpired
   };
 }
+
+const TodoArchieve = Todos();
 
 export { TodoFactory, TodoArchieve };

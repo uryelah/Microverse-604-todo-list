@@ -9,10 +9,10 @@ const todoDetails = (todo, edit = false) => {
 
     return `<article id="0-todo-open" class="modal-details todo-details">
   
-  <h2 ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} todo-title">${todo.title}</h2> 
+  <h2 ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} todo-title title">${todo.title}</h2> 
   ${ edit ? ' ' : completeBtn}
   
-  <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} todo-description"> ${todo.description}</p>
+  <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} todo-description description"> ${todo.description}</p>
   
   ${ edit ? ' ' : createdAt}
   
@@ -22,7 +22,7 @@ const todoDetails = (todo, edit = false) => {
   
   <div class="todo-date-time">
       <p class="remaning-time"></p>
-      <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} day-time">${todo.date}</p>
+      <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class=" '} day-time date">${todo.date}</p>
   </div>
   
   
@@ -36,7 +36,7 @@ const todoDetails = (todo, edit = false) => {
       <p>Tags:</p>
       <p class="todo-tag child-card card-green"></p>
       <p class="todo-tag child-card card-red"></p>
-      <p ${ edit ? 'contenteditable="true"  class="editable-content todo-new-tags" ' : ''} >${todo.tags.join(' ')}</p>
+      <p ${ edit ? 'contenteditable="true"  class="editable-content todo-new-tags tags" ' : ''} >${todo.tags.join(' ')}</p>
   </div> 
   ${ edit ? editBtn : ' '};
   </article>`

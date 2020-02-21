@@ -1,59 +1,14 @@
 import { TodoFactory, TodoArchieve } from './todo';
-
-const Projects = () => {
-  let count = 0;
-  const projectList = [];
-  const projectLimit = 7;
-
-  const getId = () => {
-    return count++
-  }
-
-  const getCount = () => count;
-
-  const getLimit = () => projectLimit;
-
-  const addProject = (project) => {
-    if (count > projectLimit) return;
-    projectList.push(project);
-  }
-
-  const deleteProject = (projectId) => {
-   
-    projectList.splice(projectId, 1);
-
-  }
-
-  const getProjects = () => {
-    return projectList;
-  }
-
-  const getProjectAt = (index) => {
-    return projectList[index];
-  }
-
-  return {
-    getId,
-    getCount,
-    getLimit,
-    addProject,
-    getProjects,
-    getProjectAt,
-    deleteProject
-  }
-}
+import { Projects } from './projectArchive';
 
 const ProjectArchive = Projects();
 
 const ProjectFactory = (factoryObject) => {
-  let { title, description, todos = [], creator, archieve = ProjectArchive } = factoryObject;
+  let { storedId, title, description, todos = [], creator, archieve = ProjectArchive } = factoryObject;
 
-  let id = archieve.getId();
+  let id = typeof storedId === 'number' ? storedId : archieve.getId();
 
   const getId = () => id;
-  const getTodosForToday = () => {
-
-  }
 
   const getTitle = () => title;
 
@@ -100,7 +55,6 @@ const ProjectFactory = (factoryObject) => {
 
   return {
     getId,
-    getTodosForToday,
     getProjectInfo,
     getTitle,
     addTodo,
@@ -112,11 +66,10 @@ const ProjectFactory = (factoryObject) => {
   }
 }
 
-
 const myProject = ProjectFactory({ title: 'Default Project', description: 'This is the default description. :-)', creator: 'Sarah' });
-ProjectArchive.addProject(myProject);
+//ProjectArchive.addProject(myProject);
 
-let myFac = myProject.addTodo({ title: 'Default todo', description: 'Default descrition', priority: 1, time:"10:46", date:"2020-02-27", duration: 20000 });
+//let myFac = myProject.addTodo({ title: 'Default todo', description: 'Default descrition', priority: 1, time: "10:46", date: "2020-02-27", duration: 20000 });
 
 
 const completitionLoader = {
@@ -124,4 +77,11 @@ const completitionLoader = {
   }
 }
 
-export { ProjectArchive, ProjectFactory };
+const projectsFromStore = ProjectArchive.parseFromStorage();
+
+projectsFromStore.forEach(project => {
+  ProjectArchive.addProject(project)
+  ProjectArchive.addProject(project)
+});
+
+export { ProjectFactory, ProjectArchive };
