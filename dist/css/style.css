@@ -231,6 +231,11 @@ button {
 
 /*------====|TO DO DETAILS|====----*/
 
+.todo-start-btn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .todo-details {
   display: grid;
   grid-template-columns: 1fr 100px;

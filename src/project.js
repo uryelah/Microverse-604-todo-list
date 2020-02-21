@@ -73,12 +73,6 @@ const ProjectFactory = (factoryObject) => {
   }
 }
 
-//const myProject = ProjectFactory({ title: 'Default Project', description: 'This is the default description. :-)', creator: 'Sarah' });
-//ProjectArchive.addProject(myProject);
-
-//let myFac = myProject.addTodo({ title: 'Default todo', description: 'Default descrition', priority: 1, time: "10:46", date: "2020-02-27", duration: 20000 });
-
-
 const completitionLoader = {
   receive: (percentage) => {
   }

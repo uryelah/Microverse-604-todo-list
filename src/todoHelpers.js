@@ -26,7 +26,7 @@ const todoHelpers = (function () {
 
   const getNextTodo = function () {
     const nextTodo = TodoArchieve.todosByNewest(true);
-    const todo = nextTodo.getTodoInfo()
+    const todo = nextTodo.getTodoInfo();
     document.getElementById('next-task').innerHTML = `<article id="${todo.id}-todo-next" class="todo brief-todo">
     <strong>${todo.title}</strong>
     <time>${todo.time}</time>

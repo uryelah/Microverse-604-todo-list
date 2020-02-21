@@ -45,9 +45,18 @@ const Events = (function () {
           const todoInfo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
   
           modalHelpers.open(todoDetails(todoInfo), todo.id);
+
+          document.getElementById('toggle-completed').addEventListener('click', e => {
+            const todoId = parseInt(e.target.dataset.todo);
+            const todo = document.getElementById(`${todoId}-todo`);
+
+            TodoArchieve.getTodoAt(todoId).toggleComplete(true);
+    
+            todo.classList.add('checked');
+           });
         });
       });
-  
+      
       [...document.getElementsByClassName('todo-delete')].forEach(btn => {
         btn.addEventListener('click', e => todoHelpers.deleteTodo(e.target) )
       });
