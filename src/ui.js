@@ -266,6 +266,8 @@ const ui = () => {
     if (projectId !== false) {
       todoData = ProjectArchive.getProjectAt(projectId).getTodos();
     } else {
+      openProject.id = 'all-todos';
+      openProject.classList.add('main-all');
       if (sortType === 'DATE') {
         todoData = TodoArchieve.todosByNewest();
       } else if (sortType === 'PRIORITY') {
