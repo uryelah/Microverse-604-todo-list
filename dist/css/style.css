@@ -142,6 +142,7 @@ button {
   z-index: 500;
   overflow-y: scroll;
   scrollbar-width: none;
+  border-radius: 20px;
 }
 
 .modal-content {
@@ -330,6 +331,21 @@ button {
   text-align: center;
   position: relative;
   background-color: var(--c64-ntsc);
+  position: relative;
+}
+
+.project-limit {
+  font-size: 1rem;
+  color: var(--blue-horizon);
+  text-shadow: none;
+  position: absolute;
+  bottom: 5px;
+}
+
+.warn-project-limit {
+  color: var(--fusion-red);
+  text-shadow: 0 0 2px #ffa39d!important;
+  animation: 1s pulse 2;
 }
 
 .add-btn {
@@ -577,10 +593,12 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   height: max-content;
+  border-radius: 20px;
+  box-shadow: 1px 1px 8px 0 var(--blue-grey), 1px 1px 15px 0 var(--blue-grey-50);
 }
 
-.main-all {
-  background-color: var(--sparkle-blue) !important;
+.main-all .show-more {
+  color: var(--blue-grey);
 }
 
 .main-deleted {
@@ -605,6 +623,48 @@ button {
   background-color: #00000055;
   color: #ffffff55;
   text-decoration: line-through #ffffff55;
+}
+
+.main-all .expired-todo {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.main-all {
+  background-color: var(--sparkle-blue) !important;
+}
+
+.main-all .todo {
+  text-shadow: 2px 2px 0 var(--blue-grey-50);
+  background-color: var(--blue-grey-50);
+}
+
+#all-todos .checked {
+  background-color: #ffffff55 !important;
+  color: var(--blue-grey-50);
+  text-decoration: line-through var(--blue-grey-50);
+}
+
+#all-todos [data-project='0'] {
+  background-color: var(--fusion-red);
+}
+#all-todos [data-project='1'] {
+  background-color: var(--orange-hibiscus);
+}
+#all-todos [data-project='2'] {
+  background-color: var(--flirtatious);
+}
+#all-todos [data-project='3'] {
+  background-color: var(--reptile-green);
+}
+#all-todos [data-project='4'] {
+  background-color: var(--turquoise-topaz);
+}
+#all-todos [data-project='5'] {
+  background-color: var(--highblue);
+}
+#all-todos [data-project='6'] {
+  background-color: var(--lighter-purple);
 }
 
 .checked button, .checked .todo-priority {
@@ -877,4 +937,20 @@ button {
 .card-dark-blue {
   border-color: var(--royal-blue);
   background-color: var(--c64-ntsc);
+}
+
+/* ------------------------------- */
+/*------====|ANIMATIONS|=====------*/
+/* ------------------------------- */
+
+@keyframes pulse {
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
 }

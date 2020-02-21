@@ -21,7 +21,11 @@ const Todos = () => {
   }
 
   const getTodos = () => {
-    return todoList;
+    const todos = todoList;
+    let result = Object.values(todos);
+
+    result = result.filter( todo => !todo.getExpired());
+    return result;
   }
 
   const todosByNewest = () => {
@@ -85,11 +89,10 @@ const Todos = () => {
   }
 
   const expiredTodos = () => {
-    const todos = getTodos();
+    const todos = todoList;
     let result = Object.values(todos);
 
     result = result.filter( todo => todo.getExpired());
-
     return result;
 
   }
@@ -158,12 +161,14 @@ const TodoFactory = (factoryObject) => {
 
   const getId = () => id;
   const getCompleted = () => completed;
-  const getExpired = () => expired;
   const getPriority = () => priority;
   const getRawTime = () => time;  
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
+  const getExpired = () =>  {
+    return expired;
+  }
 
   const getTodoInfo = () => {
     isDue()
@@ -188,8 +193,10 @@ const TodoFactory = (factoryObject) => {
     title = updatedTodo.title;
     description = updatedTodo.description;
     priority = updatedTodo.priority ? updatedTodo.priority : priority;
+
     duration = updatedTodo.duration ? updatedTodo.duration * 60000 : duration;
     date = updatedTodo.date ? new Date(updatedTodo.date) : date;
+    time = updatedTodo.date ? new Date(updatedTodo.date) : date;
     tags = updatedTodo.tags.split(',');
     isDue();
 

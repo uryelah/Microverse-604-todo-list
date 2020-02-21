@@ -1,147 +1,10 @@
 import { ProjectArchive, ProjectFactory } from './project';
 import { TodoArchieve } from './todo';
-
-const projectForm = `<h2>New Project</h2>
-<form id="project-form" class="modal-form">
-    <div>
-        <label for="project-title">
-        Project title:
-        </label>
-        <input type="text" name="title" id="project-title" required>
-    </div>
-
-    <div>
-        <label for="project-description">
-        Project description:
-        </label>
-        <textarea name="description" id="project-description" required></textarea>
-    </div>
-    <input type="hidden" name="creator" id="project-creator" value="user">
-
-    <button type="submit">Add Project</button>
-</form>`
-
-const todoForm = (projectId) => {
-  return `<h2>New Todo</h2>
-  <form id="todo-form" class="modal-form">
-      <div>
-          <label for="todo-title">
-          Title:
-          </label>
-          <input type="text" name="title" id="todo-title" required>
-      </div>
-  
-      <div>
-          <label for="todo-title">
-          Priority:
-          </label>
-          <select name="priority" id="todo-priority" required>
-              <option value="0">Low</option>
-              <option value="1">Normal</option>
-              <option value="2">High</option>
-          </select>
-      </div>
-  
-      <div>
-          <label for="todo-date">
-          Due at:
-          </label>
-          <input type="date" name="date" id="todo-date" required>
-      </div>
-  
-      <div>
-          <label for="todo-time">
-          Time:
-          </label>
-          <input type="time" name="time" id="todo-time">
-      </div>
-  
-      <div>
-          <label for="todo-duration">
-          Duration:
-          </label>
-          <input type="number" min='0' step=5 name="duration" id="todo-duration" value=0>
-          <small>Time in minutes</small>
-      </div>
-  
-      <div>
-          <label for="todo-tag">
-          Tags:
-          </label>
-          <input type="text" name="tag" id="todo-tag">
-          <small>Separate each tag with a comma.</small>
-      </div>
-      <div>
-          <label for="todo-description">
-          Description:
-          </label>
-          <textarea type="text" name="description" id="todo-description" required></textarea>
-      </div>
-      <input type="hidden" name="project" id="todo-project" value="${projectId}">
-  
-      <button type="submit">Add todo</button>
-  </form>`
-}; 
-
-const projectDetails = (project, edit = false) => {
-  const deleteBtn = `<button id="project-delete" type="button" data-project='${project.id}'>Delete</button>`;
-  const editBtn = `<button id="project-update" type="button" data-project='${project.id}'>Update Project</button>`;
-  const projectCreator = `<p class="project-creator">Created by: ${project.creator}</p>`;
-  const todos = `<div class="project-todo-today"><h3>Todos in this project: ${project.todos.length}</h3></div>`;
-
-  return `<article id="0-project-open" class="modal-details project-details">
-    <h2 ${ edit ? 'contenteditable="true" class="editable-content ' : 'class="' }project-title">${project.title}</h2>
-    ${ !edit ? projectCreator : '' }
-    <p ${ edit ? 'contenteditable="true" class="editable-content ' : 'class="' }project-description">${project.description}</p>
-    ${ !edit ? todos : '' }
-    ${ !edit ? deleteBtn : editBtn }             
-  </article>`
-}
-
-const todoDetails = (todo, edit = false) => {
-  const completeBtn = `<button id="toggle-completed" class="todo-incomplete action-btn" type="button">Complete todo</button>`
-  const editBtn = `<button id="todo-update" type="button" data-todo='${todo.id}'>Update Todo</button>`;
-  const startBtn = `<button type="button" class="todo-start-btn action-btn">Start task</button>`
-  const createdAt = `<p class="todo-created-at">Created at:<span class="created-at">${todo.createdAt}</span></p>`
-  const completed = `<div class="todo-status">
-  <p>Completed: <span class="status status-completed">${todo.completed}</span></p>
-</div>`
-
-  return `<article id="0-todo-open" class="modal-details todo-details">
-
-<h2 ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} todo-title">${todo.title}</h2> 
-${ edit ? ' ' : completeBtn }
-
-<p ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} todo-description"> ${todo.description}</p>
-
-${ edit ? ' ' : createdAt }
-
-<div class="todo-priority">
-    <p>Priority: <span ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} priority priority-high">${todo.priority}</span></p>
-</div>
-
-<div class="todo-date-time">
-    <p class="remaning-time"></p>
-    <p ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} day-time">${todo.date}</p>
-</div>
-
-
-${ edit ? ' ' : completed }
-
-<div class="todo-duration">
-    <p>Duration: <span ${ edit ? 'contenteditable="true" class="editable-content ': 'class=" '} duration">${parseInt(todo.duration/60000)}</span> minutes</p>
-</div>
-${ edit ? ' ' : startBtn }
-<div class="todo-tags">
-    <p>Tags:</p>
-    <p class="todo-tag child-card card-green"></p>
-    <p class="todo-tag child-card card-red"></p>
-    <p ${ edit ? 'contenteditable="true"  class="editable-content todo-new-tags" ' : ''} >${todo.tags.join(' ')}</p>
-</div> 
-${ edit ? editBtn : ' '};
-</article>` 
-
-};
+import projectForm from './modal/projectForm';
+import todoForm from './modal/todoForm';
+import projectDetails from './modal/projectDetails';
+import todoDetails from './modal/todoDetails';
+import modalHelpers from './modal/modalHelpers';
 
 const ui = () => {
   const modal = document.getElementById("modal");
@@ -152,6 +15,9 @@ const ui = () => {
   const projectsContainer = document.getElementById('all-projects');
   const projects = document.getElementsByClassName('project');
   let openProject = document.getElementsByClassName('main-list')[0];
+  const projectCount = document.getElementById('project-count');
+  const projectLimit = document.getElementById('project-limit');
+  projectLimit.innerHTML = `Projects limit: ${ProjectArchive.getLimit()}`
 
   const showMore = document.getElementsByClassName('show-more');
 
@@ -161,6 +27,7 @@ const ui = () => {
   const projectTodos = containerTodos.getElementsByClassName('todo');
   const nextTodoArea = document.getElementById('next-task');
   const nextTodo = nextTodoArea.querySelector('.todo');
+  let count;
 
   const progress = document.getElementsByClassName('ongoing')[0];
   const progressTab = document.getElementById('progress-tab');
@@ -175,6 +42,24 @@ const ui = () => {
   let editTodoBtn;
   
   let delTodoBtns;
+
+  const openTodos = (btn, toggle) => {
+    let sibling = btn.nextElementSibling;
+
+    if (toggle === 'open') {
+      sibling.classList.remove('collapsed');
+    } else if (toggle === 'close') {
+      sibling.classList.add('collapsed');
+    } else {
+      sibling.classList.toggle('collapsed');
+    }
+
+    if (sibling.classList.contains('collapsed')) {
+      btn.querySelector('span').innerText = 'View all';
+    } else {
+      btn.querySelector('span').innerText = 'Hide';
+    }
+  }
 
   AlltodosBtn.addEventListener('click', e => {
     populateTodos(false, 'DATE');
@@ -252,9 +137,7 @@ const ui = () => {
         const todoId = turnNumber(todo.id);
         const todoInfo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
 
-        modalContent.innerHTML = todoDetails(todoInfo);
-        modal.classList.remove('modal-closed');
-        modalContent.setAttribute('data-type', todo.id);
+        modalHelpers.open(todoDetails(todoInfo), todo.id)
       });
     });
   }
@@ -280,27 +163,32 @@ const ui = () => {
       openProject.classList.add('main-all');
       if (sortType === 'DATE') {
         todoData = TodoArchieve.todosByNewest();
+        projectTitle.innerText = 'Projects by date'
       } else if (sortType === 'PRIORITY') {
         todoData = TodoArchieve.todosByPriority();
+        projectTitle.innerText = 'Projects by priority'
       }  else if (sortType === 'COMPLETED') {
         todoData = TodoArchieve.completedTodos();
+        projectTitle.innerText = 'Completed projects'
       }  else if (sortType === 'INCOMPLETED') {
         todoData = TodoArchieve.incompletedTodos();
+        projectTitle.innerText = 'Incompleted projetcs'
       }  else if (sortType === 'EXPIRED') {
         todoData = TodoArchieve.expiredTodos();
+        projectTitle.innerText = 'Expired projects'
       }
     }
     
     containerTodos.innerHTML = ``;
     todoData.forEach(t => {
       let todo = t.getTodoInfo();
-      containerTodos.innerHTML += `<article id="${todo.id}-todo" class="todo ${ todo.completed ? 'checked' : ''}">
+      containerTodos.innerHTML += `<article id="${todo.id}-todo" data-project="${todo.project}" class="todo ${todo.expired ? 'expired-todo' : ''} ${ todo.completed ? 'checked' : ''}">
       <input type="checkbox" ${ todo.completed ? 'checked="true"' : ''} class="todo-complete" data-todo="${todo.id}">
       <div class="todo-date">
           <time datetime="2020-02-14 20:00">${todo.time}</time>
           <time datetime="2020-02-14 20:00">${todo.date}</time>
       </div>
-      <h4 class="todo-title">${todo.title}</h4>
+      <h4 class="todo-title">${todo.expired ? '[EXPIRED] ' : ''}${todo.title}</h4>
       <div class="todo-priority todo-${todo.priority}">${todo.priority}</div>
       <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todo.id}"><i class="far fa-edit" data-todo="${todo.id}"></i></button>
       <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todo.id}" data-project="${todo.project}"><i class="fas fa-times" data-todo="${todo.id}" data-project="${todo.project}"></i>
@@ -318,6 +206,8 @@ const ui = () => {
     [...document.getElementsByClassName('todo-edit')].forEach(editBtn => {
       editBtn.addEventListener('click', e => editTodo(e.target))
     });
+
+    openTodos(viewTodosBtn, 'open');
   };
 
   populateTodos(0);
@@ -362,6 +252,7 @@ const ui = () => {
     });
 
     projectClickEvent();
+    projectCount.innerText = ProjectArchive.getCount();
   }
 
   const addEventToEdit = (todo) => {
@@ -376,7 +267,7 @@ const ui = () => {
       const newTags = modal.getElementsByClassName('todo-new-tags')[0].innerText;
 
       if (['low', 'normal', 'high'].includes(newPriority)) {
-        updatedTodoInfo.duration = ['low', 'normal', 'high'].indexOf(newPriority);
+        updatedTodoInfo.priority = ['low', 'normal', 'high'].indexOf(newPriority);
       } else {
         newPriority = false;
       }
@@ -395,7 +286,6 @@ const ui = () => {
 
       updatedTodoInfo.title = newTitle;
       updatedTodoInfo.description = newDescription;
-      updatedTodoInfo.priority = newPriority;
       updatedTodoInfo.duration = newDuration;
       updatedTodoInfo.date = newDate;
       updatedTodoInfo.tags = newTags;
@@ -456,8 +346,14 @@ const ui = () => {
   });
 
   addProjectBtn.addEventListener('click', () => {
-    modalContent.innerHTML = projectForm;
-    modal.classList.remove('modal-closed');
+    if (count >= ProjectArchive.getLimit()) {
+      projectLimit.innerHTML = 'Max projects reached!'
+      projectLimit.classList.add('warn-project-limit');
+      return;
+    } else {
+      modalContent.innerHTML = projectForm;
+      modal.classList.remove('modal-closed');
+    }
 
     let newProjectForm = document.getElementById('project-form');
 
@@ -475,41 +371,31 @@ const ui = () => {
       let newProject = ProjectFactory(formValues);
       ProjectArchive.addProject(newProject);
 
+      count = ProjectArchive.getCount();
+
       populateProjects();
 
       e.preventDefault();
     });
   });
 
-  const openTodos = (btn) => {
-    let sibling = btn.nextElementSibling;
-    sibling.classList.toggle('collapsed');
-    if (sibling.classList.contains('collapsed')) {
-      btn.querySelector('span').innerText = 'View all';
-    } else {
-      btn.querySelector('span').innerText = 'Hide';
-    }
-  }
-
   const addNewTodo = (projectId, newTodo) => {
-    let todoData;// = ProjectArchive.getProjectAt(projectId).getTodos();
-    //todoData = todoData[todoData.length - 1];
-    console.log(newTodo.getTodoInfo());
+    let todoData;
     
     todoData = newTodo.getTodoInfo();
 
-    containerTodos.innerHTML += ` <article id="${todoData.id}-todo" class="todo">
-            <input type="checkbox" class="todo-complete"  data-todo="${todoData.id}">
-            <div class="todo-date">
-                <time datetime="2020-02-14 20:00">${todoData.time}</time>
-                <time datetime="2020-02-14 20:00">${todoData.date}</time>
-            </div>
-            <h4 class="todo-title">${todoData.title}</h4>
-            <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
-            <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todoData.id}"><i class="far fa-edit" data-todo="${todoData.id}"></i></button>
-            <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todoData.id}" data-project="${todoData.project}"><i class="fas fa-times"  data-todo="${todoData.id}" data-project="${todoData.project}"></i>
-            </button>                 
-        </article>`;
+    containerTodos.innerHTML += `<article id="${todoData.id}-todo" data-project="${todoData.project}" class="todo ${todoData.expired ? 'expired-todo' : ''} ${ todoData.completed ? 'checked' : ''}">
+    <input type="checkbox" ${ todoData.completed ? 'checked="true"' : ''} class="todo-complete" data-todo="${todoData.id}">
+    <div class="todo-date">
+        <time datetime="2020-02-14 20:00">${todoData.time}</time>
+        <time datetime="2020-02-14 20:00">${todoData.date}</time>
+    </div>
+    <h4 class="todo-title">${todoData.expired ? '[EXPIRED] ' : ''}${todoData.title}</h4>
+    <div class="todo-priority todo-${todoData.priority}">${todoData.priority}</div>
+    <button type="button" class="todo-edit add-btn edit-btn" data-todo="${todoData.id}"><i class="far fa-edit" data-todo="${todoData.id}"></i></button>
+    <button type="button" class="todo-delete add-btn delete-btn" data-todo="${todoData.id}" data-project="${todoData.project}"><i class="fas fa-times" data-todo="${todoData.id}" data-project="${todoData.project}"></i>
+    </button>                 
+</article>`
 
     const currentTodos = document.getElementsByClassName('todo');
     addEventToTodos([...currentTodos]);
@@ -522,7 +408,7 @@ const ui = () => {
     [...document.getElementsByClassName('todo-edit')].forEach(editBtn => {
       editBtn.addEventListener('click', e => editTodo(e.target));
     });
-    openTodos(viewTodosBtn);
+    openTodos(viewTodosBtn, 'open');
   };
 
   addTodo.addEventListener('click', () => {

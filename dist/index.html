@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,147 +10,20 @@
     <script src="https://kit.fontawesome.com/bc4d064067.js" crossorigin="anonymous"></script>
     <title>Todo list</title>
 </head>
+
 <body>
     <main class="right">
-        <!-- MODAL -->
         <section id="modal" class="modal-container modal-closed main-shadow">
             <div id='modal-hide'><span>X</span></div>
-
             <div id="modal-content"></div>
-             <!--
-            <article id="0-todo-open" class="modal-details todo-details">
-                <h2 class="todo-title">Todo Title</h2>
-                <button id="toggle-completed" class="todo-incomplete action-btn" type="button">Complete todo</button>
-                <p class="todo-description">Description
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates id molestias fuga omnis! Fugit doloribus quod nemo ex provident maiores voluptates in, consequuntur dolorem, cupiditate ipsum, debitis iure dicta dolore!
-                </p>
-                <p class="todo-created-at">Created at:<span class="created-at">Thursday, 11 | 11:30am</span></p>
-                <div class="todo-priority">
-                    <p>Priority: <span class=" priority priority-high">High</span></p>
-                </div>
-                <div class="todo-date-time">
-                    <p class="remaning-time">Next Week</p>
-                    <p class="day-time">Thursday, 18 | 9:30pm</p>
-                </div>
-                <div class="todo-status">
-                    <p>Status: <span class="status status-completed">Completed</span></p>
-                </div>
-                <div class="todo-duration">
-                    <p>Duration: <span class="duration">2h</span></p>
-                </div>
-                <button type="button" class="todo-start-btn action-btn">Start task</button>
-                <div class="todo-tags">
-                    <p>Tags:</p>
-                    <p class="todo-tag child-card card-green">#tag1</p>
-                    <p class="todo-tag child-card card-red">#tag2</p>
-                </div>                
-            </article>
-        -->
-             <!--Project details -->
-            <!-- <article id="0-project-open" class="modal-details project-details">
-                <h2 class="project-title">Project Title</h2>
-                <p class="project-creator">Created by: User</p>
-                <p class="project-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo, cupiditate esse error molestias dolorum minus laborum culpa perferendis asperiores odit aspernatur, totam sit deleniti maxime pariatur tenetur sint, quia blanditiis!</p>
-                <div class="project-todo-today">
-                    <p class="mini-todos">Task for today:</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                    <p class="todo brief-todo">task1, 2am</p>
-                    <p class="todo brief-todo">task2, 11am</p>
-                </div>   
-                <button class="project-delete" type="button">Delete</button>             
-            </article> -->
-
-            <!-- Todo Form
-            <h2>New Todo</h2>
-            <form id="todo-form" class="modal-form" onsubmit="return false">
-                <div>
-                    <label for="todo-title">
-                    Title:
-                    </label>
-                    <input type="text" name="title" id="todo-title">
-                </div>
-
-                <div>
-                    <label for="todo-title">
-                    Title:
-                    </label>
-                    <select name="priority" id="todo-priority">
-                        <option value="0">Low</option>
-                        <option value="1">Normal</option>
-                        <option value="2">High</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="todo-date">
-                    Due at:
-                    </label>
-                    <input type="date" name="date" id="todo-date">
-                </div>
-
-                <div>
-                    <label for="todo-time">
-                    Time:
-                    </label>
-                    <input type="time" name="time" id="todo-time">
-                </div>
-
-                <div>
-                    <label for="todo-tag">
-                    Tags:
-                    </label>
-                    <input type="text" name="tag" id="todo-tag">
-                    <small>Separate each tag with a comma.</small>
-                </div>
-                <div>
-                    <label for="todo-description">
-                    Description:
-                    </label>
-                    <input type="text" name="description" id="todo-description">
-                </div>
-                <input type="hidden" name="project" id="todo-project" value="0">
-
-                <button type="button">Add todo</button>
-            </form>
-
-            Project form
-            <h2>New Project</h2>
-            <form id="project-form" class="modal-form" onsubmit="return false">
-                <div>
-                    <label for="project-title">
-                    Project title:
-                    </label>
-                    <input type="text" name="title" id="project-title">
-                </div>
-
-                <div>
-                    <label for="project-description">
-                    Project description:
-                    </label>
-                    <input type="text" name="description" id="project-description">
-                </div>
-                <input type="hidden" name="creator" id="project-creator" value="user">
-
-                <button type="button">Add Project</button>
-            </form>-->
         </section>
 
         <nav class="app-nav">
             <ul class="nav-ul">
                 <li class="left-nav">See All todos:</li>
-                <li id="see-all" class="left-nav todo-filter" >By date</li>
-                <li id="see-all-priority" class="left-nav todo-filter" >By priority</li>
-                <li id="see-expired"class="left-nav todo-filter" >Expired</li>
+                <li id="see-all" class="left-nav todo-filter">By date</li>
+                <li id="see-all-priority" class="left-nav todo-filter">By priority</li>
+                <li id="see-expired" class="left-nav todo-filter">Expired</li>
                 <li id="see-completed" class="left-nav todo-filter">Completed</li>
                 <li id="see-incompleted" class="left-nav todo-filter">Incompleted</li>
                 <li id="user" class="right-nav">Let's do it, <span>User</span>!</li>
@@ -165,8 +39,9 @@
                         <button id="create-project-todo" class="add-btn"><i class="far fa-plus-square"></i></button>
                     </div>
                 </header>
-                <button id="view-todos" class="show-more"><span>View all</span> Todos<i class="fas fa-caret-down"></i></button>
-                <div id="container-todos" class="todos-container collapsed">    
+                <button id="view-todos" class="show-more"><span>View all</span> Todos<i
+                        class="fas fa-caret-down"></i></button>
+                <div id="container-todos" class="todos-container collapsed">
                 </div>
             </div>
         </section>
@@ -188,20 +63,13 @@
         <header id="logo" class='logo'>🦄 <span>Uni List</span></header>
         <section id="projects" class="projects-left">
             <header class="header projects-header">
-                <h3>All Projects</h3>
+                <h3>All Projects (<span id='project-count'></span>)</h3>
+                <span id='project-limit' class="project-limit"></span>
                 <button id="add-project" class="add-btn" type="button"><i class="far fa-plus-square"></i></button>
             </header>
-            <button id="view-projects" class="show-more" type="button"><span>Hide</span> Projects <i class="fas fa-caret-down"></i></button>
+            <button id="view-projects" class="show-more" type="button"><span>Hide</span> Projects <i
+                    class="fas fa-caret-down"></i></button>
             <div id="all-projects" class="projects-container">
-                <!--
-                <article id="0-pro" class="project">Project 0 to test</article>
-                <article id="1-pro" class="project">Project 1 to test</article>
-                <article id="2-pro" class="project">Project 2 to test</article>
-                <article id="3-pro" class="project">Project 0 to test</article>
-                <article id="4-pro" class="project">Project 1 to test</article>
-                <article id="5-pro" class="project">Project 2 to test</article>
-                <article id="6-pro" class="project">Project 2 to test</article>
-                -->
             </div>
         </section>
         <section class="next-todo-container">
@@ -210,11 +78,12 @@
             </header>
             <div id="next-task" class="next-todo">
                 <article id="0-todo-next" class="todo brief-todo">
-                    <strong>Task 1</strong> 
+                    <strong>Task 1</strong>
                     <time>1pm</time>
                 </article>
             </div>
         </section>
     </aside>
 </body>
+
 </html>
