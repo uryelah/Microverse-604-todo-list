@@ -75,6 +75,25 @@ const Todos = () => {
     return result;
   }
 
+  const incompletedTodos = () => {
+    const todos = getTodos();
+    let result = Object.values(todos);
+
+    result = result.filter( todo => !todo.getCompleted());
+
+    return result;
+  }
+
+  const expiredTodos = () => {
+    const todos = getTodos();
+    let result = Object.values(todos);
+
+    result = result.filter( todo => todo.getExpired());
+
+    return result;
+
+  }
+
   const getTodosByIds = (arr) => {
     let todoArray = [];
     arr.forEach(id => {
@@ -106,7 +125,9 @@ const Todos = () => {
     deleteTodos,
     todosByNewest,
     todosByPriority,
-    completedTodos
+    completedTodos,
+    incompletedTodos,
+    expiredTodos
   }
 }
 
@@ -137,6 +158,7 @@ const TodoFactory = (factoryObject) => {
 
   const getId = () => id;
   const getCompleted = () => completed;
+  const getExpired = () => expired;
   const getPriority = () => priority;
   const getRawTime = () => time;  
   const getTime = () => format(time, 'hh:mm:ssa');
@@ -169,6 +191,7 @@ const TodoFactory = (factoryObject) => {
     duration = updatedTodo.duration ? updatedTodo.duration * 60000 : duration;
     date = updatedTodo.date ? new Date(updatedTodo.date) : date;
     tags = updatedTodo.tags.split(',');
+    isDue();
 
     return getTodoInfo();
   }
@@ -202,10 +225,6 @@ const TodoFactory = (factoryObject) => {
     }
   }
 
-  const getExpired = () => {
-    return expired;
-  }
-
   const toggleComplete = (check) => {
     if (expired) return;
     
@@ -221,13 +240,13 @@ const TodoFactory = (factoryObject) => {
     getTodoInfo,
     addTag,
     getTime,
-    getExpired,
     toggleComplete,
     startTask,
     editTodo,
     getRawTime,
     getPriority,
-    getCompleted
+    getCompleted,
+    getExpired
   };
 }
 
