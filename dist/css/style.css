@@ -601,6 +601,11 @@ button {
   color: var(--blue-grey);
 }
 
+.main-all button {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .main-deleted {
   background-color: var(--blue-grey) !important;
   opacity: 0.5;

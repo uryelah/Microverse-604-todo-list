@@ -54,6 +54,9 @@ const ProjectFactory = (factoryObject) => {
     title = updatedObj.title !== '' ? updatedObj.title : title;
     description = updatedObj.description !== '' ? updatedObj.description : description;
 
+    Store.updateProject(id, getProjectInfo());
+    Store.updateProjects(ProjectArchive.getStoreName());
+
     return getProjectInfo();
   }
 

@@ -195,6 +195,7 @@ const ui = () => {
       
 
       addNewTodo(projectId, newTodo);
+      todoHelpers.getNextTodo();
 
       e.preventDefault();
     });
@@ -215,6 +216,7 @@ const ui = () => {
 
   populateProjects();
   todoHelpers.populateTodos(0);
+  todoHelpers.getNextTodo();
   Events.addnavEvents(todoHelpers.populateTodos);
 };
 

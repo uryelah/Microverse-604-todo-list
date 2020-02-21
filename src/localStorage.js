@@ -49,13 +49,32 @@ const Store = (function () {
       localStorage.setItem(storeName, JSON.stringify(dataToStore));
     },
 
+    removeProject: (projectId, storeName) => {
+      dataToStore.splice(projectId, 1);
+      localStorage.setItem(storeName, JSON.stringify(dataToStore));
+    },
+
     storeTodo: (todoList, storeName) => {
       todoDataToStore = todoList.map(todo => todo.rawTodoInfo());
       localStorage.setItem(storeName, JSON.stringify(todoDataToStore));
     },
-//
+
+    updateTodo: (todoId, todoData) => {
+      todoDataToStore[todoId] = todoData;
+    },
+
+    updateTodos: (storeName) => {
+      localStorage.setItem(storeName, JSON.stringify(todoDataToStore));
+    },
+
     removeTodoFrom: (projectId, todoId, storeName) => {
+      todoDataToStore.splice(todoId, 1);
+      localStorage.setItem('todo-storage', JSON.stringify(todoDataToStore));
       localStorage.setItem(storeName, JSON.stringify(dataToStore));
+    },
+
+    updateProject: (projectId, projectData) => {
+      dataToStore[projectId] = projectData;
     },
 
     updateProjects: (storeName) => {

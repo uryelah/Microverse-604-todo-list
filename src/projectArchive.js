@@ -18,9 +18,8 @@ const Projects = () => {
   const getLimit = () => projectLimit;
 
   const deleteProject = (projectId) => {
-
     projectList.splice(projectId, 1);
-
+    Store.removeProject(projectId, storeName);
   }
 
   const getProjects = () => {

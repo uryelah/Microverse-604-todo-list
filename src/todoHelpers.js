@@ -22,6 +22,15 @@ const todoHelpers = (function () {
     } else {
       btn.querySelector('span').innerText = 'Hide';
     }
+  };
+
+  const getNextTodo = function () {
+    const nextTodo = TodoArchieve.todosByNewest(true);
+    const todo = nextTodo.getTodoInfo()
+    document.getElementById('next-task').innerHTML = `<article id="${todo.id}-todo-next" class="todo brief-todo">
+    <strong>${todo.title}</strong>
+    <time>${todo.time}</time>
+    </article>`;
   }
 
   return {
@@ -41,6 +50,8 @@ const todoHelpers = (function () {
         </article>`
     },
 
+    getNextTodo: getNextTodo,
+
     deleteTodo: (todo) => {
       const todoId = parseInt(todo.dataset.todo);
       projectHelpers.projectAction(parseInt(todo.dataset.project), 'deleteTodo', todoId);
@@ -51,6 +62,8 @@ const todoHelpers = (function () {
       const todoId = parseInt(checkbox.dataset.todo);
       const todo = document.getElementById(`${todoId}-todo`);
       TodoArchieve.getTodoAt(todoId).toggleComplete(checkbox.checked);
+
+      getNextTodo();
 
       if (checkbox.checked) {
         todo.classList.add('checked');

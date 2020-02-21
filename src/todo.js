@@ -33,9 +33,9 @@ const Todos = () => {
     return result;
   }
 
-  const todosByNewest = () => {
+  const todosByNewest = (firstOnly = false) => {
     const todos = getTodos();
-    const result = Object.values(todos);
+    let result = Object.values(todos);
 
     result.sort((a, b) => {
       const timeA = a.getRawTime();
@@ -50,6 +50,11 @@ const Todos = () => {
 
       return 0;
     })
+
+    if (firstOnly) {
+      result = result.filter(todo => !todo.getCompleted());
+      return result[0];
+    }
 
     return result;
   }
@@ -141,16 +146,17 @@ const Todos = () => {
 }
 
 const TodoFactory = (factoryObject) => {
-  let { createdAt = Date.now(), title, duration = 0, description, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
+  let { createdAt = Date.now(), title, duration = 0, description, completed = false, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
   date = new Date(date);
 
-  date.setDate(date.getDate() + 1);
+  date.setDate(date.getDate());
 
   if (time === '') {
     time = date;
-    time.setHours(23);
-    time.setMinutes(59);
-    time.setSeconds(59);
+    time.setHours(24);
+    time.setMinutes(0);
+    time.setDate(time.getDate() + 1);
+    time.setSeconds(time.getSeconds() - 1);
   } else {
     const formTime = time.split(':')
     time = date;
@@ -160,13 +166,13 @@ const TodoFactory = (factoryObject) => {
 
   let id = archieve.getId();
   let expired = false;
-  let completed = false;
   let inProgress = false;
 
   const getId = () => id;
   const getCompleted = () => completed;
   const getPriority = () => priority;
   const getRawTime = () => time;
+  const getTitle = () => title;
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
@@ -223,6 +229,9 @@ const TodoFactory = (factoryObject) => {
     tags = updatedTodo.tags.split(',');
     isDue();
 
+    Store.updateTodo(id, rawTodoInfo());
+    Store.updateTodos(TodoArchieve.getStoreName());
+
     return getTodoInfo();
   }
 
@@ -252,6 +261,8 @@ const TodoFactory = (factoryObject) => {
 
     if (time.getTime() < new Date().getTime()) {
       expired = true;
+      Store.updateTodo(id, rawTodoInfo());
+      Store.updateTodos(TodoArchieve.getStoreName());
     }
   }
 
@@ -263,6 +274,9 @@ const TodoFactory = (factoryObject) => {
     } else {
       completed = false;
     };
+
+    Store.updateTodo(id, rawTodoInfo());
+    Store.updateTodos(TodoArchieve.getStoreName());
   }
 
   return {
@@ -271,6 +285,7 @@ const TodoFactory = (factoryObject) => {
     rawTodoInfo,
     addTag,
     getTime,
+    getTitle,
     toggleComplete,
     startTask,
     editTodo,
