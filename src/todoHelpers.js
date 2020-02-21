@@ -1,4 +1,5 @@
 import projectHelpers from './projectHelpers';
+import { ProjectArchive, ProjectFactory } from './project';
 import { TodoArchieve } from './todo';
 import modalHelpers from './modal/modalHelpers';
 import todoDetails from './modal/todoDetails';
@@ -42,7 +43,7 @@ const todoHelpers = (function () {
 
     deleteTodo: (todo) => {
       const todoId = parseInt(todo.dataset.todo);
-      projectHelpers.projectAction(parseInt(todo.dataset.project), 'deleteTodos', todoId);
+      projectHelpers.projectAction(parseInt(todo.dataset.project), 'deleteTodo', todoId);
       document.getElementById(`${todoId}-todo`).remove();
     },
 
@@ -70,6 +71,8 @@ const todoHelpers = (function () {
     openTodos: openTodos,
 
     populateTodos: (projectId, sortType) => {
+      if (ProjectArchive.getCount() === 0) return;
+
       const openProject = document.getElementsByClassName('main-list')[0];
       const projectTitle = document.getElementById('project-title');
       const containerTodos = document.getElementById('container-todos');

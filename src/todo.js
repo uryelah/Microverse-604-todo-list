@@ -1,14 +1,19 @@
 import { format } from 'date-fns';
+import Store from './localStorage';
 
 const Todos = () => {
   let count = 0;
   let priority = ['low', 'normal', 'high'];
   const todoList = {};
+  const storeName = 'todo-storage';
 
   const addTodo = (todo) => {
     todoList[todo.getId()] = todo;
+    Store.storeTodo(Object.values(todoList), storeName);
     return todoList[todo.getId()];
   }
+
+  const getStoreName = () => storeName;
 
   const deleteTodo = (todoId) => {
     delete todoList[todoId];
@@ -124,6 +129,7 @@ const Todos = () => {
     getTodos,
     getTodoAt,
     getTodosByIds,
+    getStoreName,
     deleteTodo,
     deleteTodos,
     todosByNewest,
@@ -176,6 +182,25 @@ const TodoFactory = (factoryObject) => {
       title,
       description,
       priority: archieve.getPriority(priority),
+      date: getDate(),
+      time: getTime(),
+      tags,
+      project,
+      expired,
+      completed,
+      duration,
+      inProgress,
+    }
+  }
+
+  const rawTodoInfo = () => {
+    isDue()
+    return {
+      id: getId(),
+      createdAt: createdAt,
+      title,
+      description,
+      priority: priority,
       date: getDate(),
       time: getTime(),
       tags,
@@ -243,6 +268,7 @@ const TodoFactory = (factoryObject) => {
   return {
     getId,
     getTodoInfo,
+    rawTodoInfo,
     addTag,
     getTime,
     toggleComplete,

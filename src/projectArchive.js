@@ -1,4 +1,5 @@
 import { ProjectFactory } from './project';
+import Store from './localStorage';
 
 const Projects = () => {
   let count = 0;
@@ -6,21 +7,11 @@ const Projects = () => {
   const projectLimit = 7;
   let projectList = [];
 
-  const parseFromStorage = () => {
-    let arr = JSON.parse(localStorage.getItem(storeName));
-
-    const result = [];
-
-    arr.map(project => {
-      result.push(ProjectFactory(project));
-    });
-    
-    return result;
-  }
-
   const getId = () => {
     return count++
   }
+
+  const getStoreName = () => storeName;
 
   const getCount = () => count;
 
@@ -44,11 +35,7 @@ const Projects = () => {
     if (count > projectLimit) return;
 
     projectList.push(project);
-
-    let lastAdded = projectList[projectList.length - 1];
-    let dataToStore = lastAdded.getProjectInfo();
-    dataToStore.storedId = dataToStore.id;
-    localStorage.setItem(storeName, JSON.stringify([dataToStore]));
+    Store.storeProject(projectList, storeName);
   }
 
   return {
@@ -57,9 +44,9 @@ const Projects = () => {
     getLimit,
     addProject,
     getProjects,
+    getStoreName,
     getProjectAt,
     deleteProject,
-    parseFromStorage
   }
 }
 
