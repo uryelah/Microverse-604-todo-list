@@ -18,6 +18,10 @@ const Store = (function () {
   }
 
   return {
+    hasProject: () => {
+      return localStorage.getItem(ProjectArchive.getStoreName())
+    },
+
     parseFromStorage: () => {
       let arr = JSON.parse(localStorage.getItem(ProjectArchive.getStoreName()));
       let todoArr = JSON.parse(localStorage.getItem(TodoArchieve.getStoreName()));
