@@ -1,37 +1,22 @@
 import { ProjectArchive } from './project';
-import { TodoArchieve } from './todo';
 import projectForm from './modal/projectForm';
 import todoForm from './modal/todoForm';
 import projectDetails from './modal/projectDetails';
-import todoDetails from './modal/todoDetails';
 import modalHelpers from './modal/modalHelpers';
 import projectHelpers from './projectHelpers';
 import todoHelpers from './todoHelpers';
 import Events from './events';
 
 const ui = () => {
-  const modal = document.getElementById("modal");
-  const hideModal = modal.querySelector('#modal-hide');
-  const addProjectBtn = document.getElementById("add-project");
-
   const projectsContainer = document.getElementById('all-projects');
   let openProject = document.getElementsByClassName('main-list')[0];
   const projectCount = document.getElementById('project-count');
   const projectLimit = document.getElementById('project-limit');
-  projectLimit.innerHTML = `Projects limit: ${ProjectArchive.getLimit()}`
-
   const showMore = document.getElementsByClassName('show-more');
-
-  const addTodo = document.getElementById('create-project-todo');
   const projectTitle = document.getElementById('project-title');
   let containerTodos = document.getElementById('container-todos');
-  let count;
-
-  const progress = document.getElementsByClassName('ongoing')[0];
-  const progressTab = document.getElementById('progress-tab');
   const viewTodosBtn = document.getElementById('view-todos');
-  const editProjectBtn = document.getElementById('edit-project');
-  
+  let count;
 
   const deleteProject = (project) => {
     const projectId = parseInt(project.dataset.project);
@@ -48,10 +33,6 @@ const ui = () => {
 
   const turnNumber = (str) => {
     return parseInt(str.match(/\d+/)[0]);
-  }
-  
-  const addEventToTodos = (todos) => {
-    Events.todoEvents(todos);
   }
 
   const populateProjects = () => {
@@ -71,50 +52,41 @@ const ui = () => {
     projectCount.innerText = ProjectArchive.getCount();
   }
 
-  const updateProject = (project) => {
-    const editablePro = document.getElementById(`${project.id}-pro`);
-    editablePro.innerText = project.title;
-
-    projectHelpers.activeProject(editablePro);
-  }
-
   const addNewTodo = (projectId, newTodo) => {
+    
     let todoData;
     
     todoData = newTodo.getTodoInfo();
 
+    containerTodos = document.getElementById('container-todos');
     containerTodos.innerHTML += todoHelpers.todoElement(todoData);
 
     const currentTodos = document.getElementsByClassName('todo');
-    addEventToTodos([...currentTodos]);
+    Events.todoEvents([...currentTodos], todoHelpers.afterTodoEvent);
     todoHelpers.openTodos(viewTodosBtn, 'open');
   };
 
-  editProjectBtn.addEventListener('click', e => {
-    const projectId = turnNumber(openProject.id);
-    const projectData = projectHelpers.projectAction(projectId, 'getProjectInfo');
-    modalHelpers.open(projectDetails(projectData, true), projectId);
-
-    document.getElementById('project-update').addEventListener('click', e => {
-      const projectId = parseInt(e.target.dataset.project);
-      
-      const newProject = modalHelpers.getProjectUpdates();
-
-      const updatedProject = projectHelpers.projectAction(projectId, 'editProject', newProject);
-      updateProject(updatedProject);
-      modalHelpers.close();
-    })
-  });
-
-  progressTab.addEventListener('click', () => {
-    progress.classList.toggle('hidden');
-  });
-
-  hideModal.addEventListener('click', () => {
+  const submitCallback = (e) => {
     modalHelpers.close();
-  });
 
-  addProjectBtn.addEventListener('click', () => {
+    let formValues = {};
+
+    [...e.target].forEach((element, i, arr) => {
+      if (i == arr.length - 1) return;
+
+      formValues[`${element.name}`] = element.value;
+    });
+
+    projectHelpers.newProject(formValues);
+
+    count = ProjectArchive.getCount();
+
+    populateProjects();
+
+    e.preventDefault();
+  }
+  
+  const openNewProjectForm = () => {
     if (count >= ProjectArchive.getLimit()) {
       projectLimit.innerHTML = 'Max projects reached!'
       projectLimit.classList.add('warn-project-limit');
@@ -123,75 +95,70 @@ const ui = () => {
       modalHelpers.open(projectForm, null);
     }
 
-    let newProjectForm = document.getElementById('project-form');
+    Events.addSubmitProjectEvent(submitCallback);
+  };
 
-    newProjectForm.addEventListener('submit', e => {
-      modalHelpers.close();
+  const submitTodoCallback = (e) => {
+    modalHelpers.close();
 
-      let formValues = {};
+    let formValues = {};
 
-      [...e.target].forEach((element, i, arr) => {
-        if (i == arr.length - 1) return;
-
+    [...e.target].forEach((element, i, arr) => {
+      if (i == arr.length - 1) return;
+      if (element.name === 'project') {
+        formValues[`${element.name}`] = parseInt(element.value);          
+      } else {
         formValues[`${element.name}`] = element.value;
-      });
-
-      projectHelpers.newProject(formValues);
-
-      count = ProjectArchive.getCount();
-
-      populateProjects();
-
-      e.preventDefault();
+      }
     });
-  });
+    
+    let newTodo = projectHelpers.projectAction(turnNumber(openProject.id), 'addTodo', formValues);
 
-  addTodo.addEventListener('click', () => {
+    let projectId = turnNumber(openProject.id);
+    
+
+    addNewTodo(projectId, newTodo);
+    todoHelpers.getNextTodo();
+
+    e.preventDefault();
+  };
+
+  const openNewTodoForm = (e) => {
     openProject = document.getElementsByClassName('main-list')[0];
     modalHelpers.open(todoForm(turnNumber(openProject.id)), null);
+  
+    Events.addSubmitTodoEvent(submitTodoCallback);
+  };
 
-    const newTodoForm = document.getElementById('todo-form');
-    newTodoForm.addEventListener('submit', (e) => {
-      modalHelpers.close();
-
-      let formValues = {};
-
-      [...e.target].forEach((element, i, arr) => {
-        if (i == arr.length - 1) return;
-        if (element.name === 'project') {
-          formValues[`${element.name}`] = parseInt(element.value);          
-        } else {
-          formValues[`${element.name}`] = element.value;
-        }
-      });
-      let newTodo = projectHelpers.projectAction(turnNumber(openProject.id), 'addTodo', formValues);
-
-      let projectId = turnNumber(openProject.id);
-      
-
-      addNewTodo(projectId, newTodo);
-      todoHelpers.getNextTodo();
-
-      e.preventDefault();
-    });
-
-  });
-
-  projectTitle.addEventListener('click', () => {
+  const openProjectDetails = () => {
     const projectData = projectHelpers.projectAction(turnNumber(openProject.id), 'getProjectInfo');
     modalHelpers.open(projectDetails(projectData), projectData.id);
-    document.getElementById('project-delete').addEventListener('click', e => deleteProject(e.target))
-  });
 
-  [...showMore].forEach(btn => {
-    btn.addEventListener('click', () => {
-      todoHelpers.openTodos(btn);
-    });
-  });
+    Events.addDeleteProject(deleteProject);
+  }
+
+  projectLimit.innerHTML = `Projects limit: ${ProjectArchive.getLimit()}`
+
+  Events.editProjectEvent(projectHelpers.editProject);
+
+  Events.addToggleToProgressBar();
+
+  Events.addHideToModal();
+
+  Events.addnewProjectEvent(openNewProjectForm);
+
+  Events.addnewTodovent(openNewTodoForm);
+
+  Events.addOpenProject(openProjectDetails);
+
+  Events.addOpenLists(showMore, todoHelpers.openTodos);
 
   populateProjects();
+
   todoHelpers.populateTodos(0);
+
   todoHelpers.getNextTodo();
+  
   Events.addnavEvents(todoHelpers.populateTodos);
 };
 

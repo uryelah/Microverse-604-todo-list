@@ -1,8 +1,7 @@
-import { TodoArchieve } from './todo';
 import modalHelpers from './modal/modalHelpers';
 import projectHelpers from './projectHelpers';
 import todoHelpers from './todoHelpers';
-import todoDetails from './modal/todoDetails';
+import { TodoArchieve } from './todo';
 
 const Events = (function () {
   const todoSortBtns = document.getElementsByClassName('left-nav');
@@ -49,31 +48,13 @@ const Events = (function () {
       });
     },
 
-    todoEvents: function (todos) {
+    todoEvents: function (todos, callback) {
       todos.forEach(todo => {
-        todo.addEventListener('click', e => {
-          if (e.target.classList.contains('todo-delete') || e.target.classList.contains('fas')) return;
-          if (e.target.classList.contains('todo-edit') || e.target.classList.contains('far')) return;
-          if (e.target.classList.contains('todo-complete')) return;
-  
-          const todoId = turnNumber(todo.id);
-          const todoInfo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
-  
-          modalHelpers.open(todoDetails(todoInfo), todo.id);
-
-          document.getElementById('toggle-completed').addEventListener('click', e => {
-            const todoId = parseInt(e.target.dataset.todo);
-            const todo = document.getElementById(`${todoId}-todo`);
-
-            TodoArchieve.getTodoAt(todoId).toggleComplete(true);
-    
-            todo.classList.add('checked');
-           });
-        });
+        todo.addEventListener('click', e => callback(e, todo));
       });
-      
+
       [...document.getElementsByClassName('todo-delete')].forEach(btn => {
-        btn.addEventListener('click', e => todoHelpers.deleteTodo(e.target) )
+        btn.addEventListener('click', e => todoHelpers.deleteTodo(e.target))
       });
       [...document.getElementsByClassName('todo-complete')].forEach(checkbox => {
         checkbox.addEventListener('change', e => todoHelpers.toggleCompleteTodo(e.target))
@@ -84,37 +65,108 @@ const Events = (function () {
     },
 
     addEventToEdit: (todo) => {
-      document.getElementById('todo-update').addEventListener('click', () => {
-        let updatedTodoInfo = modalHelpers.getTodoUpdates();
-  
-        if (['low', 'normal', 'high'].includes(updatedTodoInfo.priority)) {
-          updatedTodoInfo.priority = ['low', 'normal', 'high'].indexOf(updatedTodoInfo.priority);
-        } else {
-          updatedTodoInfo.priority = false;
+      document.getElementById('todo-update').addEventListener('click', () => todoHelpers.getNewData(todo))
+    },
+
+    editProjectEvent: function (callback) {
+      document.getElementById('edit-project').addEventListener('click', callback);
+    },
+
+    addToggleToProgressBar: function () {
+      const progressTab = document.getElementById('progress-tab');
+      const progress = document.getElementsByClassName('ongoing')[0];
+      progressTab.addEventListener('click', () => {
+        progress.classList.toggle('hidden');
+        if (progressTab.classList.contains('progress-done')) {
+          document.getElementById('bar-fill').style.width = `0%`;
+          progressTab.querySelector('span').innerText = '';
+          progressTab.classList.remove('progress-done')
         }
-  
-        if (isNaN(updatedTodoInfo.duration)) {
-          updatedTodoInfo.duration = false;
+      });
+    },
+
+    startProgressBar: function () {
+      const progressTab = document.getElementById('progress-tab');
+      const startTodo = document.getElementById('start-todo');
+      const progress = document.getElementsByClassName('ongoing')[0];
+
+      startTodo.addEventListener('click', e => {
+        const proTab = document.getElementById('progress-tab');
+        const todoId = parseInt(e.target.dataset.todo);
+        const todo = TodoArchieve.getTodoAt(todoId);
+          
+        const completitionLoader = {
+          receive: (percentage) => {
+            document.getElementById('bar-fill').style.width = `${percentage}%`;
+          },
+          complete: () => {
+            todoHelpers.populateTodos(0);
+            setTimeout(() => {
+              document.getElementById(`${todoId}-todo`).querySelector('input').click();
+              proTab.classList.add('progress-done');
+            }, 1000)
+          }
         }
-  
-        updatedTodoInfo.date = updatedTodoInfo.date.match(/\b\d\d\d\d\/\d\d\/\d\d\b/);
-  
-        if (updatedTodoInfo.date === null) {
-          updatedTodoInfo.date = false;
-        } else {
-          updatedTodoInfo.date = updatedTodoInfo.date[0];
-        }
-  
-        todo.editTodo(updatedTodoInfo);
-  
-        updatedTodoInfo = todo.getTodoInfo();
-  
-        todoHelpers.populateTodos(updatedTodoInfo.project);
-  
-        todoHelpers.updateNextTodo(updatedTodoInfo);
-  
+        todo.startTask(completitionLoader);
         modalHelpers.close();
-      })
+        progressTab.querySelector('span').innerText = e.target.dataset.title;
+        progress.classList.remove('hidden');
+      });
+    },
+
+    addHideToModal: function () {
+      const hideModal = modal.querySelector('#modal-hide');
+      hideModal.addEventListener('click', () => {
+        modalHelpers.close();
+      });
+    }, 
+
+    addnewProjectEvent: function (callback) {
+      const addProjectBtn = document.getElementById("add-project");
+      
+      addProjectBtn.addEventListener('click', callback);
+    },
+
+    addSubmitProjectEvent: function (callback) {
+      const newProjectForm = document.getElementById('project-form');
+      
+      newProjectForm.addEventListener('submit', e => callback(e));
+    },
+
+    addnewTodovent: function (callback) {
+      const addTodo = document.getElementById('create-project-todo');
+      addTodo.addEventListener('click', callback);
+    },
+
+    addSubmitTodoEvent: function (callback) {
+      const newTodoForm = document.getElementById('todo-form');
+
+      newTodoForm.addEventListener('submit', (e) => callback(e));
+    },
+
+    addOpenProject: function (callback) {
+      const projectTitle = document.getElementById('project-title');
+
+      projectTitle.addEventListener('click', callback)
+    },
+
+    addDeleteProject: function (callback) {
+      const deleteBtn = document.getElementById('project-delete')
+      deleteBtn.addEventListener('click', e => callback(e.target));
+    },
+
+    addOpenLists: function (btns, callback) {
+      [...btns].forEach(btn => {
+        btn.addEventListener('click', () => callback(btn));
+      });
+    },
+
+    addToggleComplete: function (callback) {
+      document.getElementById('toggle-completed').addEventListener('click', e => callback(e));
+    },
+
+    updateProject: function (callback) {
+      document.getElementById('project-update').addEventListener('click', e => callback(e));
     }
   }
 })();

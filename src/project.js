@@ -73,9 +73,4 @@ const ProjectFactory = (factoryObject) => {
   }
 }
 
-const completitionLoader = {
-  receive: (percentage) => {
-  }
-}
-
 export { ProjectFactory, ProjectArchive };

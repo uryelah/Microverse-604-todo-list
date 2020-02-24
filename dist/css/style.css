@@ -231,11 +231,6 @@ button {
 
 /*------====|TO DO DETAILS|====----*/
 
-.todo-start-btn {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
 .todo-details {
   display: grid;
   grid-template-columns: 1fr 100px;
@@ -504,6 +499,17 @@ button {
   color: #fff;
 }
 
+.no-todo {
+  color: var(--sparkle-blue);
+  position: relative;
+}
+
+.no-todo:after {
+  position: absolute;
+  left: 40px;
+  content: 'No todo left on the queue';
+}
+
 /* ------------------------------- */
 /*------====|RIGHT MAIN|=====------*/
 /* ------------------------------- */
@@ -748,7 +754,7 @@ button {
 }
 
 .todo {
-  background-color: var(--lighter-purple);
+  background-color: var(--blue-grey-50);
   display: grid;
   width: 100%;
   align-items: center;
@@ -872,7 +878,7 @@ button {
 
 .progress-bar-fill {
   height: 100%;
-  width: 10%;
+  width: 0%;
   background-image: linear-gradient(to left, var(--fusion-red), var(--orange-hibiscus), var(--flirtatious), var(--reptile-green), var(--turquoise-topaz), var(--highblue), var(--lighter-purple)) !important;
   background-size: 100% 25px;
   background-repeat: repeat-x;

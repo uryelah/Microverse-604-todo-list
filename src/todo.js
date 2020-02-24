@@ -253,7 +253,8 @@ const TodoFactory = (factoryObject) => {
     setTimeout(() => {
       toggleComplete();
       clearInterval(chronometer);
-    }, duration + interval)
+      subscriber.complete();
+    }, duration + 2000)
   }
 
   const isDue = () => {

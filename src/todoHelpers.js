@@ -1,12 +1,28 @@
 import projectHelpers from './projectHelpers';
-import { ProjectArchive, ProjectFactory } from './project';
+import { ProjectArchive } from './project';
 import { TodoArchieve } from './todo';
 import modalHelpers from './modal/modalHelpers';
 import todoDetails from './modal/todoDetails';
 import Events from './events';
 
 const todoHelpers = (function () {
+  const turnNumber = (str) => {
+    return parseInt(str.match(/\d+/)[0]);
+  }
+
+  const toggleComplete = (e) => {
+    const todoId = parseInt(e.target.dataset.todo);
+    const todo = document.getElementById(`${todoId}-todo`);
+
+    TodoArchieve.getTodoAt(todoId).toggleComplete(true);
+
+    todo.classList.add('checked');
+    
+    modalHelpers.close();
+  }
+
   const openTodos = (btn, toggle) => {
+    const viewTodosBtn = document.getElementById('view-todos');
     let sibling = btn.nextElementSibling;
 
     if (toggle === 'open') {
@@ -18,19 +34,72 @@ const todoHelpers = (function () {
     }
 
     if (sibling.classList.contains('collapsed')) {
-      btn.querySelector('span').innerText = 'View all';
+      viewTodosBtn.querySelector('span').innerText = 'View all';
     } else {
-      btn.querySelector('span').innerText = 'Hide';
+      viewTodosBtn.querySelector('span').innerText = 'Hide';
     }
   };
 
+  const getNewData = (todo) => {
+    let updatedTodoInfo = modalHelpers.getTodoUpdates();
+
+    if (['low', 'normal', 'high'].includes(updatedTodoInfo.priority)) {
+      updatedTodoInfo.priority = ['low', 'normal', 'high'].indexOf(updatedTodoInfo.priority);
+    } else {
+      updatedTodoInfo.priority = false;
+    }
+
+    if (isNaN(updatedTodoInfo.duration)) {
+      updatedTodoInfo.duration = false;
+    }
+
+    updatedTodoInfo.date = updatedTodoInfo.date.match(/\b\d\d\d\d\/\d\d\/\d\d\b/);
+
+    if (updatedTodoInfo.date === null) {
+      updatedTodoInfo.date = false;
+    } else {
+      updatedTodoInfo.date = updatedTodoInfo.date[0];
+    }
+
+    todo.editTodo(updatedTodoInfo);
+
+    updatedTodoInfo = todo.getTodoInfo();
+
+    todoHelpers.populateTodos(updatedTodoInfo.project);
+
+    todoHelpers.updateNextTodo(updatedTodoInfo);
+
+    modalHelpers.close();
+  }
+
   const getNextTodo = function () {
     const nextTodo = TodoArchieve.todosByNewest(true);
-    const todo = nextTodo.getTodoInfo();
-    document.getElementById('next-task').innerHTML = `<article id="${todo.id}-todo-next" class="todo brief-todo">
-    <strong>${todo.title}</strong>
-    <time>${todo.time}</time>
-    </article>`;
+    const nextContainer = document.getElementById('next-task');
+
+    if (nextTodo) {
+      const todo = nextTodo.getTodoInfo();
+      nextContainer.innerHTML = `<article id="${todo.id}-todo-next" class="todo brief-todo">
+      <strong>${todo.title}</strong>
+      <time>${todo.time}</time>
+      </article>`;
+    } else {
+      nextContainer.innerHTML = `<article id="" class="no-todo todo brief-todo"><strong></strong><time></time></article>`
+    }
+  }
+
+  const afterTodoEvent = (e, todo) => {
+    if (e.target.classList.contains('todo-delete') || e.target.classList.contains('fas')) return;
+    if (e.target.classList.contains('todo-edit') || e.target.classList.contains('far')) return;
+    if (e.target.classList.contains('todo-complete')) return;
+
+    const todoId = turnNumber(todo.id);
+    const todoInfo = TodoArchieve.getTodoAt(todoId).getTodoInfo();
+
+    modalHelpers.open(todoDetails(todoInfo), todo.id);
+
+    Events.startProgressBar();
+
+    Events.addToggleComplete(toggleComplete);
   }
 
   return {
@@ -51,6 +120,8 @@ const todoHelpers = (function () {
     },
 
     getNextTodo: getNextTodo,
+
+    getNewData,
 
     deleteTodo: (todo) => {
       const todoId = parseInt(todo.dataset.todo);
@@ -82,6 +153,8 @@ const todoHelpers = (function () {
     },
 
     openTodos: openTodos,
+
+    
 
     populateTodos: (projectId, sortType) => {
       if (ProjectArchive.getCount() === 0) return;
@@ -123,7 +196,7 @@ const todoHelpers = (function () {
         }
       });
 
-      Events.todoEvents([...document.getElementsByClassName('todo')]);
+      Events.todoEvents([...document.getElementsByClassName('todo')], afterTodoEvent);
 
       openTodos(viewTodosBtn, 'open');
     },
@@ -138,6 +211,8 @@ const todoHelpers = (function () {
       `
       }
     },
+
+    afterTodoEvent,
   }
 })();
 
