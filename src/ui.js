@@ -54,31 +54,6 @@ const ui = () => {
     Events.todoEvents(todos);
   }
 
-  const activeProject = (project) => {
-    projectsContainer.scrollTo(0, 0);
-    project.classList.add('project-active');
-    openProject.id = `${project.id}-open`;
-    openProject.classList = `main-list main-${project.id}`;
-    openProject.querySelector('h1').innerText = project.innerText;
-    containerTodos = document.getElementById('container-todos');
-    let projectId = turnNumber(project.id);  
-    todoHelpers.populateTodos(projectId);
-  }
-
-  const projectClickEvent = () => {
-    [...document.getElementsByClassName('project')].forEach((project, i, arr) => {
-      project.addEventListener('click', () => {
-        arr.forEach(p => {
-          if (p === project) {
-            activeProject(project);
-          } else {
-            p.classList.remove('project-active');
-          }
-        });
-      });
-    });
-  };
-
   const populateProjects = () => {
     projectsContainer.innerHTML = '';
 
@@ -88,11 +63,11 @@ const ui = () => {
       projectsContainer.innerHTML += `<article id="${project.getId()}-pro" class="project ${i === 0 ? 'project-active' : ''}">${project.getTitle()}</article>`
 
       if (i === 0) {
-        activeProject(projectsContainer.lastElementChild);        
+        projectHelpers.activeProject(projectsContainer.lastElementChild);        
       }
     });
 
-    projectClickEvent();
+    Events.addProjectsEvent()
     projectCount.innerText = ProjectArchive.getCount();
   }
 
@@ -100,7 +75,7 @@ const ui = () => {
     const editablePro = document.getElementById(`${project.id}-pro`);
     editablePro.innerText = project.title;
 
-    activeProject(editablePro);
+    projectHelpers.activeProject(editablePro);
   }
 
   const addNewTodo = (projectId, newTodo) => {

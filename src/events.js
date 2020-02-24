@@ -1,5 +1,6 @@
 import { TodoArchieve } from './todo';
 import modalHelpers from './modal/modalHelpers';
+import projectHelpers from './projectHelpers';
 import todoHelpers from './todoHelpers';
 import todoDetails from './modal/todoDetails';
 
@@ -10,6 +11,20 @@ const Events = (function () {
   };
 
   return {
+    addProjectsEvent: function () {
+      [...document.getElementsByClassName('project')].forEach((project, i, arr) => {
+        project.addEventListener('click', () => {
+          arr.forEach(p => {
+            if (p === project) {
+              projectHelpers.activeProject(project);
+            } else {
+              p.classList.remove('project-active');
+            }
+          });
+        });
+      });
+    },
+
     addnavEvents: function (action) {
       [...todoSortBtns].forEach((btn, i) => {
         btn.addEventListener('click', () => {
