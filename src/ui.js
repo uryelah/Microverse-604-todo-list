@@ -73,7 +73,7 @@ const ui = () => {
     todoHelpers.openTodos(viewTodosBtn, 'open');
   };
 
-  const submitCallback = (e) => {
+  const submitCallback = e => {
     modalHelpers.close();
 
     const formValues = {};
@@ -105,7 +105,7 @@ const ui = () => {
     Events.addSubmitProjectEvent(submitCallback);
   };
 
-  const submitTodoCallback = (e) => {
+  const submitTodoCallback = e => {
     modalHelpers.close();
 
     const formValues = {};

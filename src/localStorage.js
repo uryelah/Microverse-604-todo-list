@@ -25,7 +25,7 @@ const Store = (function storage() {
         const userForm = document.getElementById('user-form');
         const userInput = document.getElementById('username-input');
         const userName = document.getElementById('user-name');
-        userForm.addEventListener('submit', (e) => {
+        userForm.addEventListener('submit', e => {
           localStorage.setItem('username', userInput.value);
           userName.innerText = userInput.value;
           modalHelpers.close();

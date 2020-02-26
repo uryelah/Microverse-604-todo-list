@@ -35,7 +35,7 @@ const projectHelpers = (function helper() {
     return null;
   };
 
-  const afterUpdate = (e) => {
+  const afterUpdate = e => {
     const projectId = parseInt(e.target.dataset.project, 10);
 
     const newProject = modalHelpers.getProjectUpdates();

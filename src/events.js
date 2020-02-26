@@ -43,17 +43,17 @@ const Events = (function archieve() {
 
     todoEvents(todos, callback, callback2, callback3, callback4) {
       todos.forEach((todo) => {
-        todo.addEventListener('click', (e) => callback(e, todo));
+        todo.addEventListener('click', e => callback(e, todo));
       });
 
       [...document.getElementsByClassName('todo-delete')].forEach((btn) => {
-        btn.addEventListener('click', (e) => callback2(e.target));
+        btn.addEventListener('click', e => callback2(e.target));
       });
       [...document.getElementsByClassName('todo-complete')].forEach((checkbox) => {
-        checkbox.addEventListener('change', (e) => callback3(e.target));
+        checkbox.addEventListener('change', e => callback3(e.target));
       });
       [...document.getElementsByClassName('todo-edit')].forEach((editBtn) => {
-        editBtn.addEventListener('click', (e) => callback4(e.target));
+        editBtn.addEventListener('click', e => callback4(e.target));
       });
     },
 
@@ -83,7 +83,7 @@ const Events = (function archieve() {
 
       if (!startTodo || startTodo === null) return;
 
-      startTodo.addEventListener('click', (e) => callback(e));
+      startTodo.addEventListener('click', e => callback(e));
     },
 
     addHideToModal() {
@@ -103,7 +103,7 @@ const Events = (function archieve() {
     addSubmitProjectEvent(callback) {
       const newProjectForm = document.getElementById('project-form');
 
-      newProjectForm.addEventListener('submit', (e) => callback(e));
+      newProjectForm.addEventListener('submit', e => callback(e));
     },
 
     addnewTodovent(callback) {
@@ -114,7 +114,7 @@ const Events = (function archieve() {
     addSubmitTodoEvent(callback) {
       const newTodoForm = document.getElementById('todo-form');
 
-      newTodoForm.addEventListener('submit', (e) => callback(e));
+      newTodoForm.addEventListener('submit', e => callback(e));
     },
 
     addOpenProject(callback) {
@@ -125,7 +125,7 @@ const Events = (function archieve() {
 
     addDeleteProject(callback) {
       const deleteBtn = document.getElementById('project-delete');
-      deleteBtn.addEventListener('click', (e) => callback(e.target));
+      deleteBtn.addEventListener('click', e => callback(e.target));
     },
 
     addOpenLists(btns, callback) {
@@ -135,11 +135,11 @@ const Events = (function archieve() {
     },
 
     addToggleComplete(callback) {
-      document.getElementById('toggle-completed').addEventListener('click', (e) => callback(e));
+      document.getElementById('toggle-completed').addEventListener('click', e => callback(e));
     },
 
     updateProject(callback) {
-      document.getElementById('project-update').addEventListener('click', (e) => callback(e));
+      document.getElementById('project-update').addEventListener('click', e => callback(e));
     },
   };
 }());

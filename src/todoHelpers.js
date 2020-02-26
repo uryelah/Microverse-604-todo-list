@@ -8,9 +8,9 @@ import todoDetails from './modal/todoDetails';
 import Events from './events';
 
 const todoHelpers = (function helpers() {
-  const turnNumber = (str) => parseInt(str.match(/\d+/)[0], 10);
+  const turnNumber = str => parseInt(str.match(/\d+/)[0], 10);
 
-  const toggleComplete = (e) => {
+  const toggleComplete = e => {
     const todoId = parseInt(e.target.dataset.todo, 10);
     const todo = document.getElementById(`${todoId}-todo`);
 
@@ -162,7 +162,7 @@ const todoHelpers = (function helpers() {
     openTodos(viewTodosBtn, 'open');
   };
 
-  const progressBarAction = (e) => {
+  const progressBarAction = e => {
     const progressTab = document.getElementById('progress-tab');
     const progress = document.getElementsByClassName('ongoing')[0];
     const proTab = document.getElementById('progress-tab');
