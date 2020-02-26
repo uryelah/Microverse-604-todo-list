@@ -1,10 +1,10 @@
+// eslint-disable-next-line import/no-unresolved
 import { format } from 'date-fns';
 import Store from './localStorage';
 
 const Todos = () => {
   // eslint-disable-next-line no-unused-vars
   let count = 0;
-  // eslint-enable-next-line no-unused-vars
   const priority = ['low', 'normal', 'high'];
   const todoList = {};
   const storeName = 'todo-storage';
