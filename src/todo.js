@@ -233,8 +233,8 @@ const TodoFactory = (factoryObject) => {
   };
 
   const editTodo = (updatedTodo) => {
-    title = updatedTodo.title;
-    description = updatedTodo.description;
+    title = updatedTodo.title ? updatedTodo.title : '';
+    description = updatedTodo.description ? updatedTodo.description : '';
     priority = updatedTodo.priority ? updatedTodo.priority : priority;
 
     duration = updatedTodo.duration ? updatedTodo.duration * 60000 : duration;
