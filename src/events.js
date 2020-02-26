@@ -1,30 +1,20 @@
 import modalHelpers from './modal/modalHelpers';
-import projectHelpers from './projectHelpers';
-import todoHelpers from './todoHelpers';
-import { TodoArchieve } from './todo';
 
-const Events = (function () {
+const Events = (function archieve() {
   const todoSortBtns = document.getElementsByClassName('left-nav');
-  const turnNumber = (str) => {
-    return parseInt(str.match(/\d+/)[0]);
-  };
 
   return {
-    addProjectsEvent: function () {
+    addProjectsEvent(callback) {
       [...document.getElementsByClassName('project')].forEach((project, i, arr) => {
         project.addEventListener('click', () => {
-          arr.forEach(p => {
-            if (p === project) {
-              projectHelpers.activeProject(project);
-            } else {
-              p.classList.remove('project-active');
-            }
+          arr.forEach((p) => {
+            callback(p, project);
           });
         });
       });
     },
 
-    addnavEvents: function (action) {
+    addnavEvents(action) {
       [...todoSortBtns].forEach((btn, i) => {
         btn.addEventListener('click', () => {
           switch (i) {
@@ -35,140 +25,123 @@ const Events = (function () {
               action(false, 'PRIORITY');
               break;
             case 3:
-              action(false, 'EXPIRED')
+              action(false, 'EXPIRED');
               break;
             case 4:
               action(false, 'COMPLETED');
               break;
             case 5:
-              action(false, 'INCOMPLETED')
+              action(false, 'INCOMPLETED');
+              break;
+            default:
+              action(false, 'DATE');
               break;
           }
-        })
+        });
       });
     },
 
-    todoEvents: function (todos, callback) {
-      todos.forEach(todo => {
-        todo.addEventListener('click', e => callback(e, todo));
+    todoEvents(todos, callback, callback2, callback3, callback4) {
+      todos.forEach((todo) => {
+        todo.addEventListener('click', (e) => callback(e, todo));
       });
 
-      [...document.getElementsByClassName('todo-delete')].forEach(btn => {
-        btn.addEventListener('click', e => todoHelpers.deleteTodo(e.target))
+      [...document.getElementsByClassName('todo-delete')].forEach((btn) => {
+        btn.addEventListener('click', (e) => callback2(e.target));
       });
-      [...document.getElementsByClassName('todo-complete')].forEach(checkbox => {
-        checkbox.addEventListener('change', e => todoHelpers.toggleCompleteTodo(e.target))
+      [...document.getElementsByClassName('todo-complete')].forEach((checkbox) => {
+        checkbox.addEventListener('change', (e) => callback3(e.target));
       });
-      [...document.getElementsByClassName('todo-edit')].forEach(editBtn => {
-        editBtn.addEventListener('click', e => todoHelpers.editTodo(e.target))
+      [...document.getElementsByClassName('todo-edit')].forEach((editBtn) => {
+        editBtn.addEventListener('click', (e) => callback4(e.target));
       });
     },
 
-    addEventToEdit: (todo) => {
-      document.getElementById('todo-update').addEventListener('click', () => todoHelpers.getNewData(todo))
+    addEventToEdit: (todo, callback) => {
+      document.getElementById('todo-update').addEventListener('click', () => callback(todo));
     },
 
-    editProjectEvent: function (callback) {
+    editProjectEvent(callback) {
       document.getElementById('edit-project').addEventListener('click', callback);
     },
 
-    addToggleToProgressBar: function () {
+    addToggleToProgressBar() {
       const progressTab = document.getElementById('progress-tab');
       const progress = document.getElementsByClassName('ongoing')[0];
       progressTab.addEventListener('click', () => {
         progress.classList.toggle('hidden');
         if (progressTab.classList.contains('progress-done')) {
-          document.getElementById('bar-fill').style.width = `0%`;
+          document.getElementById('bar-fill').style.width = '0%';
           progressTab.querySelector('span').innerText = '';
-          progressTab.classList.remove('progress-done')
+          progressTab.classList.remove('progress-done');
         }
       });
     },
 
-    startProgressBar: function () {
-      const progressTab = document.getElementById('progress-tab');
+    startProgressBar(callback) {
       const startTodo = document.getElementById('start-todo');
-      const progress = document.getElementsByClassName('ongoing')[0];
 
-      startTodo.addEventListener('click', e => {
-        const proTab = document.getElementById('progress-tab');
-        const todoId = parseInt(e.target.dataset.todo);
-        const todo = TodoArchieve.getTodoAt(todoId);
-          
-        const completitionLoader = {
-          receive: (percentage) => {
-            document.getElementById('bar-fill').style.width = `${percentage}%`;
-          },
-          complete: () => {
-            todoHelpers.populateTodos(0);
-            setTimeout(() => {
-              document.getElementById(`${todoId}-todo`).querySelector('input').click();
-              proTab.classList.add('progress-done');
-            }, 1000)
-          }
-        }
-        todo.startTask(completitionLoader);
-        modalHelpers.close();
-        progressTab.querySelector('span').innerText = e.target.dataset.title;
-        progress.classList.remove('hidden');
-      });
+      if (!startTodo || startTodo === null) return;
+
+      startTodo.addEventListener('click', (e) => callback(e));
     },
 
-    addHideToModal: function () {
+    addHideToModal() {
+      const modal = document.getElementById('modal');
       const hideModal = modal.querySelector('#modal-hide');
       hideModal.addEventListener('click', () => {
         modalHelpers.close();
       });
-    }, 
+    },
 
-    addnewProjectEvent: function (callback) {
-      const addProjectBtn = document.getElementById("add-project");
-      
+    addnewProjectEvent(callback) {
+      const addProjectBtn = document.getElementById('add-project');
+
       addProjectBtn.addEventListener('click', callback);
     },
 
-    addSubmitProjectEvent: function (callback) {
+    addSubmitProjectEvent(callback) {
       const newProjectForm = document.getElementById('project-form');
-      
-      newProjectForm.addEventListener('submit', e => callback(e));
+
+      newProjectForm.addEventListener('submit', (e) => callback(e));
     },
 
-    addnewTodovent: function (callback) {
+    addnewTodovent(callback) {
       const addTodo = document.getElementById('create-project-todo');
       addTodo.addEventListener('click', callback);
     },
 
-    addSubmitTodoEvent: function (callback) {
+    addSubmitTodoEvent(callback) {
       const newTodoForm = document.getElementById('todo-form');
 
       newTodoForm.addEventListener('submit', (e) => callback(e));
     },
 
-    addOpenProject: function (callback) {
+    addOpenProject(callback) {
       const projectTitle = document.getElementById('project-title');
 
-      projectTitle.addEventListener('click', callback)
+      projectTitle.addEventListener('click', callback);
     },
 
-    addDeleteProject: function (callback) {
-      const deleteBtn = document.getElementById('project-delete')
-      deleteBtn.addEventListener('click', e => callback(e.target));
+    addDeleteProject(callback) {
+      const deleteBtn = document.getElementById('project-delete');
+      deleteBtn.addEventListener('click', (e) => callback(e.target));
     },
 
-    addOpenLists: function (btns, callback) {
-      [...btns].forEach(btn => {
+    addOpenLists(btns, callback) {
+      [...btns].forEach((btn) => {
         btn.addEventListener('click', () => callback(btn));
       });
     },
 
-    addToggleComplete: function (callback) {
-      document.getElementById('toggle-completed').addEventListener('click', e => callback(e));
+    addToggleComplete(callback) {
+      document.getElementById('toggle-completed').addEventListener('click', (e) => callback(e));
     },
 
-    updateProject: function (callback) {
-      document.getElementById('project-update').addEventListener('click', e => callback(e));
-    }
-  }
-})();
+    updateProject(callback) {
+      document.getElementById('project-update').addEventListener('click', (e) => callback(e));
+    },
+  };
+}());
 
 export default Events;

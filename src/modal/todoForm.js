@@ -1,11 +1,11 @@
-const todoForm = (projectId) => {
-    return `<h2>New Todo</h2>
+const todoForm = (projectId) => `<h2>New Todo</h2>
     <form id="todo-form" class="modal-form">
         <div>
             <label for="todo-title">
             Title:
             </label>
             <input type="text" name="title" id="todo-title" required>
+            <span class='required'>(required field)</span>
         </div>
     
         <div>
@@ -17,6 +17,7 @@ const todoForm = (projectId) => {
                 <option value="1">Normal</option>
                 <option value="2">High</option>
             </select>
+            <span class='required'>(required field)</span>
         </div>
     
         <div>
@@ -24,6 +25,7 @@ const todoForm = (projectId) => {
             Due at:
             </label>
             <input type="date" name="date" id="todo-date" required>
+            <span class='required'>(required field)</span>
         </div>
     
         <div>
@@ -45,7 +47,7 @@ const todoForm = (projectId) => {
             <label for="todo-tag">
             Tags:
             </label>
-            <input type="text" name="tag" id="todo-tag">
+            <input type="text" name="tags" id="todo-tag">
             <small>Separate each tag with a comma.</small>
         </div>
         <div>
@@ -53,11 +55,11 @@ const todoForm = (projectId) => {
             Description:
             </label>
             <textarea type="text" name="description" id="todo-description" required></textarea>
+            <span class='required'>(required field)</span>
         </div>
         <input type="hidden" name="project" id="todo-project" value="${projectId}">
     
-        <button type="submit">Add todo</button>
-    </form>`
-}; 
+        <button type="submit" class='action-btn'>Add todo</button>
+    </form>`;
 
 export default todoForm;

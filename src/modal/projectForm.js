@@ -5,6 +5,7 @@ const projectForm = `<h2>New Project</h2>
         Project title:
         </label>
         <input type="text" name="title" id="project-title" required>
+        <span class='required'>(required field)</span>
     </div>
 
     <div>
@@ -12,10 +13,11 @@ const projectForm = `<h2>New Project</h2>
         Project description:
         </label>
         <textarea name="description" id="project-description" required></textarea>
+        <span class='required'>(required field)</span>
     </div>
     <input type="hidden" name="creator" id="project-creator" value="user">
 
-    <button type="submit">Add Project</button>
-</form>`
+    <button type="submit" class='action-btn'>Add Project</button>
+</form>`;
 
 export default projectForm;

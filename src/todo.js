@@ -2,8 +2,10 @@ import { format } from 'date-fns';
 import Store from './localStorage';
 
 const Todos = () => {
+  // eslint-disable-next-line no-unused-vars
   let count = 0;
-  let priority = ['low', 'normal', 'high'];
+  // eslint-enable-next-line no-unused-vars
+  const priority = ['low', 'normal', 'high'];
   const todoList = {};
   const storeName = 'todo-storage';
 
@@ -11,27 +13,28 @@ const Todos = () => {
     todoList[todo.getId()] = todo;
     Store.storeTodo(Object.values(todoList), storeName);
     return todoList[todo.getId()];
-  }
+  };
 
   const getStoreName = () => storeName;
 
   const deleteTodo = (todoId) => {
     delete todoList[todoId];
-  }
+  };
 
   const deleteTodos = (todoArr) => {
-    todoArr.forEach(todo => {
+    todoArr.forEach((todo) => {
       delete todoList[todo];
-    })
-  }
+    });
+    Store.removeTodos(todoArr);
+  };
 
   const getTodos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter(todo => !todo.getExpired());
+    result = result.filter((todo) => !todo.getExpired());
     return result;
-  }
+  };
 
   const todosByNewest = (firstOnly = false) => {
     const todos = getTodos();
@@ -49,15 +52,15 @@ const Todos = () => {
       }
 
       return 0;
-    })
+    });
 
     if (firstOnly) {
-      result = result.filter(todo => !todo.getCompleted());
+      result = result.filter((todo) => !todo.getCompleted());
       return result[0];
     }
 
     return result;
-  }
+  };
 
   const todosByPriority = () => {
     const todos = getTodos();
@@ -75,57 +78,54 @@ const Todos = () => {
       }
 
       return 0;
-    })
+    });
 
     return result;
-  }
+  };
 
   const completedTodos = () => {
     const todos = getTodos();
     let result = Object.values(todos);
 
-    result = result.filter(todo => todo.getCompleted());
+    result = result.filter((todo) => todo.getCompleted());
 
     return result;
-  }
+  };
 
   const incompletedTodos = () => {
     const todos = getTodos();
     let result = Object.values(todos);
 
-    result = result.filter(todo => !todo.getCompleted());
+    result = result.filter((todo) => !todo.getCompleted());
 
     return result;
-  }
+  };
 
   const expiredTodos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter(todo => todo.getExpired());
+    result = result.filter((todo) => todo.getExpired());
     return result;
-
-  }
+  };
 
   const getTodosByIds = (arr) => {
-    let todoArray = [];
-    arr.forEach(id => {
+    const todoArray = [];
+    arr.forEach((id) => {
       todoArray.push(todoList[id]);
     });
     return todoArray;
-  }
+  };
 
-  const getTodoAt = (index) => {
-    return todoList[index];
-  }
+  const getTodoAt = (index) => todoList[index];
 
   const getId = () => {
-    return count++
-  }
+    const prevCount = count;
+    count += 1;
+    return prevCount;
+  };
 
-  const getPriority = (index) => {
-    return priority[index];
-  }
+  const getPriority = (index) => priority[index];
 
   return {
     getId,
@@ -141,12 +141,19 @@ const Todos = () => {
     todosByPriority,
     completedTodos,
     incompletedTodos,
-    expiredTodos
-  }
-}
+    expiredTodos,
+  };
+};
+
+const TodoArchieve = Todos();
 
 const TodoFactory = (factoryObject) => {
-  let { createdAt = Date.now(), title, duration = 0, description, completed = false, priority = 1, date, time, tags = [], project, archieve = TodoArchieve } = factoryObject;
+  let {
+    title, duration = 0, description, completed = false, priority = 1, date, time, tags = [],
+  } = factoryObject;
+  const {
+    createdAt = Date.now(), project, archieve = TodoArchieve,
+  } = factoryObject;
   date = new Date(date);
 
   date.setDate(date.getDate());
@@ -158,13 +165,15 @@ const TodoFactory = (factoryObject) => {
     time.setDate(time.getDate() + 1);
     time.setSeconds(time.getSeconds() - 1);
   } else {
-    const formTime = time.split(':')
+    const formTime = time.split(':');
     time = date;
-    time.setHours(parseInt(formTime[0]));
-    time.setMinutes(parseInt(formTime[1]));
-  };
+    time.setHours(parseInt(formTime[0], 10));
+    time.setMinutes(parseInt(formTime[1], 10));
+  }
 
-  let id = archieve.getId();
+  tags = typeof tags === 'string' ? tags.split(',') : tags;
+
+  const id = archieve.getId();
   let expired = false;
   let inProgress = false;
 
@@ -176,12 +185,36 @@ const TodoFactory = (factoryObject) => {
   const getTime = () => format(time, 'hh:mm:ssa');
   const getDate = () => format(date, 'yyyy/MM/dd');
   const getCreatedAt = () => format(createdAt, 'hh:mm:ss yyyy/MM/dd');
-  const getExpired = () => {
-    return expired;
-  }
+  const getExpired = () => expired;
+
+  const rawTodoInfo = () => ({
+    id: getId(),
+    createdAt,
+    title,
+    description,
+    priority,
+    date: getDate(),
+    time: getTime(),
+    tags,
+    project,
+    expired,
+    completed,
+    duration,
+    inProgress,
+  });
+
+  const isDue = () => {
+    if (completed || expired) return;
+
+    if (time.getTime() < new Date().getTime()) {
+      expired = true;
+      Store.updateTodo(id, rawTodoInfo());
+      Store.updateTodos(TodoArchieve.getStoreName());
+    }
+  };
 
   const getTodoInfo = () => {
-    isDue()
+    isDue();
     return {
       id: getId(),
       createdAt: getCreatedAt(),
@@ -196,27 +229,8 @@ const TodoFactory = (factoryObject) => {
       completed,
       duration,
       inProgress,
-    }
-  }
-
-  const rawTodoInfo = () => {
-    isDue()
-    return {
-      id: getId(),
-      createdAt: createdAt,
-      title,
-      description,
-      priority: priority,
-      date: getDate(),
-      time: getTime(),
-      tags,
-      project,
-      expired,
-      completed,
-      duration,
-      inProgress,
-    }
-  }
+    };
+  };
 
   const editTodo = (updatedTodo) => {
     title = updatedTodo.title;
@@ -233,39 +247,11 @@ const TodoFactory = (factoryObject) => {
     Store.updateTodos(TodoArchieve.getStoreName());
 
     return getTodoInfo();
-  }
+  };
 
   const addTag = (tag) => {
     tags.push(tag);
-  }
-
-  const startTask = (subscriber, interval = 1000) => {
-    if (completed || expired) return;
-
-    inProgress = true;
-    let count = 0;
-
-    const chronometer = setInterval(() => {
-      count++
-      subscriber.receive((100 * count * interval) / duration);
-    }, interval);
-
-    setTimeout(() => {
-      toggleComplete();
-      clearInterval(chronometer);
-      subscriber.complete();
-    }, duration + 2000)
-  }
-
-  const isDue = () => {
-    if (completed || expired) return;
-
-    if (time.getTime() < new Date().getTime()) {
-      expired = true;
-      Store.updateTodo(id, rawTodoInfo());
-      Store.updateTodos(TodoArchieve.getStoreName());
-    }
-  }
+  };
 
   const toggleComplete = (check) => {
     if (expired) return;
@@ -274,11 +260,29 @@ const TodoFactory = (factoryObject) => {
       completed = true;
     } else {
       completed = false;
-    };
+    }
 
     Store.updateTodo(id, rawTodoInfo());
     Store.updateTodos(TodoArchieve.getStoreName());
-  }
+  };
+
+  const startTask = (subscriber, interval = 1000) => {
+    if (completed || expired) return;
+
+    inProgress = true;
+    let count = 0;
+
+    const chronometer = setInterval(() => {
+      count += 1;
+      subscriber.receive((100 * count * interval) / duration);
+    }, interval);
+
+    setTimeout(() => {
+      toggleComplete();
+      clearInterval(chronometer);
+      subscriber.complete();
+    }, duration + 1000);
+  };
 
   return {
     getId,
@@ -293,10 +297,8 @@ const TodoFactory = (factoryObject) => {
     getRawTime,
     getPriority,
     getCompleted,
-    getExpired
+    getExpired,
   };
-}
-
-const TodoArchieve = Todos();
+};
 
 export { TodoFactory, TodoArchieve };

@@ -1,55 +1,75 @@
-import { ProjectArchive, ProjectFactory } from './project';
-import { TodoArchieve, TodoFactory } from './todo';
+import modalHelpers from './modal/modalHelpers';
+import signupForm from './modal/signupForm';
 
-const Store = (function () {
+const Store = (function storage() {
   let dataToStore = [];
   let todoDataToStore = [];
 
-  const seedProjects = (projects) => {
-    projects.forEach(project => {
-      ProjectArchive.addProject(project)
+  const seedProjects = (projects, archieve) => {
+    projects.forEach((project) => {
+      archieve.addProject(project);
     });
-  }
+  };
 
-  const seedTodos = (todos) => {
-    todos.forEach(todo => {
-      TodoArchieve.addTodo(todo);
+  const seedTodos = (todos, archieve) => {
+    todos.forEach((todo) => {
+      archieve.addTodo(todo);
     });
-  }
+  };
 
   return {
-    hasProject: () => {
-      return localStorage.getItem(ProjectArchive.getStoreName())
+    setUser: () => {
+      const user = localStorage.getItem('username');
+      if (!user) {
+        modalHelpers.open(signupForm, 'user');
+        const userForm = document.getElementById('user-form');
+        const userInput = document.getElementById('username-input');
+        const userName = document.getElementById('user-name');
+        userForm.addEventListener('submit', (e) => {
+          localStorage.setItem('username', userInput.value);
+          userName.innerText = userInput.value;
+          modalHelpers.close();
+          e.preventDefault();
+        });
+      }
     },
 
-    parseFromStorage: () => {
-      let arr = JSON.parse(localStorage.getItem(ProjectArchive.getStoreName()));
-      let todoArr = JSON.parse(localStorage.getItem(TodoArchieve.getStoreName()));
+    getUser: () => localStorage.getItem('username'),
+
+    hasProject: (archieve) => {
+      const retrived = JSON.parse(localStorage.getItem(archieve.getStoreName()));
+      return retrived !== null && retrived.length > 0;
+    },
+
+    parseFromStorage: (factory, todoArchieve, projectArchieve, projectFactory) => {
+      const arr = JSON.parse(localStorage.getItem(projectArchieve.getStoreName()));
+      const todoArr = JSON.parse(localStorage.getItem(todoArchieve.getStoreName()));
 
       const result = [];
       const todoResult = [];
 
       if (arr !== null) {
-        arr.map(project => {
-          result.push(ProjectFactory(project));
+        arr.map((project) => {
+          result.push(projectFactory(project));
+          return project;
         });
-  
-        seedProjects(result);
+
+        seedProjects(result, projectArchieve);
       }
 
       if (todoArr !== null) {
-        todoArr.map(todo => {
-          let oo = TodoFactory(todo)
+        todoArr.map((todo) => {
+          const oo = factory(todo);
           todoResult.push(oo);
+          return todo;
         });
-  
-        seedTodos(todoResult);
-      }
 
+        seedTodos(todoResult, todoArchieve, projectArchieve);
+      }
     },
 
     storeProject: (projectList, storeName) => {
-      dataToStore = projectList.map(project => project.getProjectInfo())
+      dataToStore = Object.values(projectList).map((project) => project.getProjectInfo());
       localStorage.setItem(storeName, JSON.stringify(dataToStore));
     },
 
@@ -59,8 +79,16 @@ const Store = (function () {
     },
 
     storeTodo: (todoList, storeName) => {
-      todoDataToStore = todoList.map(todo => todo.rawTodoInfo());
+      todoDataToStore = todoList.map((todo) => todo.rawTodoInfo());
       localStorage.setItem(storeName, JSON.stringify(todoDataToStore));
+    },
+
+    removeTodos: (todoList) => {
+      todoList.forEach((todo) => {
+        delete todoDataToStore[todo];
+      });
+      todoDataToStore = todoDataToStore.filter((todo) => todo !== null);
+      localStorage.setItem('todo-storage', JSON.stringify(todoDataToStore));
     },
 
     updateTodo: (todoId, todoData) => {
@@ -83,8 +111,8 @@ const Store = (function () {
 
     updateProjects: (storeName) => {
       localStorage.setItem(storeName, JSON.stringify(dataToStore));
-    }
-  }
-})();
+    },
+  };
+}());
 
 export default Store;

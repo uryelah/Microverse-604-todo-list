@@ -35,15 +35,15 @@
 
 This project consists in a application that users can create projects and set a list of tasks - todos - to help them to manager their time and organize tasks. In this app users can:
 
-    - create maximum 7 projects;
-    - create todos inside projects;
-    - see completed, incompleted and expired todos;
-    - mark todos as completed;
-    - set a day and time to each todo;
-    - set low, normal and high priority to each todo;
-    - see the next todo;
-    - see todos ordered by date or by priority;
-    - edit and delete todos.
+  - create maximum 7 projects;
+  - create todos inside projects;
+  - see completed, incompleted and expired todos;
+  - mark todos as completed;
+  - set a day and time to each todo;
+  - set low, normal and high priority to each todo;
+  - see the next todo;
+  - see todos ordered by date or by priority;
+  - edit and delete todos.
 
 <div align="center">
   <img src="public/img/todo.png" width="900">

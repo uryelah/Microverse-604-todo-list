@@ -6,6 +6,7 @@ import modalHelpers from './modal/modalHelpers';
 import projectHelpers from './projectHelpers';
 import todoHelpers from './todoHelpers';
 import Events from './events';
+import Store from './localStorage';
 
 const ui = () => {
   const projectsContainer = document.getElementById('all-projects');
@@ -16,24 +17,32 @@ const ui = () => {
   const projectTitle = document.getElementById('project-title');
   let containerTodos = document.getElementById('container-todos');
   const viewTodosBtn = document.getElementById('view-todos');
+  const userName = document.getElementById('user-name');
   let count;
 
   const deleteProject = (project) => {
-    const projectId = parseInt(project.dataset.project);
+    const projectId = parseInt(project.dataset.project, 10);
     document.getElementById(`${projectId}-pro`).remove();
-    const todosArr = projectHelpers.projectAction(projectId, 'deleteTodos')
+    const todosArr = projectHelpers.projectAction(projectId, 'deleteTodos');
     ProjectArchive.deleteProject();
-    todosArr.forEach(todo => {
+    todosArr.forEach((todo) => {
       document.getElementById(`${todo}-todo`).remove();
-    })
+    });
+    projectCount.innerHTML = ProjectArchive.getCount();
     modalHelpers.close();
     projectTitle.innerText = 'Deleted';
     openProject.classList.add('main-deleted');
-  }
+  };
 
-  const turnNumber = (str) => {
-    return parseInt(str.match(/\d+/)[0]);
-  }
+  const turnNumber = (str) => parseInt(str.match(/\d+/)[0], 10);
+
+  const activeProjectMode = (p, project) => {
+    if (p === project) {
+      projectHelpers.activeProject(project);
+    } else {
+      p.classList.remove('project-active');
+    }
+  };
 
   const populateProjects = () => {
     projectsContainer.innerHTML = '';
@@ -41,38 +50,36 @@ const ui = () => {
     const currentProjects = ProjectArchive.getProjects();
 
     currentProjects.forEach((project, i) => {
-      projectsContainer.innerHTML += `<article id="${project.getId()}-pro" class="project ${i === 0 ? 'project-active' : ''}">${project.getTitle()}</article>`
+      projectsContainer.innerHTML += `<article id="${project.getId()}-pro" data-project="${project.getId()}" class="project ${i === 0 ? 'project-active' : ''}">${project.getTitle()}</article>`;
 
       if (i === 0) {
-        projectHelpers.activeProject(projectsContainer.lastElementChild);        
+        projectHelpers.activeProject(projectsContainer.lastElementChild);
       }
     });
 
-    Events.addProjectsEvent()
+    Events.addProjectsEvent(activeProjectMode);
     projectCount.innerText = ProjectArchive.getCount();
-  }
+  };
 
   const addNewTodo = (projectId, newTodo) => {
-    
-    let todoData;
-    
-    todoData = newTodo.getTodoInfo();
+    const todoData = newTodo.getTodoInfo();
 
     containerTodos = document.getElementById('container-todos');
     containerTodos.innerHTML += todoHelpers.todoElement(todoData);
 
     const currentTodos = document.getElementsByClassName('todo');
-    Events.todoEvents([...currentTodos], todoHelpers.afterTodoEvent);
+    Events.todoEvents([...currentTodos], todoHelpers.afterTodoEvent,
+      todoHelpers.deleteTodo, todoHelpers.toggleCompleteTodo, todoHelpers.editTodo);
     todoHelpers.openTodos(viewTodosBtn, 'open');
   };
 
   const submitCallback = (e) => {
     modalHelpers.close();
 
-    let formValues = {};
+    const formValues = {};
 
     [...e.target].forEach((element, i, arr) => {
-      if (i == arr.length - 1) return;
+      if (i === arr.length - 1) return;
 
       formValues[`${element.name}`] = element.value;
     });
@@ -84,16 +91,16 @@ const ui = () => {
     populateProjects();
 
     e.preventDefault();
-  }
-  
+  };
+
   const openNewProjectForm = () => {
     if (count >= ProjectArchive.getLimit()) {
-      projectLimit.innerHTML = 'Max projects reached!'
+      projectLimit.innerHTML = 'Max projects reached!';
       projectLimit.classList.add('warn-project-limit');
       return;
-    } else {
-      modalHelpers.open(projectForm, null);
     }
+    modalHelpers.open(projectForm, null);
+
 
     Events.addSubmitProjectEvent(submitCallback);
   };
@@ -101,21 +108,21 @@ const ui = () => {
   const submitTodoCallback = (e) => {
     modalHelpers.close();
 
-    let formValues = {};
+    const formValues = {};
 
     [...e.target].forEach((element, i, arr) => {
-      if (i == arr.length - 1) return;
+      if (i === arr.length - 1) return;
       if (element.name === 'project') {
-        formValues[`${element.name}`] = parseInt(element.value);          
+        formValues[`${element.name}`] = parseInt(element.value, 10);
       } else {
         formValues[`${element.name}`] = element.value;
       }
     });
-    
-    let newTodo = projectHelpers.projectAction(turnNumber(openProject.id), 'addTodo', formValues);
 
-    let projectId = turnNumber(openProject.id);
-    
+    const newTodo = projectHelpers.projectAction(turnNumber(openProject.id), 'addTodo', formValues);
+
+    const projectId = turnNumber(openProject.id);
+
 
     addNewTodo(projectId, newTodo);
     todoHelpers.getNextTodo();
@@ -123,10 +130,10 @@ const ui = () => {
     e.preventDefault();
   };
 
-  const openNewTodoForm = (e) => {
-    openProject = document.getElementsByClassName('main-list')[0];
+  const openNewTodoForm = () => {
+    openProject = document.querySelector('.main-list');
     modalHelpers.open(todoForm(turnNumber(openProject.id)), null);
-  
+
     Events.addSubmitTodoEvent(submitTodoCallback);
   };
 
@@ -135,9 +142,13 @@ const ui = () => {
     modalHelpers.open(projectDetails(projectData), projectData.id);
 
     Events.addDeleteProject(deleteProject);
-  }
+  };
 
-  projectLimit.innerHTML = `Projects limit: ${ProjectArchive.getLimit()}`
+  Store.setUser();
+
+  userName.innerText = Store.getUser();
+
+  projectLimit.innerHTML = `Projects limit: ${ProjectArchive.getLimit()}`;
 
   Events.editProjectEvent(projectHelpers.editProject);
 
@@ -158,7 +169,7 @@ const ui = () => {
   todoHelpers.populateTodos(0);
 
   todoHelpers.getNextTodo();
-  
+
   Events.addnavEvents(todoHelpers.populateTodos);
 };
 

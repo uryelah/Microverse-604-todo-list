@@ -1,15 +1,16 @@
-import { ProjectFactory } from './project';
 import Store from './localStorage';
 
 const Projects = () => {
   let count = 0;
   const storeName = 'project-storage';
   const projectLimit = 7;
-  let projectList = [];
+  const projectList = {};
 
   const getId = () => {
-    return count++
-  }
+    const prevId = count;
+    count += 1;
+    return prevId;
+  };
 
   const getStoreName = () => storeName;
 
@@ -18,24 +19,20 @@ const Projects = () => {
   const getLimit = () => projectLimit;
 
   const deleteProject = (projectId) => {
-    projectList.splice(projectId, 1);
+    count -= 1;
+    delete projectList[projectId];
     Store.removeProject(projectId, storeName);
-  }
+  };
 
-  const getProjects = () => {
-    return projectList;
-  }
+  const getProjects = () => Object.values(projectList);
 
-  const getProjectAt = (index) => {
-    return projectList[index];
-  }
+  const getProjectAt = (index) => projectList[index];
 
   const addProject = (project) => {
     if (count > projectLimit) return;
-
-    projectList.push(project);
+    projectList[project.getId()] = project;
     Store.storeProject(projectList, storeName);
-  }
+  };
 
   return {
     getId,
@@ -46,7 +43,7 @@ const Projects = () => {
     getStoreName,
     getProjectAt,
     deleteProject,
-  }
-}
+  };
+};
 
-export { Projects };
+export default Projects;
