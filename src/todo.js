@@ -32,7 +32,7 @@ const Todos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter((todo) => !todo.getExpired());
+    result = result.filter(todo => !todo.getExpired());
     return result;
   };
 
@@ -55,7 +55,7 @@ const Todos = () => {
     });
 
     if (firstOnly) {
-      result = result.filter((todo) => !todo.getCompleted());
+      result = result.filter(todo => !todo.getCompleted());
       return result[0];
     }
 
@@ -87,7 +87,7 @@ const Todos = () => {
     const todos = getTodos();
     let result = Object.values(todos);
 
-    result = result.filter((todo) => todo.getCompleted());
+    result = result.filter(todo => todo.getCompleted());
 
     return result;
   };
@@ -96,7 +96,7 @@ const Todos = () => {
     const todos = getTodos();
     let result = Object.values(todos);
 
-    result = result.filter((todo) => !todo.getCompleted());
+    result = result.filter(todo => !todo.getCompleted());
 
     return result;
   };
@@ -105,7 +105,7 @@ const Todos = () => {
     const todos = todoList;
     let result = Object.values(todos);
 
-    result = result.filter((todo) => todo.getExpired());
+    result = result.filter(todo => todo.getExpired());
     return result;
   };
 
@@ -117,7 +117,7 @@ const Todos = () => {
     return todoArray;
   };
 
-  const getTodoAt = (index) => todoList[index];
+  const getTodoAt = index => todoList[index];
 
   const getId = () => {
     const prevCount = count;
@@ -125,7 +125,7 @@ const Todos = () => {
     return prevCount;
   };
 
-  const getPriority = (index) => priority[index];
+  const getPriority = index => priority[index];
 
   return {
     getId,

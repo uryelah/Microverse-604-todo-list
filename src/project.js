@@ -44,7 +44,7 @@ const ProjectFactory = (factoryObject) => {
 
   const getTodos = () => TodoArchieve.getTodosByIds(todos);
 
-  const getTodoAt = (index) => TodoArchieve.getTodoAt(index);
+  const getTodoAt = index => TodoArchieve.getTodoAt(index);
 
   const getProjectInfo = () => ({
     id,

@@ -34,7 +34,7 @@ const ui = () => {
     openProject.classList.add('main-deleted');
   };
 
-  const turnNumber = (str) => parseInt(str.match(/\d+/)[0], 10);
+  const turnNumber = str => parseInt(str.match(/\d+/)[0], 10);
 
   const activeProjectMode = (p, project) => {
     if (p === project) {
@@ -73,7 +73,7 @@ const ui = () => {
     todoHelpers.openTodos(viewTodosBtn, 'open');
   };
 
-  const submitCallback = e => {
+  const submitCallback = (e) => {
     modalHelpers.close();
 
     const formValues = {};
@@ -105,7 +105,7 @@ const ui = () => {
     Events.addSubmitProjectEvent(submitCallback);
   };
 
-  const submitTodoCallback = e => {
+  const submitTodoCallback = (e) => {
     modalHelpers.close();
 
     const formValues = {};

@@ -17,7 +17,7 @@ const todoDetails = (todo, edit = false) => {
     'card-teal',
     'card-dark-blue',
   ];
-  const tags = todo.tags.map((tag) => `<p class="todo-tag child-card ${tagColors[Math.floor(Math.random() * tagColors.length)]}">${tag}</p>`).join('');
+  const tags = todo.tags.map(tag => `<p class="todo-tag child-card ${tagColors[Math.floor(Math.random() * tagColors.length)]}">${tag}</p>`).join('');
   const editableTags = `<p contenteditable="true"  class="editable-content todo-new-tags tags">${todo.tags.join(', ')}</p><small>${edit ? 'Separate the tags with commas' : ''}</small>`;
 
   return `<article id="0-todo-open" class="modal-details todo-details">

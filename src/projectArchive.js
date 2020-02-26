@@ -26,7 +26,7 @@ const Projects = () => {
 
   const getProjects = () => Object.values(projectList);
 
-  const getProjectAt = (index) => projectList[index];
+  const getProjectAt = index => projectList[index];
 
   const addProject = (project) => {
     if (count > projectLimit) return;

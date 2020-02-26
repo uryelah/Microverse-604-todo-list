@@ -1,4 +1,4 @@
-const todoForm = (projectId) => `<h2>New Todo</h2>
+const todoForm = projectId => `<h2>New Todo</h2>
     <form id="todo-form" class="modal-form">
         <div>
             <label for="todo-title">

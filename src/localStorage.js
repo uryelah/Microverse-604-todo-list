@@ -69,7 +69,7 @@ const Store = (function storage() {
     },
 
     storeProject: (projectList, storeName) => {
-      dataToStore = Object.values(projectList).map((project) => project.getProjectInfo());
+      dataToStore = Object.values(projectList).map(project => project.getProjectInfo());
       localStorage.setItem(storeName, JSON.stringify(dataToStore));
     },
 
@@ -79,7 +79,7 @@ const Store = (function storage() {
     },
 
     storeTodo: (todoList, storeName) => {
-      todoDataToStore = todoList.map((todo) => todo.rawTodoInfo());
+      todoDataToStore = todoList.map(todo => todo.rawTodoInfo());
       localStorage.setItem(storeName, JSON.stringify(todoDataToStore));
     },
 
@@ -87,7 +87,7 @@ const Store = (function storage() {
       todoList.forEach((todo) => {
         delete todoDataToStore[todo];
       });
-      todoDataToStore = todoDataToStore.filter((todo) => todo !== null);
+      todoDataToStore = todoDataToStore.filter(todo => todo !== null);
       localStorage.setItem('todo-storage', JSON.stringify(todoDataToStore));
     },
 
