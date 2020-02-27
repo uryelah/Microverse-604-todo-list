@@ -56,6 +56,7 @@ This project consists in a application that users can create projects and set a 
 Download or clone the [repo here](https://github.com/uryelah/Microverse-604-todo-list/tree/todolist.git), enter the directory in the terminal and run the commands:
 
 - `npm i`
+- `npm run bundle`
 - `npm run start`
   Your default browser should open the app at the localhost:8080
 
