@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "webpack",
     "watch": "webpack --watch",
     "start": "webpack-dev-server --watch --open",
     "deploy": "git subtree push --prefix dist origin gh-pages"
@@ -29,5 +30,8 @@
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "date-fns": "^2.9.0"
   }
 }

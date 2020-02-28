@@ -1,12 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./main.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <script src="https://kit.fontawesome.com/bc4d064067.js" crossorigin="anonymous"></script>
     <title>Todo list</title>
 </head>
+
 <body>
-    
+    <main class="right">
+        <section id="modal" class="modal-container modal-closed main-shadow">
+            <div id='modal-hide'><i class="fas fa-times"></i></div>
+            <div id="modal-content"></div>
+        </section>
+
+        <nav class="app-nav">
+            <ul class="nav-ul">
+                <li class="left-nav">See All todos:</li>
+                <li id="see-all" class="left-nav todo-filter">By date</li>
+                <li id="see-all-priority" class="left-nav todo-filter">By priority</li>
+                <li id="see-expired" class="left-nav todo-filter">Expired</li>
+                <li id="see-completed" class="left-nav todo-filter">Completed</li>
+                <li id="see-incompleted" class="left-nav todo-filter">Incompleted</li>
+                <li id="user" class="right-nav">Lets do it, <span id='user-name'>User</span>!</li>
+            </ul>
+        </nav>
+
+        <section class="main-content">
+            <div id="0-pro-open" class="main-list main-all main-0-pro">
+                <header class="list-header header">
+                    <h1 id="project-title"></h1>
+                    <div class="group-right">
+                        <button id="edit-project" class="add-btn edit-btn"><i class="far fa-edit"></i></button>
+                        <button id="create-project-todo" class="add-btn"><i class="far fa-plus-square"></i></button>
+                    </div>
+                </header>
+                <button id="view-todos" class="show-more"><span>View all</span> Todos<i
+                        class="fas fa-caret-down"></i></button>
+                <div id="container-todos" class="todos-container collapsed">
+                </div>
+            </div>
+        </section>
+        <article id="progress" class="progress-bar">
+            <div id="progress-tab" class="progress-tab">
+                <p>⏲️ <span></span> <i class="fas fa-caret-down"></i></p>
+            </div>
+            <div id="0-progress-todo" class="ongoing hidden">
+                <time class="progress-time time-start" datetime="2020-02-13 20:00">12:00AM</time>
+                <div class="progress">
+                    <div id="bar-fill" class="progress-bar-fill"></div>
+                    <div class="progress-point"></div>
+                </div>
+                <time class="progress-time time-end" datetime="2020-02-13 20:00">12:30AM</time>
+            </div>
+        </article>
+    </main>
+    <aside class="left">
+        <header id="logo" class='logo'>🦄 <span>Uni List</span></header>
+        <section id="projects" class="projects-left">
+            <header class="header projects-header">
+                <h3>All Projects (<span id='project-count'></span>)</h3>
+                <span id='project-limit' class="project-limit"></span>
+                <button id="add-project" class="add-btn" type="button"><i class="far fa-plus-square"></i></button>
+            </header>
+            <button id="view-projects" class="show-more" type="button"><span>Hide</span> Projects <i
+                    class="fas fa-caret-down"></i></button>
+            <div id="all-projects" class="projects-container">
+            </div>
+        </section>
+        <section class="next-todo-container">
+            <header class="header">
+                <h3>Next Todo 🌈</h3>
+            </header>
+            <div id="next-task" class="next-todo">
+            </div>
+        </section>
+    </aside>
 </body>
+
 </html>
