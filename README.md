@@ -45,6 +45,8 @@ This project consists in a application that users can create projects and set a 
   - see todos ordered by date or by priority;
   - edit and delete todos.
 
+Edit: new linters added
+
 <div align="center">
   <img src="public/img/todo.png" width="900">
 </div>
